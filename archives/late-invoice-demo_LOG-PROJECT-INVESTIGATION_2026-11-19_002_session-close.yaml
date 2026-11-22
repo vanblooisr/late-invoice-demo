@@ -1,0 +1,439 @@
+frame:
+  project: late-invoice-demo
+  nnn: '002'
+  date: '2026-11-19'
+  mode: session-end
+  status: active
+  agent: Claude Fable 5.1
+  head: 'Plan review before building: BUILDPLAN v2 with a port, a hygiene floor and a zero-point test
+    baseline; a public projection without operator words; README and bulletin rewritten plain and condensed;
+    a knowledge-import report'
+thinking_cap: 'Boundary first, again: a plan approved earlier the same day, five post-close commits whose
+  three decisions (D-{001}.22-.24) the plan carried but the sess-001 LOG did not, a public repo folder
+  holding a byte-identical copy of a document written for the estate, and the two knowledge banks read
+  (coding, security claims) turning out to be about Claude Code and agentic security rather than Python
+  products — the other fifteen library KBs were not opened. The operator''s stated purpose was to go over
+  the plan before building — problems, knowledge, security, the adapter question — so the session''s object
+  was the gap between the plan as approved and the plan as buildable, and the gap between what the estate
+  holds and what this build needs. No slice was declared; every plan and bulletin edit followed an operator
+  ruling of the same turn (the mechanical consequences — figure re-renders, a package docstring — followed
+  from the rename ruling), and the three questions the operator asked (the payment wait, double payment,
+  floats) were answered before anything was changed.'
+decisions:
+- id: D-{002}.01
+  decision: The public projection of the plan and the bulletin carries no operator words, dates, persons
+    or income framing — product only; the GOVERNANCE section is dropped from the projection
+  source: no, none needs to be in there, strip it all. very good find. keep it pure on the product.
+  status: provisional
+- id: D-{002}.02
+  decision: The plan is fully updated and verified against disk in session 002 (v2)
+  source: plan needs complete updating and verification
+  status: provisional
+- id: D-{002}.03
+  decision: 'The build-cannot-start-without-keys gap is fixed in this session, before the close: port
+    + Fake adapter in P1 step 1'
+  source: agreed. we need to fix this eos, before the close.
+  status: provisional
+- id: D-{002}.04
+  decision: Event-loop ownership is decided at P1 step 2 (bot owns the loop; rungs are sync functions),
+    not deferred to P2
+  source: than we fix the sequencing
+  status: provisional
+- id: D-{002}.05
+  decision: The README is rewritten through the journalism skill, as part of P0 step 5
+  source: we need to fix and write the readme anyways — i mean to use to journalism skill itself, to write
+    the readme.
+  status: provisional
+- id: D-{002}.06
+  decision: 'Security additions accepted into the plan: double-payment guard before booking; compare-and-set
+    status transitions; token scope named; secret scan and logging rule moved to P0 (step 5); callback
+    checks action exists and is pending; one money formatter, no floats; exact pins; fail-closed stated'
+  source: lol, that IS something we need to fix. very good find. — solid. we can fix everything. — add
+    it (what are floats?) — good point, add it — it needs to be stated in that case.
+  status: provisional
+- id: D-{002}.07
+  decision: 'Ports-and-adapters architecture enters the plan: one BookkeepingPort with four verbs, Moneybird
+    first, a Fake adapter for tests, a second package later without touching the rungs'
+  source: great! lets add it to the plan. this gives us room to play with it in the future.
+  status: provisional
+- id: D-{002}.08
+  decision: 'Retry policy: 3 attempts, then cancel and report ''connection failed''; kept in one place
+    so it can be widened later'
+  source: cancel and report back that connection has failed after 3x. lets keep it at that for now, but
+    maintain options to extend on it
+  status: provisional
+- id: D-{002}.09
+  decision: Nothing is uploaded to the public repo until the hygiene floor (P0 step 5) is in place — a
+    clean first build
+  source: i have not yet placed anything in the public repo and i will only do so, when the hygiene is
+    up to date and solid. needs to be a clean first build.
+  status: provisional
+- id: D-{002}.10
+  decision: The API docs are read at P0 step 4, not during the review session
+  source: lets read the docs when its time. we have a pretty decent library already
+  status: provisional
+- id: D-{002}.11
+  decision: Every plan step cites the KB entries it rests on (kb_refs), and a REPORT lists what the knowledge
+    bank still needs for this build
+  source: add it, with a short reference to the needed KB's (we need to do that everywhere in the plan)
+    — make a report on what we need to search for in the granary. good things to add
+  status: provisional
+- id: D-{002}.12
+  decision: The whole test baseline is written before any stage is built, all red, committed as the zero
+    point (P0 step 6); build steps turn slices green and never delete a red test
+  source: i believe we need to establish a set of tests before we start building, not when we are building.
+    so that we have a zero-point baseline to hold onto.
+  status: provisional
+- id: D-{002}.13
+  decision: 'Security and safety enter the design goals as a gate: every step names its threats (leak,
+    money, trigger) and guards before it starts'
+  source: in the rules department i need a rule about security and safety as well.
+  status: provisional
+- id: D-{002}.14
+  decision: The five ladder pieces are called stages, not rungs — ladder stays
+  source: i still find the word 'rung' weird. we need a different name. its 5 stages, 5 products, a ladder
+    is fine, but rung is weird imo. it reads strange for humans tbh
+  status: provisional
+- id: D-{002}.15
+  decision: 'Bulletin corrections: the tap card reads Approval, not Goedkeuren, as its headline; the state-machine
+    guards sit above the status they guard'
+  source: 'plate 8: ''goedkeuren'' means approval — the second has 2 large arrows that need readjustment
+    in placement'
+  status: provisional
+- id: D-{002}.16
+  decision: 'Three main rules the design goals descend from: safety and security · transparency and traceability
+    · efficiency and design (purpose_and_design_goals.main_rules); the session''s engineering decisions
+    are instances, not rules'
+  source: the engineering rules are the decisions we made this session. those aint rules. — 1. safety
+    and security 2. transparency and traceability 3. efficiency and design — i think this is a nice start.
+  status: provisional
+decision_candidates:
+- id: none
+  candidate: first i want to go over it.
+  operator_words: first i want to go over it.
+  status: 'confirmed as the session''s governing purpose, not minted as a decision: ''go over it first''
+    is the frame every later ruling sits in (thinking_cap names it); the ruling that operationalised it
+    is D-{002}.02'
+- id: none
+  candidate: i never really wondered, but started building what i want to build, according to my ideas
+  operator_words: i never really wondered, but started building what i want to build, according to my
+    ideas
+  status: discarded at close — a reflection on how the operator has worked so far, not a ruling; the rules
+    question it belongs to was answered by D-{002}.16
+threads:
+- id: OT-001
+  topic: 'Project registered digest-only at this close: registry_projects row (category Projects), registry_scratchpads
+    row (18->19), PAD-DIGEST born, Archives/Projects/late-invoice-demo/ created'
+  status: done
+  carried: 1
+  opened: this-session
+  worked_hint: ledger-evidenced
+  notes_update: DONE at the sess-001 close; recorded done in plan v2. Carry closes here.
+- id: OT-002
+  topic: 'Audience: one candidate contact; whether he is an ondernemer who sends invoices and which bookkeeping
+    package he uses is unknown until Monday 2026-11-23; blocks P2 rung 4''s write target only (status
+    blocked)'
+  status: open
+  carried: 2
+  opened: this-session
+  worked_hint: ledger-evidenced
+  notes_update: 'REFRAMED blocked->open in session 002: with the BookkeepingPort in place (D-{002}.07)
+    the audience answer selects the SECOND ADAPTER; stages 1, 3 and 4 read and write through the port
+    and do not change. The conversation the operator planned is still pending; it no longer gates any
+    step.'
+- id: OT-003
+  topic: 'Three API points unconfirmed against official docs: Mollie payment-link paid field; Moneybird
+    create-payment financial_account_id; Moneybird throttling — resolved at P0 step 4 into API-NOTES.md
+    (status open)'
+  status: open
+  carried: 2
+  opened: this-session
+  worked_hint: ledger-evidenced
+  notes_update: 'WIDENED from three to seven documentation questions (P0 step 4 a-g: paid field and amount,
+    financial_account_id, throttling, Wero, Mollie idempotency header, token scoping, link deactivation).
+    Read at step 4 by ruling (D-{002}.10), not earlier. Nothing built on them yet.'
+- id: OT-004
+  topic: Wero on the Mollie test pay page held from model knowledge, unverified against docs.mollie.com
+    — folded into P0 step 4 (status surfaced)
+  status: surfaced
+  carried: 2
+  opened: this-session
+  worked_hint: ledger-evidenced
+  notes_update: Unchanged; P0 step 4 (d).
+- id: OT-005
+  topic: 'Public-from-day-one vs private-first: RESOLVED public, repo late-invoice-demo, MIT, written
+    record in the repo (D-{001}.19/.20) (status done)'
+  status: done
+  carried: 1
+  opened: this-session
+  worked_hint: ledger-evidenced
+  notes_update: 'DONE: public, MIT, URL received (D-{001}.22). Upload itself is gated on P0 step 5, the
+    hygiene floor (D-{002}.09). Carry closes here.'
+- id: OT-006
+  topic: 'Schema: per-step forward_risks / done_checklist and per-phase approval fields are not in plan-standard
+    step_fields; candidate plan-standard extension or move to open_threads at promotion (status surfaced)'
+  status: surfaced
+  carried: 2
+  opened: this-session
+  worked_hint: ledger-evidenced
+  notes_update: 'GREW: session 002 added kb_refs (D-{002}.11) and main_rules (D-{002}.16) on operator
+    rulings, and done_on_disk / remaining at the disk verification (D-{002}.02); none is a plan-standard
+    field (plan-standard not re-read this session — a claim to verify at promotion). Candidate extension,
+    not blocking.'
+- id: OT-007
+  topic: 'Opened and worked: public projection of plan + bulletin stripped of operator words, dates, persons;
+    projection script in scratchpad, belongs in the repo at P0 step 5 (e).'
+  status: open
+  carried: 1
+  opened: this-session
+  worked_hint: ledger-evidenced
+  notes_update: 'WORKED: plan projection generated (governance dropped, quotes gone, banned-word check)
+    and the bulletin copy scrubbed. The first projection leaked one quote through the plan''s meta entry
+    note; the close cop caught it (VF-04) and the filter was fixed before filing — the public tree greps
+    clean for quotes, dates, persons and ledger ids now; it still names the build process (subagents),
+    which the plan describes on purpose. OPEN until P0 step 5 (e) re-runs the check on the tree actually
+    uploaded and the script lives in the repo (named in step 5 (e) and spark S1).'
+- id: OT-008
+  topic: 'Opened: payment-wait choice (Enter vs poll) decided before P2 step 2.'
+  status: surfaced
+  carried: 1
+  opened: this-session
+  worked_hint: ledger-evidenced
+  notes_update: 'OPENED: payment-wait shape between stages 3 and 4 — Enter-to-continue vs a short visible
+    poll; both described in the plan; decided before P2 step 2 starts.'
+- id: OT-009
+  topic: 'Opened: REPORT 002 lists eleven knowledge-import candidates; import session operator-scheduled.'
+  status: surfaced
+  carried: 1
+  opened: this-session
+  worked_hint: ledger-evidenced
+  notes_update: 'OPENED: REPORT 002 (knowledge-import-candidates) names eleven topics with search terms,
+    sources and a KB home, K-11 parked with OT-010. The import is a session of its own, operator-scheduled.'
+- id: OT-010
+  topic: 'Opened: real-data boundary named (processor roles, Telegram, live keys, hosting, backups, incasso);
+    decided later.'
+  status: surfaced
+  carried: 1
+  opened: this-session
+  worked_hint: ledger-evidenced
+  notes_update: 'OPENED: real-data boundary named in the plan (processor roles, Telegram, live keys, hosting,
+    backups, incasso rules) and, in short form, in the README (who sees invoice data, under what agreement).
+    Decided later; the demo stays fake-data by design goal.'
+flags: []
+work_produced:
+- file: Working/Projects/late-invoice-demo/BUILDPLAN_late-invoice-demo_v1.yaml
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/figures/plate-04-demo-flow.svg
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/figures/plate-04-demo-flow.yaml
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/figures/plate-06-state-machine.svg
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/figures/plate-06-state-machine.yaml
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/figures/plate-11-phases.svg
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/figures/plate-11-phases.yaml
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/figures/plate-17-loop.svg
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/figures/plate-17-loop.yaml
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/late-invoice-demo_REFERENCE-PROJECT-SPEC_2026-11-19_001_late-invoice-demo-bulletin.html
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-19_002_knowledge-import-candidates.yaml
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/README.md
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/__init__.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/working/BUILDPLAN_late-invoice-demo_v1.yaml
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/working/late-invoice-demo-bulletin.html
+  description: ledger-evidenced edit target
+  status: delivered
+findings:
+- id: OT-010
+  what: 'kb_home: "a legal/compliance family — does not exist yet; park with OT-010"'
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-002-dd3296\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-19_002_knowledge-import-candidates.yaml
+- id: OT-002
+  what: 'needed_for: "system_model.architecture; P1 step 1 port + Fake + Moneybird adapters; OT-002 second
+    adapter"'
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-002-dd3296\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-19_002_knowledge-import-candidates.yaml
+- id: OT-009
+  what: '- id: OT-009'
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-002-dd3296\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-19_002_knowledge-import-candidates.yaml
+- id: OT-004
+  what: '- id: OT-004'
+  how: Edit -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-002-dd3296\Working\Projects\late-invoice-demo\BUILDPLAN_late-invoice-demo_v1.yaml
+- id: OT-003
+  what: 'how: "BUILDPLAN v2 P0 step 4; OT-003."'
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-002-dd3296\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-19_002_knowledge-import-candidates.yaml
+- id: OT-008
+  what: 'needed_for: "P2 step 1 double-payment guard; the actions table state machine; OT-008"'
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-002-dd3296\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-19_002_knowledge-import-candidates.yaml
+- id: OT-001
+  what: 'OT-001/005 closed, OT-002 reframed, OT-007..010 opened. Filename kept at _v1 so the manifest
+    and digest pointers hold; the version lives in this history. Same session, after the bulletin review:
+    P0 step 6 zero-point test baseline (D-{002}.12), security-and-safety gate + tests-before-code as design
+    goals (D-{002}.13), rung renamed stage throughout (D-{002}.14)."}'
+  how: Edit -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-002-dd3296\Working\Projects\late-invoice-demo\BUILDPLAN_late-invoice-demo_v1.yaml
+- id: OT-005
+  what: '- id: OT-005'
+  how: Edit -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-002-dd3296\Working\Projects\late-invoice-demo\BUILDPLAN_late-invoice-demo_v1.yaml
+- id: OT-006
+  what: '- id: OT-006'
+  how: Edit -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-002-dd3296\Working\Projects\late-invoice-demo\BUILDPLAN_late-invoice-demo_v1.yaml
+- id: OT-007
+  what: '- id: OT-007'
+  how: Edit -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-002-dd3296\Working\Projects\late-invoice-demo\BUILDPLAN_late-invoice-demo_v1.yaml
+- id: F-{002}.01
+  what: The coding KB is about Claude Code, not about writing programs. All 57 entries are hooks, plugins,
+    skills, gates and subagent mechanics (C-/M-/P-/A-/T- families).
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-002-dd3296\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-19_002_knowledge-import-candidates.yaml
+- id: F-{002}.02
+  what: The security KB is agentic-AI security. Five entries transfer to this build (SEC-ATK-052 API vulnerabilities
+    / OWASP API Security; SEC-ATK-019 token scope; SEC-DEF-059 rate limiting; AWSEC-191 hexagonal architecture;
+    AWSEC-042 decision/execution separation). None covers payments, webhooks, secrets in CLIs, or SQLite.
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-002-dd3296\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-19_002_knowledge-import-candidates.yaml
+- id: F-{002}.03
+  what: 'The estate already practises ports-and-adapters (stations/_core: ports as Protocols, adapters/driving
+    + driven, ''envelope in, verdict out'').'
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-002-dd3296\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-19_002_knowledge-import-candidates.yaml
+- id: F-{002}.04
+  what: Seven API facts the plan rests on are unverified (P0 step 4 a-g). These are not KB imports — they
+    are vendor documentation reads with a date, filed in the repo's API-NOTES.md.
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-002-dd3296\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-19_002_knowledge-import-candidates.yaml
+reasoning: 'Review ran as findings first: plan-vs-disk drift (cli.py missing behind a declared entry point),
+  the public projection carrying 24 operator quotes, a build that could not start without operator keys,
+  loop ownership decided one phase late, and a security list led by the double-payment guard (money integrity
+  before booking) — the order was the author''s judgment, not a measured ranking. The adapter question
+  resolved into the estate''s own ports-and-adapters pattern sized to four verbs, which also dissolved
+  the keys blocker (a Fake adapter) and reframed the audience thread from blocker to adapter selector.
+  Each ruling became plan edits with a ledger entry quoting the operator (D-{002}.06 bundles seven edits
+  under five joined quotes); the public projection became a generated artifact with a banned-word check
+  so the privacy fix cannot regress silently. The bulletin followed the plan: v2 content, figures re-rendered
+  from specs, then two operator-driven passes — plain words (the provenance-strip walk, applied to a public
+  artifact) and condensation (19 plates at the start, 20 after the D-3 split, 15 at the end, D-3 honoured
+  by dropping dividers and a table rather than squeezing). The operator''s own three rule families replaced
+  the ''engineering rules'' plate after they said the session''s decisions were not rules.'
+self_assessment: 'Held: findings before edits; every structural claim about the plan, the KB or the figures
+  checked on disk before it was stated (M8); the figure embed transform verified byte-exact on an unchanged
+  figure before being applied; every bulletin change checked by four validators and an in-browser floor/overflow
+  pass, repeated after each fix. Reached past and caught: the first ''ten rules on one plate'' layout
+  overflowed by a third and the first hygiene-node placement overlapped stage 3 — both found by the mechanical
+  checks, not by eye; the plate 5 note added at condensation pushed the figure plate over and was moved.
+  Process claims this record carries without a cop source (witnessed in the transcript and the hook stderr,
+  not in a named file: the four validators, the in-browser floor/overflow pass, the byte-exact embed check,
+  the overflow figures, the ''faulty headliners'' exchange, and the order in which questions were answered):
+  the scrape-majority refusal (16 vs 0) overridden on the record because every scraped decision was authored
+  this session from the operator''s words of the same turn; the projection script and the embed/strip
+  scripts live in the session scratchpad, not the repo — named as OT-007 and spark S1, not fixed. The
+  ''faulty headliners'' remark took two exchanges to resolve; the first reading was wrong and said so.'
+tensions: 'T1 Learning-first (D-{001}.03) vs delegation (D-{001}.15) persists; the zero-point test baseline
+  (D-{002}.12) gives the operator a reading surface before any code exists — in this author''s reading
+  that narrows it; it does not resolve it. T2 Build in public vs operator privacy: the plan standard''s
+  at-landing ledger is designed for the estate and was copied byte-for-byte into a public folder; addressed
+  by a generated projection with a banned-word check — whose first version still leaked one quote through
+  the plan''s meta entry note (caught by the close cop, VF-04, fixed before filing); the rule lives in
+  a scratchpad script until P0 step 5 (e) lands it in the repo. T3 Density vs plate count: D-3 split one
+  overflowing plate into two, then the operator ruled condensation; fewer, plainer plates won over more,
+  fuller ones, and the house''s own law (dividers once per chapter) yielded to the subject. T4 Jargon
+  in a public artifact: the bulletin inherited a chassis whose comments cite house rules sixty times and
+  even described another bulletin''s subject; stripping it changed zero rendered pixels, which is the
+  provenance-strip definition of success and also the measure of how much noise rode along unseen.'
+sparks: 'S1 project_public_plan.py belongs in the repo as a tool run at P0 step 5 (e) and at every close;
+  today it is a scratchpad script. S2 The provenance-strip walk held unchanged on a public artifact (jargon,
+  house ids, inherited chassis comments) — a station candidate for every artifact that leaves the estate.
+  S3 The in-browser floor/overflow check is run by hand each time; validate-template-conformance prints
+  the JS but does not run it — a headless runner would make D-4/D-5 mechanical. S4 The figure embed transform
+  (host letter-spacing tokens, ink-faint lift) is a renderer flag waiting to exist. S5 plan-standard:
+  main_rules and kb_refs as schema fields — the operator''s three families are a plan-level layer every
+  build plan could carry.'
+index_entry:
+  project: late-invoice-demo
+  type: LOG-PROJECT-INVESTIGATION
+  date: '2026-11-19'
+  nnn: '002'
+  descriptor: plan-review-before-building-buildplan-v2-with-a-port-a-hygie
+  path: Archives/Projects/late-invoice-demo/
+  status: active
+meta:
+  composer: render_close/v2
+  window:
+    since: '2026-11-19T16:41:52.963Z'
+    raw: 118
+    kept: 96
+    missing_ts_included: 0
+  deduped:
+    OT-002: 6
+    OT-008: 6
+    OT-009: 4
+    OT-003: 3
+    OT-004: 2
+    OT-010: 5
+    OT-001: 3
+  capture_quality:
+    decisions_total: 18
+    conversation_backed: 0
+    doc_scrape_only: 16
+    scrape_majority_override: true
+  empty_sections:
+    flags: no-ledger-evidence
+  sidecars:
+    index_row: late-invoice-demo,LOG-PROJECT-INVESTIGATION,2026-11-19,002,plan-review-before-building-buildplan-v2-with-a-port-a-hygie,Archives/Projects/late-invoice-demo/late-invoice-demo_LOG-PROJECT-INVESTIGATION_2026-11-19_002_session-close.yaml,active
+    counters_block: "late_invoice_demo_002:\n  blocks: \"D-{002}.01 + D-{002}.02 + D-{002}.03 + D-{002}.04\
+      \ + D-{002}.05 + D-{002}.06 + D-{002}.07 + D-{002}.08 + D-{002}.09 + D-{002}.10 + D-{002}.11 + D-{002}.12\
+      \ + D-{002}.13 + D-{002}.14 + D-{002}.15 + D-{002}.16\"\n  status: provisional"
+    registry_stamp: 'nnn_counter: 2  # plan-review-before-building-buildplan-v2-with-a-port-a-hygie'
+decision_curation_note: 'All 16 decisions were captured by the scribe as doc-scrapes of the plan''s own
+  ledger lines (conversation_backed=0, override recorded); each scraped line was authored in this session
+  from the operator''s message of the same turn, and the `source` field carries those words verbatim.
+  At judgment-fill the `decision` field was reduced from the scraped YAML line to its decision text; nothing
+  else changed. Cop-corrected at filing: the global rung->stage rename had altered the operator''s words
+  inside the plan''s ledger for D-{002}.14 (and the version_history line); restored verbatim in the plan
+  before filing. The record''s decisions keep the wording as minted.'
+cop_amendment_sess_002:
+  verdict: FAIL (reviewer cop on the judgment slice, main-thread dispatch) — three contradicted claims,
+    one unsourced cluster, several reach-pasts; no fabricated decision or thread.
+  amended:
+  - '(VF-01/02) thinking_cap: ''approved yesterday'' -> same day; ''five commits the plan did not know
+    about'' -> the plan carried them, the sess-001 LOG did not.'
+  - '(VF-03) reasoning: plate count stated as 19 -> 20 -> 15; the PAD said 19 to 15 and the record said
+    20 to 15.'
+  - '(VF-04, critical) the public projection still carried one operator quote via the plan''s meta entry
+    note: the filter targeted the wrong level of the YAML document; fixed, regenerated, public tree grep
+    clean; OT-007 and T2 reworded from ''resolved'' to ''addressed, leak caught''.'
+  - '(VF-05) OT-010: README coverage narrowed to what the README says.'
+  - '(VF-06) OT-007 / S1: the script-in-repo and banned-word check now resolve to BUILDPLAN P0 step 5
+    (e), amended at filing.'
+  - '(VF-07) self_assessment: the process claims are labelled as transcript-witnessed, not sourced.'
+  - (VF-08) 'two phases too late' -> one phase late.
+  - '(Q4) the two decision candidates ruled separately: the first confirmed as the session''s frame, the
+    second discarded.'
+  - '(Q5) rename damage: the operator''s words in the plan''s ledger (D-{002}.14) and the version_history
+    line restored verbatim; ''one question per decision'' removed; ''every edit followed a ruling'' narrowed;
+    KB generalisation narrowed to the two KBs read; the risk-ordering claim marked as judgment.'
+  - '(out-of-slice, cop count) bulletin plate 12 and plate 1: fifteen named risks -> seventeen (P0 step
+    6 added two); stale ''NN / 17'' CSS comment -> 15.'
+  not_amended:
+  - OT-002 topic text and the projected `carried` values are the composer's projection from the prior
+    record and the ledger; left as projected (the status field is this close's and reads open).
+  - D-{002}.06 and D-{002}.16 bundle several operator utterances under one id — recorded as such in the
+    ledger; not split at the close.
+  - 'The public plan projection names subagents in its execution model: the plan describes how the code
+    is built; the purity ruling (D-{002}.01) covered operator quotes, dates, persons and income framing.'

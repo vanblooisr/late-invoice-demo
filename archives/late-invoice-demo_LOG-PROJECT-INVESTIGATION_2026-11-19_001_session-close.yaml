@@ -1,0 +1,339 @@
+frame:
+  project: late-invoice-demo
+  nnn: '001'
+  date: '2026-11-19'
+  mode: session-end
+  status: active
+  agent: Claude Fable 5.1
+  head: From one supplied demo idea to an operator-approved three-phase BUILDPLAN for the late-invoice
+    ladder, with the project registered digest-only at its first close
+thinking_cap: 'Boundary first: one operator-supplied document and nothing else in context — no prior session,
+  no registry row, an MVP document referenced but absent. The session''s object was the gap between what
+  that document could earn (a buildable week-long demo) and what the operator asked (is this viable, is
+  it interesting), and the three purposes that surfaced one at a time — learning, side income, portfolio
+  — each reshaping the next question. Cascade engaged on the operator''s word and the plan was built as
+  the deliverable, with forward risks named beside the steps rather than resolved for the operator.'
+decisions:
+- id: D-{001}.01
+  decision: Session frame LEAN, no bridge walk
+  source: lean start
+  status: provisional
+- id: D-{001}.02
+  decision: 'Purpose: learn to code, perhaps professionally; look for gaps; the late-invoice demo is one
+    idea among others'
+  source: im kinda fond of building my own system, trying to learn to code. perhaps it might be interesting
+    to do that more professionally and see if theres gaps to fill, this was one of the ideas.
+  status: provisional
+- id: D-{001}.03
+  decision: 'Project purpose: both learning and market test, learning first'
+  source: Both, learning first
+  status: provisional
+- id: D-{001}.04
+  decision: 'Income framing: side income beside a day job'
+  source: im kinda sorta investigating if i could earn a bit of money on the side, besides my dayjob
+  status: provisional
+- id: D-{001}.05
+  decision: 'Portfolio: a repo of small working programs as a CV'
+  source: its also fun to start building stuff and test it. i can make a repo for that and start uploading
+    little working programs and build a cv?
+  status: provisional
+- id: D-{001}.06
+  decision: 'Audience: contacts who pay with iDEAL/Wero (payer side; ondernemer status unknown)'
+  source: no, i do know ppl who use ideal/wero
+  status: provisional
+- id: D-{001}.07
+  decision: Audience check deferred to Monday 2026-11-23, one candidate contact
+  source: that i cant tell you yet. ill have to wait till monday to ask (if hes interested in the first
+    place).
+  status: provisional
+- id: D-{001}.08
+  decision: 'GitHub: personal account, star instead of fork, pin the portfolio; no org yet'
+  source: its mainly to prevent clutter. an org isnt interesting (yet) as im not making money or have
+    anything for it. ill see for the pinning and starring instead of forking.
+  status: provisional
+- id: D-{001}.09
+  decision: 'Route: the ladder (five rungs, demo falls out at the end)'
+  source: Ladder (Aanbevolen)
+  status: provisional
+- id: D-{001}.10
+  decision: 'Mode: cascade planning slice declared inside the annie_v2 session'
+  source: plan this
+  status: provisional
+- id: D-{001}.11
+  decision: Project slug late-invoice-demo; folder renamed from business/
+  source: late-invoice-demo (Recommended)
+  status: provisional
+- id: D-{001}.12
+  decision: 'Plan shape: three phases (P0 setup · P1 read side rungs 1-3 · P2 write side rungs 4-5)'
+  source: shape 1
+  status: provisional
+- id: D-{001}.13
+  decision: The plan is self-contained; the starting document is not cited and will not be uploaded
+  source: i dont need any reference to the demo plan. i wont upload it. it was just to get us going and
+    have something to start off with
+  status: provisional
+- id: D-{001}.14
+  decision: Build runs in the background while the operator works elsewhere
+  source: 'my idea: have this build with subworkers in the background, while im working on my system'
+  status: provisional
+- id: D-{001}.15
+  decision: One session drives the build; subagents write the code
+  source: its the build itself done in the background, but just like now in a session. i just want you
+    to send out subworkers to code the work
+  status: provisional
+- id: D-{001}.16
+  decision: Code written in the estate (Working/Projects/late-invoice-demo/repo/); operator creates the
+    GitHub repo and uploads; other repos reachable when the operator gives the path
+  source: we write in the estate, and upload to the repo i create. i have other repos we have acces to
+    if i give u the pathing
+  status: provisional
+- id: D-{001}.17
+  decision: P0 and P1 approved as written (grouped sectioned approval)
+  source: Approve P0 + P1
+  status: provisional
+- id: D-{001}.18
+  decision: P2 approved as written; OT-002 stays blocked against rung 4's target until 2026-11-23
+  source: Approve P2
+  status: provisional
+- id: D-{001}.19
+  decision: GitHub repo late-invoice-demo, public, one subfolder per rung + common/; written record (READMEs,
+    API-NOTES.md) stored in the repo for readers; operator creates it and supplies the URL; handoff =
+    OUTER close, build in a later session
+  source: late-invoice-demo, run the close. ill start making the repo and give u the URL. ill make it
+    public. we also need to store files there. so ppl can read what weve done.
+  status: provisional
+- id: D-{001}.20
+  decision: MIT license on the repo; build in public — demo first, then a first working product; LICENSE
+    lands in P0 step 1
+  source: start with demo and a first working product, build in public. btw, can we get this MIT licenced,
+    for viability?
+  status: provisional
+- id: D-{001}.21
+  decision: 'Project registered at this close: registry_projects row (category Projects, nnn_counter 0
+    -> stamped 1 at close), registry_scratchpads digest-only row (18->19), PAD-DIGEST born, Archives/Projects/late-invoice-demo/
+    as the LOG home (OT-001)'
+  source: run the close
+  status: provisional
+  amended: cop_amendment_sess_001 (1)
+decision_candidates: []
+threads:
+- id: OT-001
+  topic: 'Project registered digest-only at this close: registry_projects row (category Projects), registry_scratchpads
+    row (18->19), PAD-DIGEST born, Archives/Projects/late-invoice-demo/ created'
+  status: done
+  carried: 1
+  opened: this-session
+  worked_hint: ledger-evidenced
+  notes_update: 'DONE at this close: registry row (category Projects), digest-only scratchpad row (18->19),
+    PAD-DIGEST born, archive home Archives/Projects/late-invoice-demo/. Carry closes here.'
+- id: OT-002
+  topic: 'Audience: one candidate contact; whether he is an ondernemer who sends invoices and which bookkeeping
+    package he uses is unknown until Monday 2026-11-23; blocks P2 rung 4''s write target only (status
+    blocked)'
+  status: blocked
+  carried: 1
+  opened: this-session
+  worked_hint: ledger-evidenced
+  notes_update: 'BLOCKED on the operator''s 2026-11-23 conversation. If the contact is not on Moneybird,
+    rung 4''s write target AND rungs 1 and 3''s read target change (they fetch invoices from Moneybird);
+    only rung 2 (Telegram) is package-independent. Cop-corrected: the earlier ''rungs 1-3 are package-independent''
+    was a reach-past inherited from the BUILDPLAN, fixed there too.'
+- id: OT-003
+  topic: 'Three API points unconfirmed against official docs: Mollie payment-link paid field; Moneybird
+    create-payment financial_account_id; Moneybird throttling — resolved at P0 step 4 into API-NOTES.md
+    (status open)'
+  status: open
+  carried: 1
+  opened: this-session
+  worked_hint: ledger-evidenced
+  notes_update: OPEN; owned by P0 step 4 (API-NOTES.md with URLs and read date). Nothing built on these
+    points yet.
+- id: OT-004
+  topic: Wero on the Mollie test pay page held from model knowledge, unverified against docs.mollie.com
+    — folded into P0 step 4 (status surfaced)
+  status: surfaced
+  carried: 1
+  opened: this-session
+  worked_hint: ledger-evidenced
+  notes_update: SURFACED; folded into P0 step 4 (d). Affects only what the test pay page shows, not the
+    flow.
+- id: OT-005
+  topic: 'Public-from-day-one vs private-first: RESOLVED public, repo late-invoice-demo, MIT, written
+    record in the repo (D-{001}.19/.20) (status done)'
+  status: done
+  carried: 1
+  opened: this-session
+  worked_hint: ledger-evidenced
+  notes_update: 'DONE: public, MIT, repo late-invoice-demo, record kept in the repo. URL pending from
+    the operator.'
+- id: OT-006
+  topic: 'Schema: per-step forward_risks / done_checklist and per-phase approval fields are not in plan-standard
+    step_fields; candidate plan-standard extension or move to open_threads at promotion (status surfaced)'
+  status: surfaced
+  carried: 1
+  opened: this-session
+  worked_hint: ledger-evidenced
+  notes_update: SURFACED for plan-standard; the fields stay in BUILDPLAN v1 as written. Not blocking the
+    build.
+flags: []
+work_produced:
+- file: Archives/Projects/late-invoice-demo
+  description: LOG home (snapshot recorded the Business-judiciary folder first; moved to Projects before
+    filing — see reasoning)
+  status: delivered
+- file: Working/Projects/late-invoice-demo
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/BUILDPLAN_late-invoice-demo_v1.yaml
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/late-invoice-demo_PAD-DIGEST.yaml
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/TOOLS/SKILLS/registry_projects.yaml
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/TOOLS/SKILLS/registry_scratchpads.yaml
+  description: ledger-evidenced edit target
+  status: delivered
+findings:
+- id: OT-001
+  what: Project registration owed at close — done at this close (registry row, digest-only pad row, PAD-DIGEST,
+    Archives/Projects/late-invoice-demo/).
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\new-project-001-623e16\Working\Projects\late-invoice-demo\late-invoice-demo_PAD-DIGEST.yaml
+  curated: fragment replaced by the thread topic at judgment-fill; source line unchanged
+- id: OT-002
+  what: Audience unknown until Monday 2026-11-23 (one candidate contact; ondernemer status and bookkeeping
+    package); gates P2 rung 4's write target only.
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\new-project-001-623e16\Working\Projects\late-invoice-demo\late-invoice-demo_PAD-DIGEST.yaml
+  curated: fragment replaced by the thread topic at judgment-fill; source line unchanged
+- id: OT-003
+  what: Three API points unconfirmed against official docs (Mollie paid field; Moneybird financial_account_id;
+    Moneybird throttling) — resolved at P0 step 4 into API-NOTES.md.
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\new-project-001-623e16\Working\Projects\late-invoice-demo\late-invoice-demo_PAD-DIGEST.yaml
+  curated: fragment replaced by the thread topic at judgment-fill; source line unchanged
+- id: OT-004
+  what: 'Wero on the Mollie test pay page: model knowledge, unverified — folded into P0 step 4.'
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\new-project-001-623e16\Working\Projects\late-invoice-demo\BUILDPLAN_late-invoice-demo_v1.yaml
+  curated: fragment replaced by the thread topic at judgment-fill; source line unchanged
+- id: OT-005
+  what: Public-from-day-one vs private-first — resolved public, MIT, repo late-invoice-demo (D-{001}.19/.20).
+  how: Edit -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\new-project-001-623e16\Working\Projects\late-invoice-demo\BUILDPLAN_late-invoice-demo_v1.yaml
+  curated: fragment replaced by the thread topic at judgment-fill; source line unchanged
+- id: OT-006
+  what: 'Plan-schema gap: per-step forward_risks / done_checklist and per-phase approval are not plan-standard
+    fields; extension candidate.'
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\new-project-001-623e16\Working\Projects\late-invoice-demo\late-invoice-demo_PAD-DIGEST.yaml
+  curated: fragment replaced by the thread topic at judgment-fill; source line unchanged
+reasoning: 'Brainstorm ran in discipline mode: ground (one document), purpose (AskUserQuestion, one per
+  turn), three routes with costs, the ladder recommended and chosen. The viability question split into
+  three (buildable / wanted / interesting) and only the first was answerable from the document; the market
+  half was named unsourced and left to Monday''s conversation rather than filled. Plan-session walked
+  entry → design (two shapes) → sectioned approval (P0+P1 grouped, P2 alone, compression named) → handoff
+  (OUTER close, build in a later session with subagents). The one structural tension — annie''s one-contract
+  rule vs cascade — was settled by reading the cascade contract (M8: primary read before contradicting),
+  which defines itself as a slice inside the annie session. The category moved from Business-judiciary
+  to Projects at the render because the close machinery files under Archives/Projects/ and the work is
+  a build; the first proposal is kept on record in the BUILDPLAN.'
+self_assessment: 'Held: one question per turn throughout; every operator answer landed in the BUILDPLAN
+  ledger with the operator''s words at the moment it landed (21 rows); forward-risk lines beside every
+  step (13); no code written, no conclusions drawn for the operator on ''interesting''. Owned: (1) the
+  ledger rows were written into the plan but NOT through scribe-append as they landed, so the first render
+  refused on scrape-majority (21 doc-scrape vs 3 conversation) and the sweep re-landed them — the Layer-2
+  channel was owed per decision, not at close; (2) the folder was renamed before asking whether the operator
+  wanted it, and the operator later referred to business/ — the rename stood under D-{001}.11 but should
+  have been named at the time; (3) Business-judiciary was proposed as category without checking the filing
+  machinery, found at render; (4) the learning-vs-delegation disagreement was said once and not pressed
+  — correct under SG-08, noted so the next session does not treat delegation as unexamined.'
+tensions: 'T1 Learning-first (D-{001}.03) vs subagents write the code (D-{001}.15): reading and running
+  code teaches less than writing it; operator kept the delegation, on record. T2 Portfolio public from
+  the first commit (D-{001}.19/.20, MIT) vs the side-income framing (D-{001}.04): MIT lets anyone resell
+  the code; the business, if any, is the per-client service — named, not resolved. T3 Three-phase plan
+  approved today vs Monday''s audience answer (OT-002): rung 4''s write target and rungs 1 and 3''s read
+  target may move (all three touch Moneybird); only rung 2 is package-independent. T4 Partial checker
+  (BoT evidence_base): validate-pad-digest.js reports a missing PLAYBOOK for digest-only projects and
+  exits 0 — the same on agentic-workflow-development; a green run there certifies less than its name says.'
+sparks: 'S1 validate-pad-digest.js digest-only branch (wrench-row candidate): read registry_scratchpads.pad_type
+  before looking for a PLAYBOOK. S2 plan-standard extension candidate (OT-006): forward_risks on steps
+  as a schema field, since forward-look says the risk sits beside the step. S3 The identity record is
+  minted from the operator''s first words (''NEW PROJECT, session 001'' → project new-project) and needs
+  a REDECLARE once the slug exists — a first-close checklist line for the close card. S4 Build-session
+  brief shape: one driving session, one subagent per rung through brainstorm-gate → plan-code-build →
+  builder + reviewer/qa; operator-only steps (keys, sandbox data, GitHub upload) listed up front so the
+  session does not wait on them silently.'
+index_entry:
+  project: late-invoice-demo
+  type: LOG-PROJECT-INVESTIGATION
+  date: '2026-11-19'
+  nnn: '001'
+  descriptor: from-one-supplied-demo-idea-to-an-operator-approved-three-ph
+  path: Archives/Projects/late-invoice-demo/
+  status: active
+meta:
+  composer: render_close/v2
+  window:
+    since: '2026-11-19T14:22:30.529Z'
+    raw: 107
+    kept: 62
+    missing_ts_included: 0
+  deduped:
+    OT-001: 6
+    OT-005: 2
+    OT-004: 3
+    OT-003: 3
+    OT-002: 10
+    OT-006: 4
+    D-{001}.02: 3
+    D-{001}.01: 2
+    D-{001}.03: 2
+    D-{001}.04: 2
+    D-{001}.05: 2
+    D-{001}.06: 2
+    D-{001}.07: 2
+    D-{001}.08: 2
+    D-{001}.09: 2
+    D-{001}.10: 2
+    D-{001}.11: 2
+    D-{001}.12: 2
+    D-{001}.13: 2
+    D-{001}.14: 2
+    D-{001}.15: 2
+    D-{001}.16: 2
+    D-{001}.17: 2
+    D-{001}.18: 2
+    D-{001}.19: 2
+    D-{001}.20: 2
+    D-{001}.21: 3
+  capture_quality:
+    decisions_total: 25
+    conversation_backed: 24
+    doc_scrape_only: 0
+  empty_sections:
+    flags: no-ledger-evidence
+  sidecars:
+    index_row: late-invoice-demo,LOG-PROJECT-INVESTIGATION,2026-11-19,001,from-one-supplied-demo-idea-to-an-operator-approved-three-ph,Archives/Projects/late-invoice-demo/late-invoice-demo_LOG-PROJECT-INVESTIGATION_2026-11-19_001_session-close.yaml,active
+    counters_block: "late_invoice_demo_001:\n  blocks: \"D-{001}.01 + D-{001}.02 + D-{001}.03 + D-{001}.04\
+      \ + D-{001}.05 + D-{001}.06 + D-{001}.07 + D-{001}.08 + D-{001}.09 + D-{001}.10 + D-{001}.11 + D-{001}.12\
+      \ + D-{001}.13 + D-{001}.14 + D-{001}.15 + D-{001}.16 + D-{001}.17 + D-{001}.18 + D-{001}.19 + D-{001}.20\
+      \ + D-{001}.21\"\n  status: provisional"
+    registry_stamp: 'nnn_counter: 1  # from-one-supplied-demo-idea-to-an-operator-approved-three-ph'
+decision_curation_note: 'RR-01 at judgment-fill: 3 id-less AskUserQuestion rows dropped as duplicates
+  of D-{001}.03 (purpose), .09 (route), .11 (slug) — same operator words, captured on two channels; the
+  candidate ''Approve P0 + P1'' confirmed as D-{001}.17, not minted twice. 21 decisions stand, D-{001}.01-.21.'
+cop_amendment_sess_001:
+  verdict: FLAG (reviewer cop on the judgment slice, main-thread dispatch)
+  amended:
+  - '(1) D-{001}.21 decision text + OT-001 topic/notes: category Business-judiciary -> Projects (the ledger
+    captured the first write; the registry, BUILDPLAN and digest already said Projects — the record was
+    the inconsistent surface).'
+  - '(2) OT-002 notes_update + tensions T3: ''rungs 1-3 package-independent'' corrected — rungs 1 and
+    3 READ Moneybird; only rung 2 is package-independent. Same wording fixed at its source (BUILDPLAN
+    P2 step 1 forward_risk).'
+  not_amended:
+  - Process claims in self_assessment (scrape-majority refusal 21 vs 3 at the first render; folder renamed
+    before asking; disagreement said once) and the tooling claims in T4/S1/S3 (validate-pad-digest.js
+    PLAYBOOK message on digest-only projects; REDECLARE needed after the birth marker) have no source
+    in the cop's named set — they are this session's observed process, witnessed in the transcript and
+    the hook stderr, left standing as process claims.
+  - PAD-DIGEST active_focus said 19 ledger decisions (written before D-{001}.20/.21 landed) — corrected
+    in the digest to 21, outside the slice.

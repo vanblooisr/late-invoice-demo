@@ -1,0 +1,15 @@
+{
+  "invoices": [
+    {"id": "1001", "invoice_number": "2026-0001", "contact_id": "c-1", "contact_name": "Bakkerij Voorbeeld", "amount": "121.00", "open_amount": "121.00", "currency": "EUR", "due_date": "2026-01-15", "state": "late"},
+    {"id": "1002", "invoice_number": "2026-0002", "contact_id": "c-2", "contact_name": "Fietsenmaker Testdorp", "amount": "60.50", "open_amount": "60.50", "currency": "EUR", "due_date": "2026-01-20", "state": "late"},
+    {"id": "1003", "invoice_number": "2026-0003", "contact_id": "c-3", "contact_name": "Tuincentrum Nepbedrijf", "amount": "242.00", "open_amount": "100.00", "currency": "EUR", "due_date": "2026-02-01", "state": "late"},
+    {"id": "1004", "invoice_number": "2026-0004", "contact_id": "c-1", "contact_name": "Bakkerij Voorbeeld", "amount": "36.30", "open_amount": "0.00", "currency": "EUR", "due_date": "2026-01-10", "state": "paid"},
+    {"id": "1005", "invoice_number": "2026-0005", "contact_id": "c-2", "contact_name": "Fietsenmaker Testdorp", "amount": "99.99", "open_amount": "99.99", "currency": "EUR", "due_date": "2099-12-31", "state": "open"},
+    {"id": "1006", "invoice_number": "2026-0006", "contact_id": "c-3", "contact_name": "Tuincentrum Nepbedrijf", "amount": "15.00", "open_amount": "15.00", "currency": "EUR", "due_date": "2026-02-10", "state": "late"}
+  ],
+  "contacts": [
+    {"id": "c-1", "name": "Bakkerij Voorbeeld", "email": "info@example.com"},
+    {"id": "c-2", "name": "Fietsenmaker Testdorp", "email": "contact@example.com"},
+    {"id": "c-3", "name": "Tuincentrum Nepbedrijf", "email": "office@example.com"}
+  ]
+}

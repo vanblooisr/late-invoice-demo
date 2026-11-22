@@ -1,0 +1,355 @@
+frame:
+  project: late-invoice-demo
+  nnn: '003'
+  date: '2026-11-20'
+  mode: session-end
+  status: active
+  agent: Claude Fable 5.1
+  head: 'P0 step 1 built as a skeleton: one installable package with the lid command, five stage stubs, the bookkeeping port
+    and both adapters, a lock file; an 18-cell six-axis code review and a provenance pass with every actionable finding fixed;
+    BUILDPLAN v3'
+thinking_cap: 'Boundary first: a warm start on the sess-002 bridge, a plan whose P0 step 1 was half on disk (licence, gitignore,
+  env example, pyproject, an empty package) and whose remaining list named cli.py, the lock file and the port + adapters skeleton.
+  The operator framed the session in one line — finish the step 1 skeleton, delivery slice — and set the model tiering (haiku
+  and sonnet build, opus verifies). Mid-turn the frame widened by operator message: full code review, provenance pass, fix
+  everything, close, plan, commit, PR. The object of the session was therefore the gap between a plan that says what step
+  1 produces and a disk that proves it — and, once the review ran, the gap between what a skeleton''s signatures COMMIT to
+  and what the plan had actually fixed in words (state edges, money grammar, precedence, the meaning of an exception). Every
+  edit followed the operator''s standing instruction of the same turn; no slice was re-declared and nothing was built past
+  the skeleton.'
+decisions:
+- id: D-{003}.01
+  decision: Session 003 finishes P0 step 1 as a skeleton (signatures and stubs, no behaviour) under a declared delivery slice
+    inside the annie_v2 session
+  source: finish step 1 skeleton, delivery slice.
+  status: provisional
+  witness: conversation (operator message of this session) + plan decision_ledger row written the same session
+- id: D-{003}.02
+  decision: 'Model tiering for the build: builders on haiku and sonnet; verifiers and reviewers on opus'
+  source: use agents. haiku and sonnet. verifiers and higher can be on opus
+  status: provisional
+  witness: conversation (operator message of this session) + plan decision_ledger row written the same session
+- id: D-{003}.03
+  decision: 'After the skeleton: the code-reviewer pipeline in full (six axes, whole path) and the provenance pass; every
+    problem found is fixed — plan-conflicting findings resolve on the plan''s side (amount_cents name kept, late = vendor
+    state, subcommand check with alias writeback, log.py two functions recorded in the plan)'
+  source: when this is build, run the code-reviewer in full and run the provenance skill. fix any and all problems found.
+  status: provisional
+  witness: conversation (operator message of this session) + plan decision_ledger row written the same session
+- id: D-{003}.04
+  decision: Then session close with amendments, the plan updated to the disk state, commit and PR
+  source: than session close, amend what needs amending, update buildplan correctly, than commit and PR
+  status: provisional
+  witness: conversation (operator message of this session) + plan decision_ledger row written the same session
+decision_candidates: []
+threads:
+- id: OT-001
+  topic: 'Project registered digest-only at this close: registry_projects row (category Projects), registry_scratchpads row
+    (18->19), PAD-DIGEST born, Archives/Projects/late-invoice-demo/ created'
+  status: done
+  carried: 1
+  opened: this-session
+  worked_hint: no-ledger-evidence
+  notes_update: Closed at the sess-001 close; unchanged. Carry closes here for the second time — the projector keeps re-listing
+    it from the prior record; nothing to do.
+- id: OT-002
+  topic: 'Audience: one candidate contact; whether he is an ondernemer who sends invoices and which bookkeeping package he
+    uses is unknown until Monday 2026-11-23; blocks P2 rung 4''s write target only (status blocked)'
+  status: open
+  carried: 3
+  opened: this-session
+  worked_hint: no-ledger-evidence
+  notes_update: 'Unchanged: the audience conversation is still pending (planned for Monday 2026-11-23). The skeleton keeps
+    the second-adapter cost where the plan put it: a new adapter module behind the port, an ADAPTER_NAMES entry, its Settings
+    fields — and, as the plan already says, possibly a field or two widened on the port. The answer still selects the second
+    adapter only.'
+- id: OT-003
+  topic: 'Three API points unconfirmed against official docs: Mollie payment-link paid field; Moneybird create-payment financial_account_id;
+    Moneybird throttling — resolved at P0 step 4 into API-NOTES.md (status open)'
+  status: open
+  carried: 3
+  opened: this-session
+  worked_hint: no-ledger-evidence
+  notes_update: 'Unchanged by ruling (D-{002}.10): the seven API questions are read at P0 step 4, not before. Step 4 (a) now
+    has a code anchor: str_to_cents / cents_to_str and AMOUNT_PATTERN assume the "121.00" value shape the plan''s P1 step
+    1 forward_risks names for Mollie; (a) confirms the paid and amount FIELD names, and the value shape is confirmed at the
+    same read.'
+- id: OT-004
+  topic: Wero on the Mollie test pay page held from model knowledge, unverified against docs.mollie.com — folded into P0 step
+    4 (status surfaced)
+  status: surfaced
+  carried: 3
+  opened: this-session
+  worked_hint: no-ledger-evidence
+  notes_update: Unchanged; still P0 step 4 (d).
+- id: OT-005
+  topic: 'Public-from-day-one vs private-first: RESOLVED public, repo late-invoice-demo, MIT, written record in the repo (D-{001}.19/.20)
+    (status done)'
+  status: done
+  carried: 1
+  opened: this-session
+  worked_hint: no-ledger-evidence
+  notes_update: Closed at the sess-001 close; unchanged. Upload still gated on P0 step 5 (D-{002}.09); the repo folder now
+    has a package in it, which raises the stakes of that gate — the hygiene floor runs before the first push.
+- id: OT-006
+  topic: 'Schema: per-step forward_risks / done_checklist and per-phase approval fields are not in plan-standard step_fields;
+    candidate plan-standard extension or move to open_threads at promotion (status surfaced)'
+  status: surfaced
+  carried: 3
+  opened: this-session
+  worked_hint: no-ledger-evidence
+  notes_update: 'Unchanged in schema: session 003 added no step fields. The plan''s architecture TEXT was amended to what
+    the code declares (amount_cents, late = vendor state, entry.py + retry.py, root-handler redaction, --db resolution). Still
+    a plan-standard extension candidate; plan-standard not re-read this session.'
+- id: OT-007
+  topic: 'Opened and worked: public projection of plan + bulletin stripped of operator words, dates, persons; projection script
+    in scratchpad, belongs in the repo at P0 step 5 (e).'
+  status: open
+  carried: 2
+  opened: this-session
+  worked_hint: no-ledger-evidence
+  notes_update: 'OPEN and now stale: the public copy at repo/working/ was NOT regenerated this session — its content is the
+    sess-002 projection (step 1 in-progress, the `amount` parameter, done_on_disk from session 002). The projection script
+    from session 002 is not in this worktree (session scratchpads are per-session — inference, not checked); P0 step 5 (e)
+    rewrites it into the repo (tools/project_public_plan.py) and re-runs the banned-word check before upload.'
+- id: OT-008
+  topic: 'Opened: payment-wait choice (Enter vs poll) decided before P2 step 2.'
+  status: surfaced
+  carried: 2
+  opened: this-session
+  worked_hint: no-ledger-evidence
+  notes_update: 'Unchanged; decided before P2 step 2. The skeleton leaves it open on purpose: writeback''s run() is a stub
+    and demo takes no wait flag.'
+- id: OT-009
+  topic: 'Opened: REPORT 002 lists eleven knowledge-import candidates; import session operator-scheduled.'
+  status: surfaced
+  carried: 2
+  opened: this-session
+  worked_hint: no-ledger-evidence
+  notes_update: Unchanged; operator-scheduled. The envelope's learnings_candidates carry three estate-level lessons from this
+    build (cell ids with a colon, parallel-reviewer without a Skill tool, a skeleton review reviews what signatures commit
+    to) — pipeline lessons for the aw lane, not import candidates for this project's KB.
+- id: OT-010
+  topic: 'Opened: real-data boundary named (processor roles, Telegram, live keys, hosting, backups, incasso); decided later.'
+  status: surfaced
+  carried: 2
+  opened: this-session
+  worked_hint: no-ledger-evidence
+  notes_update: 'Unchanged; decided later. The skeleton touches it in two places: Invoice hides contact_name and Contact hides
+    name and email from repr; and the log redaction contract covers tokens, bearer headers, key-bearing URLs and exact secret
+    values but NOT customer PII — a gap the security reviewer named (envelope CR on ports.py PII repr) and a line for the
+    real-data boundary when it is drawn.'
+flags: []
+work_produced:
+- file: Working/Projects/late-invoice-demo/BUILDPLAN_late-invoice-demo_v1.yaml
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/README.md
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/__init__.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/adapters
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/adapters/__init__.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/adapters/fake.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/adapters/moneybird.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/approve.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/cli.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/common/__init__.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/common/config.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/common/db.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/common/entry.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/common/log.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/common/money.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/common/ports.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/common/retry.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/demo.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/fetch.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/link.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/writeback.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/tests/__init__.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/tests/fixtures
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/tests/fixtures/.gitkeep
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/pyproject.toml
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/requirements.lock
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Reviewed/CODE-REVIEWED_2026-11-20_003.yaml
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Reviewed/runs/003_late-invoice-demo-skeleton
+  description: ledger-evidenced edit target
+  status: delivered
+findings:
+- id: F-{003}.01
+  what: 'F-{003}.01 Review-run cell ids containing a colon (axis:slice) are written as NTFS alternate data streams on Windows:
+    zero-byte files named after the axis, records silently lost; renamed to axis--slice and re-ingested. review_run.py cmd_plan
+    mints DC-nnn ids and does not hit this; hand-made grids do.'
+  how: model at-landing
+- id: F-{003}.02
+  what: F-{003}.02 parallel-reviewer agents have no Skill tool, so 'load code-review-spec at turn 1' cannot execute; all 18
+    cells fell back to the agent definition or a raw read of SKILL.md (several read the main-checkout copy, not the worktree).
+    The dispatch card assumes a load path the agent does not have.
+  how: model at-landing
+- id: F-{003}.03
+  what: 'F-{003}.03 Hooks block the builder seats from reading .env.example (secret-path guard) and from deleting files: config.py
+    needed the variable names supplied from the plan text; two redundant .gitkeep placeholders (common/, tests/) remain on
+    disk.'
+  how: model at-landing
+reasoning: 'The build ran as two seats and a verifier chain: a sonnet seat wrote the skeleton, a haiku seat froze the lock
+  file in a fresh venv and proved the pins install on a second one; the orchestrator re-ran every claimed check itself (install,
+  lid, python -m, pytest, isinstance against the port, grep for banned words) before anything was called done. The review
+  was the /code-review card run as written: 18 cells (six axes x common / adapters / stages+cli) on opus, nofilter, fail_level
+  error; 81 raw findings, no critical or high. Scoring kept 73 (default 85 — the envelope''s default_rule; 12 overrides: 8
+  dropped below 80 each with its reason, 4 surviving overrides each with a confidence_note — plan-named class names, demo-scale
+  paging, a wall-clock finding dissolved by defining late as the vendor''s state). One sonnet fix round applied the 67 findings
+  marked fixed (6 deferred with reason); an independent opus verifier then confirmed 10 of 13 fix items, found 3 partial and
+  9 new — the -OO crash, a regex looser than its grammar, one exception with two meanings, an all-or-nothing Settings that
+  contradicted ''fake needs no keys'' — and a second round closed all 9. The provenance pass was the census (an id/tense grep
+  over the package — zero hits; transcript-witnessed, not filed) plus the three provenance cells'' cold-read, which found
+  15 findings the grep cannot see. Plan-conflicting findings were resolved on the plan''s side and the plan''s architecture
+  text amended to what the code declares, recorded as v3. Two tooling defects surfaced in the pipeline itself and are filed
+  as findings, not fixed.'
+self_assessment: 'Held: nothing built past the skeleton; every builder claim re-run by the orchestrator before acceptance;
+  the review grid confirmed by the operator''s standing word, every cell''s coverage recorded including what it could not
+  reach; scoring overrides written down, not applied silently; plan read back after every edit for structure (44 ledger rows,
+  v3, step complete, parses as four documents) — not for content: the cop found two lines the second fix round had made stale
+  (get_contact''s exception, the python -m exit-line claim), amended at the cop. Reached past and caught: the first ingest
+  wrote 18 cells into six zero-byte files — the colon in my hand-made cell ids became an NTFS alternate data stream — and
+  I counted zero findings before noticing; renamed and re-ingested, 81 recovered. The reviewers could not load the spec (no
+  Skill tool) and every cell said so; I did not re-dispatch, I recorded it. Not held: the ''same stderr line on both paths''
+  claim I sent to the fixer was overstated (the verifier caught it — the body matches, the prefix is the invoker''s); and
+  one ''operator'' slipped into a public docstring from my own brief. Transcript-witnessed, not in a named file: the venv
+  checks, the -OO run, the regex probe. Unverified: the lock pins under a real 3.11 interpreter (wheels only). Not done: the
+  public projection in repo/working/ is stale (OT-007, step 5); two .gitkeep placeholders remain because deletion is hook-blocked
+  for the model; the counters fold waits for the operator''s word.'
+tensions: 'T1 ''Fix any and all problems found'' vs findings that are design decisions (currency column, list paging, as_of,
+  a Secret type): resolved on the plan''s side or by documenting the assumption: the currency column, list paging and the
+  wall-clock finding were DROPPED below the 80 cut with their reasons (design at demo scale, dissolved by the vendor-state
+  definition of late), the Secret type is the one of these recorded as deferred; six findings are deferred in total, each
+  with its reason — the operator''s instruction was read as ''fix what is a defect'', not ''widen the design''. T2 Learning-first
+  (D-{001}.03) vs subagents write the code (D-{001}.15) persists; the skeleton gives the operator a readable contract to review
+  before any behaviour exists, which is the narrowing the zero-point baseline was meant to give. T3 Review depth vs skeleton
+  size: 18 opus cells on 14 KB of stubs produced 81 findings, most of them undeclared contracts rather than bugs — the yield
+  was real but the cost per line was high; the plan''s step 6 tests will be the cheaper reviewer from here. T4 A public repo
+  written inside an estate whose vocabulary leaks: ''not built yet'' entered the code and was caught by the provenance reviewers''
+  cold-read (the mechanical census greps ids and history tense, not build-state wording); ''operator'' entered a docstring
+  from the orchestrator''s own fix brief and was caught by the orchestrator''s banned-word grep — transcript-witnessed, not
+  in a filed source.'
+sparks: S1 review_run.py ingest should reject or map ':' in cell ids — one line, removes a silent-loss class on Windows. S2
+  parallel-reviewer needs the Skill tool or the dispatcher must inline the spec's axis text into each cell prompt; today 'load
+  the spec at turn 1' is a dead instruction in the card. S3 The UserPromptSubmit ruling-tell hook scrapes subagent hand-backs
+  as operator prompts (35 false candidates this session); a channel check would end that. S4 The verifier-after-fixer pattern
+  (independent opus read of the fix list) found 9 defects the fixer's own checks passed — worth making the default tail of
+  every fix dispatch. S5 A banned-word grep for estate vocabulary (operator, subagent, session, yet) belongs in the P0 step
+  5 hygiene floor beside the secret scanner.
+index_entry:
+  project: late-invoice-demo
+  type: LOG-PROJECT-INVESTIGATION
+  date: '2026-11-20'
+  nnn: '003'
+  descriptor: p0-step-1-built-as-a-skeleton-one-installable-package-with-t
+  path: Archives/Projects/late-invoice-demo/
+  status: active
+meta:
+  composer: render_close/v2
+  window:
+    since: '2026-11-20T05:18:44.278Z'
+    raw: 113
+    kept: 113
+    missing_ts_included: 0
+  deduped: {}
+  capture_quality:
+    decisions_total: 4
+    conversation_backed: 4
+    doc_scrape_only: 0
+    note: render_close counted 8 decision rows (4 scribed + 4 plan-ledger scrapes of the same four rulings) and 35 candidates;
+      the close merged the duplicates into D-{003}.01-.04 and discarded every candidate — see decision_curation_note.
+  empty_sections:
+    flags: no-ledger-evidence
+  sidecars:
+    index_row: late-invoice-demo,LOG-PROJECT-INVESTIGATION,2026-11-20,003,p0-step-1-built-as-a-skeleton-one-installable-package-with-t,Archives/Projects/late-invoice-demo/late-invoice-demo_LOG-PROJECT-INVESTIGATION_2026-11-20_003_session-close.yaml,active
+    counters_block: "late_invoice_demo_003:\n  blocks: \"D-{003}.01 + D-{003}.02 + D-{003}.03 + D-{003}.04\"\n  status: provisional"
+    registry_stamp: 'nnn_counter: 3  # p0-step-1-built-as-a-skeleton-one-installable-package-with-t'
+decision_curation_note: 'All 35 decision candidates were discarded at this close. Every one of the 35 rows contains the word
+  ''approve'' (the stage module''s name) or review prose (''Evidence'', ''Remedy''), and every one is text from a SUBAGENT
+  hand-back message delivered mid-turn, not an operator utterance — the ledger records the channel only as ''(prompt-candidate)'',
+  so the cause (the UserPromptSubmit ruling-tell hook scraping hand-backs as prompts) is the orchestrator''s inference from
+  the row text, not a logged fact. The four conversation-backed rulings are the four decisions above, each witnessed in the
+  conversation and recorded in the plan''s decision_ledger the same session. Candidate for the hook: a channel check.'
+cop_amendment_sess_003:
+  verdict: FAIL (reviewer cop on the judgment slice, main-thread dispatch, opus) — four contradicted claims, five unsourced
+    or reach-past, six minor wordings; every number in the slice held except 'four utterances'; no fabricated decision, thread
+    or finding.
+  report: Working/Reviewed/late-invoice-demo_cop-spot-check_003_judgment-slice.yaml
+  amended:
+  - '(VF-01) T1: ''each recorded as deferred'' -> currency, paging and the wall-clock finding were DROPPED below 80 with reasons;
+    the Secret type is the deferred one; six deferred in total.'
+  - '(VF-02) OT-009: the envelope''s learnings_candidates are three pipeline lessons, not ''Python packaging'' and ''CLI exit
+    codes''.'
+  - '(VF-03) OT-010: log.py states no PII scope; the gap is the security reviewer''s finding, not a code statement; Invoice
+    hides contact_name only.'
+  - '(VF-04) T4: ''not built yet'' caught by the provenance reviewers'' read; ''operator'' caught by the orchestrator''s grep,
+    transcript-witnessed.'
+  - '(VF-05/13) decision_curation_note: ''spoke four times'' -> four conversation-backed rulings; the hook-cause labelled
+    as inference.'
+  - '(VF-06) OT-006: ''GREW again'' -> unchanged in schema, architecture text amended.'
+  - '(VF-07) OT-002: second-adapter cost restated as the plan states it (module, names entry, settings, maybe a port field).'
+  - '(VF-08) OT-003: step 4 (a) confirms field names; the value shape comes from P1 step 1 forward_risks.'
+  - '(VF-09/10/11/12) reasoning: default rule named; 4 surviving overrides now carry confidence_note in the envelope (regenerated);
+    ''surviving set'' -> the 67 fixed; census labelled transcript-witnessed.'
+  - (VF-14/15) OT-010 email; OT-007 'gone' -> not in this worktree (inference), 'v2' -> the sess-002 content.
+  - '(outside the slice) BUILDPLAN architecture: get_contact unsupported -> UnsupportedVerb; BUILDPLAN done_on_disk: ''same
+    line'' -> same message body and exit code; P0 step 1 remaining: the four design items re-labelled dropped/deferred as
+    the envelope has them.'
+  - '(outside the slice) envelope regenerated once: confidence_note rides on every finding; default_rule stated.'
+  not_amended:
+  - Ledger row 66 (tension T1 as scribed) carries the 'deferred' wording; the ledger is append-only, the LOG's tensions field
+    is the corrected text.
+  - The cop did not read cells/*.jsonl, so 'every cell said so' (the Skill-tool gap) rests on the 18 coverage records' not_reached
+    fields — present in the files, unread by the cop.

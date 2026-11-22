@@ -1,0 +1,30 @@
+# Pre-commit hooks for the public repository clone.
+#
+# Install once in the clone:
+#   pip install pre-commit detect-secrets
+#   pre-commit install
+# Then every commit runs two checks and is refused when either finds something:
+#   1. detect-secrets, pinned to a commit (the tag is only a comment), against .secrets.baseline.
+#      The baseline records the findings reviewed and accepted on a clean tree; regenerate it with
+#      `detect-secrets scan > .secrets.baseline` only after reviewing every entry it would add.
+#      requirements.lock is excluded because exact pins have no secrets and nothing else; the
+#      baseline is excluded because it describes the scan, it is not scanned.
+#   2. tools/check_public_tree.py over the tracked files: credential shapes, words that belong to
+#      how the code was made rather than what it does, and dates outside the files allowed to carry
+#      them. The same command runs by hand before an upload from a folder that has no .git.
+# The one-time full-history scan before the first upload is a separate command, run in the clone:
+#   detect-secrets scan --all-files   (tree)   and   git log -p | detect-secrets scan --string  (history)
+repos:
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: 68e8b45440415753fff70a312ece8da92ba85b4a  # v1.5.0
+    hooks:
+      - id: detect-secrets
+        args: ["--baseline", ".secrets.baseline"]
+        exclude: ^(requirements\.lock|\.secrets\.baseline)$
+  - repo: local
+    hooks:
+      - id: check-public-tree
+        name: check public tree (secrets and vocabulary)
+        entry: python tools/check_public_tree.py
+        language: system
+        pass_filenames: false

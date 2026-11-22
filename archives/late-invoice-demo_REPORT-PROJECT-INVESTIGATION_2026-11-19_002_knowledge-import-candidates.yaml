@@ -1,0 +1,187 @@
+# REPORT: late-invoice-demo — knowledge to import for building a small standalone Python program
+# Session 002, 2026-11-19. Purpose: name what the estate's knowledge banks do NOT yet hold for this build,
+# so an import session (research-desk or canon-intake) can go and get it. Findings, not conclusions:
+# each candidate names where it binds in the plan and what to search for; which to import is the operator's call.
+
+frame:
+  project: late-invoice-demo
+  nnn: 002
+  date: "2026-11-19"
+  mode: centrifugal (CONTRACT_annie_v2), plan-review session
+  question: "What does the knowledge bank need to hold before the late-invoice ladder is built correctly and safely?"
+  boundary: |
+    Read: REFERENCE_coding-kb (57 entries, titles), REFERENCE_aw-corpus-security-claims (269 claims, filtered),
+    REFERENCE_canons-kb (4 entries), depth/security SEC-ATK-019 / SEC-ATK-052 / SEC-DEF-059, the stations README.
+    Not read: the other 15 library KBs (their names — health, relativity, psychology, design-* — make them
+    unlikely homes for Python product practice; not verified entry by entry).
+
+findings:
+  - id: F-{002}.01
+    what: "The coding KB is about Claude Code, not about writing programs. All 57 entries are hooks, plugins, skills, gates and subagent mechanics (C-/M-/P-/A-/T- families)."
+    how: "Entry title listing of REFERENCE_coding-kb.yaml."
+    why: "Nothing in the estate answers 'how do I package, structure, test and ship a small Python CLI' — the build session would draw on model knowledge alone, unverified (BoT #2)."
+    evidence_strength: confirmed
+  - id: F-{002}.02
+    what: "The security KB is agentic-AI security. Five entries transfer to this build (SEC-ATK-052 API vulnerabilities / OWASP API Security; SEC-ATK-019 token scope; SEC-DEF-059 rate limiting; AWSEC-191 hexagonal architecture; AWSEC-042 decision/execution separation). None covers payments, webhooks, secrets in CLIs, or SQLite."
+    how: "Keyword filter over 269 claims plus depth-file reads."
+    why: "The plan's kb_refs cite these five; every other security line in the plan rests on model knowledge."
+    evidence_strength: confirmed
+  - id: F-{002}.03
+    what: "The estate already practises ports-and-adapters (stations/_core: ports as Protocols, adapters/driving + driven, 'envelope in, verdict out')."
+    how: "Working/TOOLS/stations/README.md."
+    why: "The adapter design for the demo has an in-house precedent to cite and to keep consistent with; no import needed for the pattern itself, only for the Python-specific mechanics (Protocol, dataclasses, contract tests)."
+    evidence_strength: confirmed
+  - id: F-{002}.04
+    what: "Seven API facts the plan rests on are unverified (P0 step 4 a-g). These are not KB imports — they are vendor documentation reads with a date, filed in the repo's API-NOTES.md."
+    how: "BUILDPLAN v2 P0 step 4; OT-003."
+    why: "Separates 'knowledge the estate should keep' (below) from 'facts the repo should record' (API-NOTES.md). Mixing them would put vendor field names into a KB where they rot."
+    evidence_strength: confirmed
+
+candidates:
+  # Each candidate: why the build needs it · where it binds · what to search for · likely primary sources ·
+  # suggested KB home. Ordered by how early the plan needs it.
+
+  - id: K-01
+    topic: "Python packaging for a small CLI"
+    needed_for: "P0 step 1 (pyproject, package-dir core, console script), P0 step 5 (lock file)"
+    questions:
+      - "src-style vs flat layout; what package-dir = core means for imports and tests"
+      - "console_scripts entry points; how `lid` resolves to cli:main; editable installs"
+      - "pinning: lock files with pip-tools or uv; hashes; reproducible installs a month later"
+      - "python -m package.module alongside a console script"
+    search_terms: ["PyPA packaging guide src layout", "pyproject.toml project.scripts", "pip-tools requirements lock", "uv lock pyproject", "editable install setuptools package-dir"]
+    sources: ["packaging.python.org (PyPA user guide)", "setuptools docs: package discovery, entry points", "pip-tools / uv docs"]
+    kb_home: "new family: coding-practice (python) — or a `python` sub-block in REFERENCE_coding-kb"
+
+  - id: K-02
+    topic: "Configuration and secrets in a local CLI"
+    needed_for: "P0 steps 1, 2, 5; design goal 'secrets never enter the repo'; logging rule"
+    questions:
+      - "twelve-factor config: environment over files; .env for local dev only"
+      - "secret scanning: gitleaks vs detect-secrets; pre-commit wiring; full-history scan before a first public push"
+      - "redacting loggers: patterns for bearer tokens and API keys; what never to log"
+      - "token scoping: least privilege for personal API tokens; rotation"
+    search_terms: ["twelve-factor app config", "gitleaks pre-commit", "detect-secrets baseline", "python logging filter redact token", "OWASP secrets management cheat sheet"]
+    sources: ["12factor.net/config", "github.com/gitleaks/gitleaks", "OWASP Cheat Sheet Series: Secrets Management, Logging"]
+    kb_home: "coding-practice (security) — cross-ref SEC-ATK-052, SEC-ATK-019"
+
+  - id: K-03
+    topic: "HTTP clients that fail well"
+    needed_for: "P1 steps 1, 3; P2 step 1; design goals fail-closed and retry policy"
+    questions:
+      - "httpx timeouts (connect/read/write), retries with backoff, when NOT to retry (non-idempotent POST)"
+      - "idempotency keys: what they guarantee, how Mollie and others implement them"
+      - "handling a timeout after a POST was sent — read-before-write on the next run"
+      - "rate-limit headers (429, Retry-After) and client-side throttling"
+    search_terms: ["httpx timeouts retries", "idempotency key POST retry safe", "exponential backoff jitter", "429 Retry-After client handling", "Mollie idempotency key"]
+    sources: ["httpx docs", "Stripe/Mollie idempotency docs (pattern, not fields)", "AWS architecture blog: exponential backoff and jitter"]
+    kb_home: "coding-practice (http)"
+
+  - id: K-04
+    topic: "Money and amounts in code"
+    needed_for: "common/money.py; P1 step 1 requirement 'no floats'"
+    questions:
+      - "why binary floating point cannot represent 0.10 exactly; integer cents vs Decimal"
+      - "rounding rules (half-even vs half-up) and where a vendor's string format decides"
+      - "currency as an explicit field, never implied"
+    search_terms: ["floating point money representation", "Python decimal module money", "integer cents pattern", "ISO 4217 minor units"]
+    sources: ["Python docs: decimal", "Martin Fowler: Money pattern (PoEAA)", "IEEE 754 primer"]
+    kb_home: "coding-practice (data) — short entry; the build needs the rule more than the theory"
+
+  - id: K-05
+    topic: "Payment flows: double payment, reconciliation, state machines"
+    needed_for: "P2 step 1 double-payment guard; the actions table state machine; OT-008"
+    questions:
+      - "reconciliation before booking: amount match, invoice still open, source of truth"
+      - "state machines for payment rows; compare-and-set transitions in SQL"
+      - "polling vs webhooks; why a laptop demo polls; what changes when it is hosted"
+      - "what to do when a customer pays twice (refund, not a second booking)"
+    search_terms: ["payment reconciliation idempotent booking", "compare and set UPDATE WHERE status", "payment state machine design", "polling vs webhooks payment status"]
+    sources: ["Mollie docs: payment status lifecycle (pattern)", "Moneybird docs: payments on sales invoices (pattern)", "Designing Data-Intensive Applications ch. 7 (transactions) — concept"]
+    kb_home: "coding-practice (payments) — cross-ref AWSEC-042"
+
+  - id: K-06
+    topic: "SQLite as the one local store"
+    needed_for: "common/db.py; idempotency; three clean runs"
+    questions:
+      - "transactions and isolation in sqlite3; WAL mode; one writer"
+      - "UNIQUE constraints as idempotency; INSERT OR IGNORE vs upsert"
+      - "schema migrations for a tiny app (a version table, forward-only scripts)"
+      - "backing up a live SQLite file"
+    search_terms: ["sqlite3 python transactions isolation", "sqlite upsert ON CONFLICT", "sqlite WAL mode", "sqlite backup API python"]
+    sources: ["sqlite.org docs", "Python docs: sqlite3"]
+    kb_home: "coding-practice (data)"
+
+  - id: K-07
+    topic: "Telegram bots done safely"
+    needed_for: "P1 step 2; callback trust; loop ownership"
+    questions:
+      - "python-telegram-bot v21 async model: Application, handlers, running sync work via to_thread"
+      - "callback_data limits (64 bytes) and validation; chat-id allowlists"
+      - "what Telegram sees (everything in the message) and what that means for real data"
+      - "long polling vs webhooks for a bot; single-instance guarantees"
+    search_terms: ["python-telegram-bot v21 inline keyboard callback", "telegram bot callback_data 64 bytes", "python-telegram-bot run sync function to_thread", "telegram bot allowlist chat id"]
+    sources: ["docs.python-telegram-bot.org", "core.telegram.org/bots/api"]
+    kb_home: "coding-practice (integrations)"
+
+  - id: K-08
+    topic: "Ports and adapters in Python"
+    needed_for: "system_model.architecture; P1 step 1 port + Fake + Moneybird adapters; a second adapter"
+    questions:
+      - "typing.Protocol vs ABC for a port; structural typing"
+      - "contract tests: one test module parametrised over every adapter"
+      - "fakes vs mocks: an in-memory fake with fixtures beats patching HTTP"
+      - "keeping the port small: the four-verb rule; when to widen"
+    search_terms: ["hexagonal architecture python Protocol", "ports and adapters contract test pytest parametrize", "fake vs mock test double", "Cosmic Python repository pattern"]
+    sources: ["Cosmic Python (Percival & Gregory) — free online", "Alistair Cockburn: Hexagonal Architecture", "Python docs: typing.Protocol"]
+    kb_home: "coding-practice (architecture) — cross-ref AWSEC-191 and the stations README as estate precedent"
+
+  - id: K-09
+    topic: "Test-first for a CLI with external APIs"
+    needed_for: "every TDD-gated step; the code-build flow's tdd-discipline"
+    questions:
+      - "pytest fixtures for a temp SQLite file; freezing time for 'days late'"
+      - "recording HTTP (respx for httpx, or VCR-style cassettes) with secrets scrubbed"
+      - "testing retries and timeouts deterministically"
+    search_terms: ["pytest tmp_path sqlite fixture", "respx httpx mock", "freezegun pytest", "pytest-recording cassettes scrub headers"]
+    sources: ["pytest docs", "respx docs", "freezegun / time-machine docs"]
+    kb_home: "coding-practice (testing) — binds to annie-code-reviewer-pipeline:tdd-discipline"
+
+  - id: K-10
+    topic: "Shipping a public repo: README, licence, hygiene"
+    needed_for: "P0 step 5; D-{002}.05 README via the journalism skill"
+    questions:
+      - "what a good README for a small tool contains (what it is, who it is for, install, run, limits, licence)"
+      - "MIT licence implications for a side-income path (anyone may resell; the service is the product)"
+      - "SECURITY.md / responsible disclosure for a tiny public repo — worth it or noise"
+      - "conventional commits and a CHANGELOG for a solo repo"
+    search_terms: ["README best practices small open source tool", "MIT license commercial implications", "SECURITY.md template", "keep a changelog"]
+    sources: ["makeareadme.com", "choosealicense.com", "keepachangelog.com", "GitHub docs: SECURITY.md"]
+    kb_home: "writing-craft (README as a document type) + coding-practice (repo hygiene)"
+
+  - id: K-11
+    topic: "Real-data readiness (parked until OT-010 is decided)"
+    needed_for: "OT-010 only; nothing in the demo"
+    questions:
+      - "AVG/GDPR processor roles for a tool that moves invoice data through Telegram and Mollie"
+      - "data minimisation: what a reminder message may carry"
+      - "Dutch rules on payment reminders and incasso costs (WIK) if the tool ever messages debtors"
+    search_terms: ["AVG verwerker verwerkingsverantwoordelijke tool", "Telegram GDPR data processing agreement", "Wet incassokosten aanmaning vereisten"]
+    sources: ["autoriteitpersoonsgegevens.nl", "rijksoverheid.nl incassokosten"]
+    kb_home: "a legal/compliance family — does not exist yet; park with OT-010"
+
+gaps:
+  - "The other 15 library KBs were not opened; a title-level pass is cheap and might find a usable entry (e.g. determinism-kb for reproducible installs)."
+  - "No KB family exists for product-engineering practice. Creating one is a book-of-procedure routing question (where it lives) and a book-of-declaration shape question (entry schema) before any import lands."
+  - "Vendor-specific facts (field names, limits) are deliberately excluded from the candidates — they belong in the repo's API-NOTES.md with a read date, per P0 step 4."
+
+open_threads:
+  - id: OT-009
+    topic: "Schedule the import: research-desk over K-01..K-10 (K-11 parked), one session, into a new coding-practice family. Operator-scheduled."
+    status: surfaced
+    carried: 0
+
+verification:
+  - {check: "each candidate names a plan step it binds to", result: pass}
+  - {check: "no vendor field names asserted as fact", result: pass}
+  - {check: "KB entries cited exist on disk (SEC-ATK-019, SEC-ATK-052, SEC-DEF-059, AWSEC-042, AWSEC-191)", result: pass, how: "depth files read / claims listed in session 002"}

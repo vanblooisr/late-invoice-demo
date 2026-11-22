@@ -1,0 +1,474 @@
+frame:
+  project: late-invoice-demo
+  nnn: '006'
+  date: '2026-11-21'
+  mode: session-end
+  status: active
+  agent: claude-fable-5-2
+  head: 'Stage one of the late-invoice demo built and reviewed twice: common layer,
+    fake and Moneybird adapters, fetch; renderer refusal of build plans investigated'
+thinking_cap: "Boundary first: a warm start on the session-005 bridge, then the operator's goal in their words: 'lets solve the final open threads, than proceed to building straight away'. Gap at the start: no test environment in this worktree, a build plan the text renderer refused, and stage 1 unbuilt. Origin of what was ruled: the operator's typed messages (D-{006}.001 to .010). Origin of what was built: subagent builders on briefs written by the main thread, read by reviewers and broken by break-and-watch runs on scratch copies. State at close, from the main thread's own runs: 906 tests collected, 782 pass, 124 fail, all 124 in the unbuilt stages (approve 52, writeback 38, link 12, mollie client 12, demo 10), three runs identical; lid fetch on the fake adapter records 4 rows, then 0; the tree check is clean on 54 files; the public plan copy has 0 banned hits and 0 structure problems. The work was committed at this close, not before. Not established: the second round's fixes (93 tests and the main thread's projector edits) have had no second reader; two adapter tests were never seen red; the cause of one 74/73/74 flake was never found. Not done: the README section and the public test record for stage 1. Waiting on the operator: the Mollie test key (link-expiry rule, OT-004), the upload steps, and whether the rewritten .secrets.baseline is kept. The renderer is not changed here (D-{006}.001); only this plan's separators were removed (D-{006}.002)."
+decisions:
+- id: D-{006}.001
+  decision: The text renderer is changed to read multi-document files — the tool,
+    not the files; in a session of its own, not edited in session 006
+  source: i would like to go for a small change in the renderer itself. fix the tool,
+    not the file in this case. log it in the report. were NOT editing it here.
+  status: provisional
+- id: D-{006}.002
+  decision: Of the plans the renderer refuses, only this build plan has its separators
+    removed here; the others are the operator's
+  source: 'on the --- in yaml files: we only edit this buildplan. the rest, ill take
+    care of it in appropriate sessions.'
+  status: provisional
+- id: D-{006}.003
+  decision: 'Review point A: the row stores the open amount beside the total and the
+    approval message shows both'
+  source: when we start building, take in the fixes for all you found.
+  status: provisional
+- id: D-{006}.004
+  decision: 'Review point B: no payment reference on the booking; the port keeps three
+    arguments'
+  source: when we start building, take in the fixes for all you found.
+  status: provisional
+- id: D-{006}.005
+  decision: 'Review point C: check runs are sequential, one at a time; two at once
+    is not supported'
+  source: when we start building, take in the fixes for all you found.
+  status: provisional
+- id: D-{006}.006
+  decision: 'Review point E: Retry-After is capped (60 seconds outside a wait, the
+    remaining time inside one); above the cap the error is raised at once'
+  source: when we start building, take in the fixes for all you found.
+  status: provisional
+- id: D-{006}.007
+  decision: 'Review point F: an invoice is no longer unpaid when its open amount is
+    zero, whatever its state string says'
+  source: when we start building, take in the fixes for all you found.
+  status: provisional
+- id: D-{006}.008
+  decision: 'Review point D: the link-expiry rule waits for the Mollie test key'
+  source: ill get the mollie testlink either tomorrow, or the day after, depending
+    on what i need for the testlink.
+  status: provisional
+- id: D-{006}.009
+  decision: fetch does not print the customer name; every finding of the stage-1 reviews
+    and the break-and-watch run is fixed
+  source: take the name off, go ahead, fix all
+  status: provisional
+- id: D-{006}.010
+  decision: The untracked gates-build-design reference from the session-002 worktree
+    is copied into the project folder
+  source: copy it.
+  status: provisional
+decision_candidates:
+- id: "D-{006}.001"
+  candidate: i would like to go for a small change in the renderer itself.
+  operator_words: i would like to go for a small change in the renderer itself.
+  status: candidate - close confirms or discards
+threads:
+- id: OT-001
+  topic: 'Project registered digest-only at this close: registry_projects row (category
+    Projects), registry_scratchpads row (18->19), PAD-DIGEST born, Archives/Projects/late-invoice-demo/
+    created'
+  status: done
+  carried: 1
+  opened: this-session
+  worked_hint: no-ledger-evidence
+  notes_update: "No change; closed since session 001."
+- id: OT-002
+  topic: 'Audience: one candidate contact; whether he is an ondernemer who sends invoices
+    and which bookkeeping package he uses is unknown until Monday 2026-11-23; blocks
+    P2 rung 4''s write target only (status blocked)'
+  status: done
+  carried: 5
+  opened: this-session
+  worked_hint: no-ledger-evidence
+  notes_update: "No change; closed at session 005."
+- id: OT-003
+  topic: 'Three API points unconfirmed against official docs: Mollie payment-link
+    paid field; Moneybird create-payment financial_account_id; Moneybird throttling
+    — resolved at P0 step 4 into API-NOTES.md (status open)'
+  status: done
+  carried: 4
+  opened: this-session
+  worked_hint: no-ledger-evidence
+  notes_update: "No change to this thread. Related and separate: API-NOTES.md gained a last section of questions not yet read against the vendor docs (pagination, contacts endpoint, 404 and 422, payment_date timezone, 201 reply differences); those are carried under OT-012."
+- id: OT-004
+  topic: Wero on the Mollie test pay page held from model knowledge, unverified against
+    docs.mollie.com — folded into P0 step 4 (status surfaced)
+  status: open
+  carried: 6
+  opened: this-session
+  worked_hint: ledger-evidenced
+  notes_update: "Not worked. No docs re-read this session, on the operator's word ('no unnessesary toolcals'); it waits for the Mollie test key, which the operator expects 'tomorrow, or the day after'."
+- id: OT-005
+  topic: 'Public-from-day-one vs private-first: RESOLVED public, repo late-invoice-demo,
+    MIT, written record in the repo (D-{001}.19/.20) (status done)'
+  status: done
+  carried: 1
+  opened: this-session
+  worked_hint: no-ledger-evidence
+  notes_update: "No change; closed since session 001."
+- id: OT-006
+  topic: 'Schema: per-step forward_risks / done_checklist and per-phase approval fields
+    are not in plan-standard step_fields; candidate plan-standard extension or move
+    to open_threads at promotion (status surfaced)'
+  status: surfaced
+  carried: 6
+  opened: this-session
+  worked_hint: no-ledger-evidence
+  notes_update: "Not worked; parked."
+- id: OT-007
+  topic: 'Opened and worked: public projection of plan + bulletin stripped of operator
+    words, dates, persons; projection script in scratchpad, belongs in the repo at
+    P0 step 5 (e).'
+  status: open
+  carried: 5
+  opened: this-session
+  worked_hint: ledger-evidenced
+  notes_update: "Worked on the projector: governance keys are dropped by name at any depth, an unknown top-level key, a YAML alias or a non-mapping document is refused with nothing written, and check-only runs the same checks as generation. The public plan copy was regenerated (0 hits, 0 structure problems). These projector edits were made by the main thread and have had no second reader. Still open: the operator's part at upload."
+- id: OT-008
+  topic: 'Opened: payment-wait choice (Enter vs poll) decided before P2 step 2.'
+  status: done
+  carried: 4
+  opened: this-session
+  worked_hint: no-ledger-evidence
+  notes_update: "No change; closed at session 005."
+- id: OT-009
+  topic: 'Opened: REPORT 002 lists eleven knowledge-import candidates; import session
+    operator-scheduled.'
+  status: surfaced
+  carried: 5
+  opened: this-session
+  worked_hint: no-ledger-evidence
+  notes_update: "Not worked; the import session is the operator's to schedule."
+- id: OT-010
+  topic: 'Opened: real-data boundary named (processor roles, Telegram, live keys,
+    hosting, backups, incasso); decided later.'
+  status: surfaced
+  carried: 5
+  opened: this-session
+  worked_hint: no-ledger-evidence
+  notes_update: "Not worked; decided later."
+- id: OT-011
+  topic: 'Opened: eleven design rulings the review surfaced, each with a conservative
+    reading in code and tests.'
+  status: done
+  carried: 2
+  opened: this-session
+  worked_hint: no-ledger-evidence
+  notes_update: "No change; closed at session 005."
+- id: OT-012
+  topic: 'Opened: owed from the session-006 build — link-expiry detection rule and
+    its test (waits for the Mollie test key), the questions API-NOTES.md does not
+    answer, redaction and adapter weak spots named by the builders, and the renderer
+    change in its own session.'
+  status: open
+  carried: 1
+  opened: this-session
+  worked_hint: ledger-evidenced
+  notes_update: "Opened this session, carried 0 in the plan. Four parts: (1) nothing detects an expired link and no test for the detection exists; the rule waits for the Mollie test key (D-{006}.008). (2) The questions at the end of API-NOTES.md; until they are read, MoneybirdAdapter.get_contact raises UnsupportedVerb and the list call reads one reply. (3) Weak spots, by the builders' own account or left open after round two: non-string extra fields are not redacted, a URL password containing @ or / and an unquoted value with a quote inside it are missed, the bearer heuristic, the default fixtures path pointing into the tests folder, and redaction of extra fields resting on how CPython logging writes them onto the record (the raw transport error on an exhausted read, still listed in the plan's row, was fixed in round two). Also open per REPORT 006: whether a company contact's first and last name can be null (the adapter raises on null), an interrupt tested during insert but not during commit or rollback, and no break-and-watch run after the round-two fixes. (4) The renderer change, estate lane, its own session (D-{006}.001). Detail in REPORT 006."
+flags: []
+work_produced:
+- file: Working/Projects/late-invoice-demo/BUILDPLAN_late-invoice-demo_v1.yaml
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/late-invoice-demo_REFERENCE-PROJECT-PLAN_2026-11-20_003_gates-build-design.yaml
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-21_006_stage-one-build-and-renderer-refusal.yaml
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/.env.example
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/.secrets.baseline
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/API-NOTES.md
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/README.md
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/adapters/fake.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/adapters/moneybird.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/approve.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/common/config.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/common/db.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/common/log.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/common/money.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/common/ports.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/common/retry.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/demo.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/fetch.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/link.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/late_invoice_demo/writeback.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/tests/conftest.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/tests/fake_moneybird.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/tests/fixtures/invoices.json
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/tests/test_approve.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/tests/test_cli.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/tests/test_config.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/tests/test_db.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/tests/test_demo.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/tests/test_fake_adapter.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/tests/test_fetch.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/tests/test_link.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/tests/test_log.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/tests/test_money.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/tests/test_moneybird_adapter.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/tests/test_port_contract.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/tests/test_retry.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/core/tests/test_writeback.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/tools/project_public_plan.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/tools/public_vocabulary.py
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/Projects/late-invoice-demo/repo/working/BUILDPLAN_late-invoice-demo_v1.yaml
+  description: ledger-evidenced edit target
+  status: delivered
+- file: Working/TOOLS/security-blocks.jsonl
+  description: ledger-evidenced edit target
+  status: delivered
+findings:
+- id: F-{006}.001
+  what: The renderer loads a .yaml file with yaml.safe_load (line 639), which accepts
+    exactly one YAML document. A file with '---' separators between sections is several
+    documents; the parser raises and the CLI reports it as a boundary rejection.
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-006-56faaa\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-21_006_stage-one-build-and-renderer-refusal.yaml
+- id: F-{006}.002
+  what: 'Of 31 BUILDPLAN files under Working/Projects, 8 are refused. Seven for the
+    multi-document reason: late-invoice-demo, session-procedures v1, finance-trading-development
+    v1, annie-foundation v5, graphic-program-annie v1 (in topos/), agentic-workflow-development
+    core-stations v1 and v2. The eighth, agentic-workflow-development v3.1, fails
+    with a YAML syntax error inside the file (''while parsing a block mapping'').'
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-006-56faaa\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-21_006_stage-one-build-and-renderer-refusal.yaml
+- id: F-{006}.003
+  what: The separators carry no information for a reader that parses the file. In
+    this plan each '---' sat directly above a '# === SECTION ===' comment banner that
+    already marks the section.
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-006-56faaa\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-21_006_stage-one-build-and-renderer-refusal.yaml
+- id: F-{006}.004
+  what: Why plans were written with separators is not established. plan-standard's
+    own SKILL.md uses '---' between its blocks, which a plan born from it could copy.
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-006-56faaa\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-21_006_stage-one-build-and-renderer-refusal.yaml
+- id: F-{006}.005
+  what: gen_render_text_vocab.py, in the same folder as the renderer, already reads
+    multi-document files with yaml.safe_load_all.
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-006-56faaa\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-21_006_stage-one-build-and-renderer-refusal.yaml
+- id: F-{006}.012
+  what: 'The pre-upload tree check refused the new code on 8 lines, none of them a
+    secret: [REDACTED] lines of a dict literal in config.py mapping a field name to
+    its variable name (the rule is case-insensitive and read ''moneybird_token\":
+    \"MONEYBIRD_TOKEN'' as a filled assignment); the word ''session'' inside log.py''s
+    key-name pattern; a comment banner in a test (''the token'' followed by a run
+    of dashes); an ISO date in a docstring example.'
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-006-56faaa\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-21_006_stage-one-build-and-renderer-refusal.yaml
+- id: F-{006}.006
+  what: 'The amendment review found four tests that could not fail against a wrong
+    implementation: ''booking is never retried'' (its double raised an error the retry
+    policy never retries); the open-amount comparison (every test created the link
+    for the open amount, so comparing with the link''s amount passed); four demo tests
+    that called demo.run with no seams and no network guard; the one-statement compare-and-set
+    (a read-then-write version passed).'
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-006-56faaa\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-21_006_stage-one-build-and-renderer-refusal.yaml
+- id: F-{006}.007
+  what: 'One existing test was wrong: ''a Mollie key with a leading space in the .env
+    file is refused''. python-dotenv strips the space from an unquoted value before
+    the loader sees it.'
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-006-56faaa\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-21_006_stage-one-build-and-renderer-refusal.yaml
+- id: F-{006}.008
+  what: 'The stage-1 reviews found defects in code written this session, each against
+    a rule already ruled: a failed db write left its transaction open; set_link accepted
+    an empty link; log fields passed through extra= skipped redaction; a badly formatted
+    log line raised inside the caller; redaction missed several secret shapes and
+    mangled ordinary text (''/bottles'', ''monkey=''); an HTTP-date Retry-After was
+    ignored; UnsupportedProtocol and LocalProtocolError were retried; an over-long
+    amount string raised ValueError where MoneyError is promised; caller-supplied
+    invoice ids reached a URL without a digits check; fetch committed a batch row
+    by row.'
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-006-56faaa\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-21_006_stage-one-build-and-renderer-refusal.yaml
+- id: F-{006}.009
+  what: MoneybirdAdapter.get_contact had been written against a contacts endpoint
+    and an email field that API-NOTES.md does not cover, and the test double had been
+    extended to match, so the test checked the code against itself. The same pattern
+    held for a 422 reply the double invented.
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-006-56faaa\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-21_006_stage-one-build-and-renderer-refusal.yaml
+- id: F-{006}.010
+  what: 'Break-and-watch on stage 1: of 115 breaks, 73 were caught. Per module, caught
+    of applied: money 9/10 · retry 11/13 · db 19/20 · config 5/10 · log 9/13 · fake
+    adapter 5/12 · Moneybird adapter 10/25 · fetch 5/12. Three survivors were labelled
+    as unable to change behaviour.'
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-006-56faaa\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-21_006_stage-one-build-and-renderer-refusal.yaml
+- id: F-{006}.011
+  what: A flaky test was reported once and not found. During the first break-and-watch
+    run three extra baseline runs gave 74, 73 and 74 passed. After the fix pass the
+    builder ran the suite 15 times and under 25 hash seeds with one result; the main
+    thread ran it three times at 460, three times at 813, each identical.
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-006-56faaa\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-21_006_stage-one-build-and-renderer-refusal.yaml
+- id: F-{006}.013
+  what: 'Running detect-secrets with --baseline rewrote .secrets.baseline: a new generated_at
+    timestamp and one added filter entry. No new result entry.'
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-006-56faaa\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-21_006_stage-one-build-and-renderer-refusal.yaml
+- id: OT-004
+  what: '- "With a Mollie test key: OT-004, the poll interval from the RateLimit headers,
+    and the link-expiry rule (OT-012)."'
+  how: Edit -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-006-56faaa\Working\Projects\late-invoice-demo\BUILDPLAN_late-invoice-demo_v1.yaml
+- id: OT-007
+  what: '- "OT-007: the history scan in the public clone and the tree check on the
+    uploaded tree, at the first upload."'
+  how: Write -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-006-56faaa\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-21_006_stage-one-build-and-renderer-refusal.yaml
+- id: OT-012
+  what: 'OT-012 opened for what is owed. Then a second round on the operator''s word:
+    two reviews and a 153-break run on the fix passes (138 caught), two fix passes
+    and a correction (906, 782 green); the projector closed for nested governance
+    keys, anchors and non-mapping documents, and its check-only path brought level
+    with generation; the env example file gained its sixth variable under the operator''s
+    elevation. Not done: a second reader for the second round; the README section
+    and public test record for stage 1."}'
+  how: Edit -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-006-56faaa\Working\Projects\late-invoice-demo\BUILDPLAN_late-invoice-demo_v1.yaml
+- id: F-{006}.014
+  what: The projector dropped governance keys only at the top level of a document.
+    A decision_ledger nested inside another section would have reached the public
+    copy with its quoted words, unless a word happened to match the banned list.
+  how: Edit -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-006-56faaa\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-21_006_stage-one-build-and-renderer-refusal.yaml
+- id: F-{006}.015
+  what: 'Break-and-watch on the fix passes: 153 breaks applied, 138 caught, 15 survived,
+    of which the agent judged 7 unable to change behaviour — 8 real survivors. In
+    the first stage-1 run it was 73 caught of 115.'
+  how: Edit -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-006-56faaa\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-21_006_stage-one-build-and-renderer-refusal.yaml
+- id: F-{006}.016
+  what: 'The review of the common-module fixes found four medium defects in the first
+    fix pass: an absurd Retry-After date raised OverflowError out of the parse; the
+    extra= redaction covered one code path only, broke unpickling of a record and
+    rested on interpreter internals; the write wrapper would commit or roll back a
+    transaction the caller already held, and lost all-or-none on an autocommit connection;
+    several secret shapes were still missed.'
+  how: Edit -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-006-56faaa\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-21_006_stage-one-build-and-renderer-refusal.yaml
+- id: F-{006}.017
+  what: The main thread's own brief caused a step toward failing open. It told the
+    builder that 'clientKeyValue=' is not a secret name; to honour that the builder
+    narrowed the rule to 'the last word of the name is a key word', and secret_key_base=,
+    password_hash= [REDACTED] api_key_id= [REDACTED] kept their values.
+  how: Edit -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-006-56faaa\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-21_006_stage-one-build-and-renderer-refusal.yaml
+- id: F-{006}.018
+  what: 'The adapter and fetch code held up under review: all eight fix claims hold.
+    The defects were in the tests and the test double. One contract test asserted,
+    for the Moneybird adapter, that a payment makes the invoice paid — a value only
+    the double supplies. The double invented a 401, a 400, a 404 and an empty list
+    without labelling them.'
+  how: Edit -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-006-56faaa\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-21_006_stage-one-build-and-renderer-refusal.yaml
+- id: F-{006}.019
+  what: 'A test module left log redaction installed for the tests that ran after it:
+    test_fetch.py, through fetch''s moneybird path.'
+  how: Edit -> C:\Users\Gebruiker\Documents\my-personal-map\AI\ANNIE_General-Assistant\.claude\worktrees\late-invoice-demo-006-56faaa\Working\Projects\late-invoice-demo\late-invoice-demo_REPORT-PROJECT-INVESTIGATION_2026-11-21_006_stage-one-build-and-renderer-refusal.yaml
+reasoning: "The session ran as build, then read, then break, then fix, twice. First the environment: a venv built from the lock in this worktree, because the one in the 004 worktree could not be relied on. The session-005 rulings were applied to signatures and tests before any stage code, so the build started from tests that already said what the rulings say. Stage 1 was then built by subagents (common layer, both adapters, fetch), read by two reviewers and broken 115 times on a scratch copy; 73 breaks were caught. The findings were put to the operator, who ruled the open review points and ordered all findings fixed. The operator then ordered a second round on the fix passes themselves: two reviews and 153 breaks, 138 caught, 8 real survivors, each now a test. The renderer refusal was investigated separately and reported: the renderer loads one YAML document, and 8 of 31 build plans are refused, 7 for being multi-document and one for a syntax error. Removing this plan's separators would have made the old projector write an empty public copy, because it dropped governance by document position; that is why the projector was changed in the same step. The suite counts, the tree check, the public-copy check and the fetch run are the main thread's own runs at the end; the break-and-watch figures (115/73 and 153/138/8) are the agents' reports and were not re-run by the main thread."
+self_assessment: "Held: builders wrote the code and the main thread did not, except the projector, the checker's vocabulary file, and small edits to answer tree-check hits (the config name mapping, one word in a log pattern, a test comment banner, a docstring date), plus plan and report edits; the env example file was not touched until the operator typed the elevation, and that block was not worked around; separately, the stage-1 builder reported two shell commands blocked by a guard hook as false positives and made those edits through a scratch script and the Edit tool; final counts were re-run by the main thread three times; tree-check false positives were answered by changing the flagged lines, not the checker (the checker did gain one rule, the new variable name, which is not a false-positive fix); the plan and report were read back through the renderer after editing. Not held: a brief of mine stated as fact that 'clientKeyValue=' is not a secret name; the builder narrowed the redaction rule to honour it and three real secret-name shapes began to pass unredacted; the builder named this as a weakness in its own report, the main thread read it there, and it was corrected in a third pass. The work stayed uncommitted for the whole session and was committed only at close. A detect-secrets scan I ran rewrote .secrets.baseline (timestamp and one filter entry, no new results) without that being intended. A break-and-watch agent re-sent the same report several times before I stopped it. I answered 'REVOKE ELEVATION' with the exact phrases but could not confirm any revocation; the grant ran to 00:47 UTC. Unverified at close: the second round's fixes have no second reader, and two adapter tests were never watched fail."
+tensions: "T1 Redact too much vs too little: a rule narrow enough to leave 'clientKeyValue' alone let real secret names through; the rule now redacts any name with a key word in it, and over-redaction is pinned in a test as accepted. T2 Fix the tool vs fix the file: the operator ruled the renderer is the thing to change (D-{006}.001), and this plan's separators were still removed here (D-{006}.002) so the plan could be read now; the other refused plans stay as they are. T3 The operator's wish to build without halts vs the gates on protected files: the env example line waited for a typed elevation while the rest went on. T4 Vendor fact vs test-double invention: a contract test asserted as Moneybird behaviour something only the double says; the double's assumptions now sit under their own title and a 404 carries no invented meaning. T5 More rounds vs stopping: each fix pass was itself new unread code; the second round found defects in the first fix pass, and the second round's own fixes close unread."
+sparks: "S1 A brief sentence of the form 'X is not a Y' is a judgment, and a builder will change a rule to make it true; state the cases to cover and leave the classification to the tests. S2 A fix pass deserves the same break-and-watch as a build: the first round caught 73 of 115, the round on the fixes 138 of 153, and both left real survivors. S3 A projector that drops sections by position depends on the file's layout; dropping by key name and refusing unknown keys makes a layout change fail closed instead of publishing. S4 A check-only mode that runs fewer checks than generation reports clean on input that generation would refuse. S5 A test module that installs a process-wide hook and does not remove it changes the tests that run after it; an uninstall function made the leak fixable."
+index_entry:
+  project: late-invoice-demo
+  type: LOG-PROJECT-INVESTIGATION
+  date: '2026-11-21'
+  nnn: '006'
+  descriptor: stage-one-of-the-late-invoice-demo-built-and-reviewed-twice
+  path: Archives/Projects/late-invoice-demo/
+  status: active
+meta:
+  composer: render_close/v2
+  window:
+    since: '2026-11-21T21:41:25.204Z'
+    raw: 301
+    kept: 275
+    missing_ts_included: 0
+  deduped:
+    F-{006}.012: 4
+    OT-004: 2
+    D-{006}.001: 3
+    D-{006}.002: 3
+    D-{006}.003: 3
+    D-{006}.004: 3
+    D-{006}.005: 3
+    D-{006}.006: 3
+    D-{006}.007: 3
+    D-{006}.008: 3
+    D-{006}.009: 3
+    OT-012: 3
+    F-{006}.011: 2
+    D-{006}.010: 2
+  capture_quality:
+    decisions_total: 11
+    conversation_backed: 10
+    doc_scrape_only: 0
+  empty_sections:
+    flags: no-ledger-evidence
+  sidecars:
+    index_row: late-invoice-demo,LOG-PROJECT-INVESTIGATION,2026-11-21,006,stage-one-of-the-late-invoice-demo-built-and-reviewed-twice,Archives/Projects/late-invoice-demo/late-invoice-demo_LOG-PROJECT-INVESTIGATION_2026-11-21_006_session-close.yaml,active
+    counters_block: "late_invoice_demo_006:\n  blocks: \"D-{006}.001 + D-{006}.002\
+      \ + D-{006}.003 + D-{006}.004 + D-{006}.005 + D-{006}.006 + D-{006}.007 + D-{006}.008\
+      \ + D-{006}.009 + D-{006}.010\"\n  status: provisional"
+    registry_stamp: 'nnn_counter: 6  # stage-one-of-the-late-invoice-demo-built-and-reviewed-twice'

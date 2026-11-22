@@ -1,0 +1,1895 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>late-invoice-demo · project bulletin</title>
+
+<!--
+  LATE-INVOICE-DEMO · project bulletin — the demo and its ladder, with the state of each part
+  ──────────────────────────────────────────────────────────────────
+  Status:     phases 0 and 1 in progress · stage 1 runs on test data and is not closed · four stages planned.
+              On every figure a solid edge is built, an amber dashed edge is in progress and a soft dashed
+              edge is planned; every figure says so in its key.
+  Subject:    the plan (three phases, eleven steps, a named risk beside every step, one port to the books)
+              and the demo it sequences: Moneybird late invoice → Telegram tap → Mollie test link → paid in Moneybird
+  Canvas:     1920 x 1080 per plate, 15 plates, scroll-only. One file: no CDN, no runtime.
+  Accents:    walnut = the bookkeeping record (Moneybird, read and written back)
+              amber  = the owner's acts (the tap, the keys, the sandbox data, the upload)
+              sage   = the script's acts, and the build
+              teal   = checks and guards (tests, idempotency, the documentation read)
+              cobalt = outside the laptop (Mollie, the customer, Telegram transport, GitHub)
+              slate  = the plan        · grey = records
+              plum   = real data — beyond this plan
+-->
+
+<style>
+  
+  :root{
+   
+   --paper:oklch(21.9% 0.0143 87.17);        /* sheet */
+   --paper-edge:oklch(26.4% 0.0243 87.17);   /* plate mat — LIGHTER than the sheet here */
+   --paper-warm:oklch(21.0% 0.0155 87.17);   /* deepest on the ramp — the page recedes to it */
+   --ink:oklch(89.0% 0.0073 87.17);
+   --ink-soft:oklch(71.4% 0.0151 87.17);
+   --ink-faint:oklch(55.7% 0.0204 87.17);    /* NOT A TEXT TOKEN — surfaces only */
+   --rule:oklch(36.8% 0.0334 87.17);
+   --rule-soft:oklch(30.7% 0.0325 87.17);
+   --signal-red:oklch(57.9% 0.1251 31.2);    /* FROZEN across grounds — absolute */
+
+   /* ── the divider's break-panel, ON-RAMP ──
+ marks a chapter break by inverting the sheet. On the ink ground a LITERAL inversion
+ lands on backdrop-deep (96.5%) — a full 1920x1080 near-white plate twice in a dark
+ scroll, which spends the eye-comfort the ink ground was chosen for. The BREAK is what
+ is for; a full inversion is how it achieved that on paper. Here the same job is
+ done by a step UP the ramp to rule-line, distinct at a glance and still dark, with the
+ accent-bar carrying the signature. No alpha: forbids opacity carrying contrast. */
+   --divider-panel:var(--rule);
+   --divider-text:var(--ink);
+   --divider-soft:var(--ink-soft);
+   --divider-rule:var(--ink-faint);
+
+   /* ── accents · TIER PRIMITIVES · INK GROUND — values verbatim from
+ system-map-tokens.css#.ink-ground (l_constants fill 29.5 · line 59.5 · ink 80.5).
+ Chroma and hue are carried over untouched from the paper ground; only L moves,
+ per ink_ground_tokens_LOCKED_.accent_cells (all 81 in-gamut, 0 clip).
+ Canonical tier NAMES, so the tier each alias resolves to is stated, not implied. */
+   --walnut-standard-fill:oklch(29.5% 0.035 35);   --walnut-standard-line:oklch(59.5% 0.060 35);   --walnut-standard-ink:oklch(80.5% 0.080 35);
+   --amber-standard-fill:oklch(29.5% 0.060 75);    --amber-standard-line:oklch(59.5% 0.130 75);    --amber-standard-ink:oklch(80.5% 0.160 75);
+   --grey-standard-fill:oklch(29.5% 0 0);          --grey-standard-line:oklch(59.5% 0 0);          --grey-standard-ink:oklch(80.5% 0 0);
+   --teal-standard-fill:oklch(29.5% 0.060 165);    --teal-standard-line:oklch(59.5% 0.130 165);    --teal-standard-ink:oklch(80.5% 0.160 165);
+   --sage-vivid-fill:oklch(29.5% 0.080 140);       --sage-vivid-line:oklch(59.5% 0.200 140);       --sage-vivid-ink:oklch(80.5% 0.200 140);
+   --plum-standard-fill:oklch(29.5% 0.060 325);    --plum-standard-line:oklch(59.5% 0.130 325);    --plum-standard-ink:oklch(80.5% 0.160 325);
+   --slate-standard-fill:oklch(29.5% 0.055 200);   --slate-standard-line:oklch(59.5% 0.115 200);   --slate-standard-ink:oklch(80.5% 0.140 200);
+   --cobalt-standard-fill:oklch(29.5% 0.060 245);  --cobalt-standard-line:oklch(59.5% 0.130 245);  --cobalt-standard-ink:oklch(80.5% 0.160 245);
+   --iris-standard-fill:oklch(29.5% 0.060 290);    --iris-standard-line:oklch(59.5% 0.130 290);    --iris-standard-ink:oklch(80.5% 0.160 290);
+
+   /* ── default alias → each accent's default_tier —
+ mirrors system-map-tokens.css#:root "default alias" block. Body CSS references
+ these bare names only, so a tier move is one line here and nothing else. */
+   --walnut-fill:var(--walnut-standard-fill);   --walnut-line:var(--walnut-standard-line);   --walnut-ink:var(--walnut-standard-ink);
+   --amber-fill:var(--amber-standard-fill);     --amber-line:var(--amber-standard-line);     --amber-ink:var(--amber-standard-ink);
+   --grey-fill:var(--grey-standard-fill);       --grey-line:var(--grey-standard-line);       --grey-ink:var(--grey-standard-ink);
+   --teal-fill:var(--teal-standard-fill);       --teal-line:var(--teal-standard-line);       --teal-ink:var(--teal-standard-ink);
+   --sage-fill:var(--sage-vivid-fill);          --sage-line:var(--sage-vivid-line);          --sage-ink:var(--sage-vivid-ink);
+   --plum-fill:var(--plum-standard-fill);       --plum-line:var(--plum-standard-line);       --plum-ink:var(--plum-standard-ink);
+   --slate-fill:var(--slate-standard-fill);     --slate-line:var(--slate-standard-line);     --slate-ink:var(--slate-standard-ink);
+   --cobalt-fill:var(--cobalt-standard-fill);   --cobalt-line:var(--cobalt-standard-line);   --cobalt-ink:var(--cobalt-standard-ink);
+   --iris-fill:var(--iris-standard-fill);       --iris-line:var(--iris-standard-line);       --iris-ink:var(--iris-standard-ink);
+
+   /* ── type scale · type_scale, 1920x1080 canvas calibration ── */
+   --type-moment:156px;      /* big_moment — one-thought plates */
+   --type-divider:148px;     /* divider headline */
+   --type-hero:144px;        /* title-plate headline */
+   --type-title:96px;        /* close-plate headline */
+   --type-plate-title:64px;  /* standard-plate H2 */
+   --type-subtitle:44px;     /* title-plate sub */
+   --type-body:34px;         /* paragraph copy */
+   --type-small:28px;        /* secondary copy */
+   --type-micro:24px;        /* eyebrows, footers, mono metadata — FLOOR */
+
+   
+   --leading-display:1.15;
+   --leading-heading:1.15;
+   --leading-subheading:1.30;
+   --leading-body:1.50;
+   --leading-caption:1.40;
+   --leading-microcopy:1.40;
+   --leading-dense:1.25;
+
+   
+   --weight-regular:400;
+   --weight-medium:500;
+   --weight-bold:700;
+
+   
+   --track-tight:1.5px;      /* dense label */
+   --track-label:2px;        /* standard in-graphic label */
+   --track-eyebrow:2.5px;    /* uppercase mono eyebrow — the dominant use */
+
+   
+   --display:"EB Garamond","Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+   --serif:"Source Serif 4","Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+   --mono:"JetBrains Mono","IBM Plex Mono",ui-monospace,monospace;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════════
+ PAGE CHROME — sheet-inside-box pattern
+ Dark backdrop, paper sheets float with drop shadow + corner ticks.
+ ═══════════════════════════════════════════════════════════════════════ */
+
+  html, body {
+    background: var(--paper-warm);
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: var(--serif);
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 36px;
+    padding: 40px 20px;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════════
+ PLATE CHASSIS — 1920×1080 with sheet-inside-box
+ Each plate is one canvas unit, stacked vertically.
+ ═══════════════════════════════════════════════════════════════════════ */
+
+  .plate {
+    width: 1920px;
+    height: 1080px;
+    background: var(--paper-edge);
+    color: var(--ink);
+    font-family: var(--serif);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    padding: 56px;
+    box-sizing: border-box;
+  }
+  .sheet {
+    flex: 1;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    box-shadow: 0 2px 0 var(--paper-edge),
+                0 30px 60px -30px color-mix(in oklch, var(--paper-warm) 70%, transparent);
+    padding: 56px 72px 48px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  /* sheet corner ticks */
+  .sheet::before,
+  .sheet::after {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border: 1px solid var(--rule);
+  }
+  .sheet::before { top: 14px; left: 14px; border-right: 0; border-bottom: 0; }
+  .sheet::after  { bottom: 14px; right: 14px; border-left: 0; border-top: 0; }
+
+  /* DIVIDER plate — inversion. On the ink ground the inversion runs the other
+ way: the divider sheet takes backdrop-deep, which the transposition makes the
+ lightest token on the ramp, and its text comes back down the same ramp. */
+  .plate.divider .sheet {
+    background: var(--divider-panel);
+    color: var(--divider-text);
+  }
+  .plate.divider .sheet::before,
+  .plate.divider .sheet::after {
+    border-color: var(--divider-rule);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════════
+ TYPE — every size from --type-*, every leading from --leading-*
+ Mono labels sit on ink-soft, never ink-faint: at microcopy size a mono label
+ is normal text, and ink-faint measures 3.23:1 against a 4.5:1 floor.
+ ═══════════════════════════════════════════════════════════════════════ */
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: var(--type-micro);
+    line-height: var(--leading-microcopy);
+    letter-spacing: var(--track-eyebrow);
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .plate-header {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .plate-title {
+    font-family: var(--display);
+    font-size: var(--type-plate-title);
+    line-height: var(--leading-heading);
+    font-weight: var(--weight-medium);
+    margin: 0;
+    color: var(--ink);
+  }
+  .plate-title em {
+    font-style: italic;
+    font-family: var(--serif);
+    color: var(--ink-soft);
+    font-weight: var(--weight-regular);
+  }
+  .lede {
+    font-size: var(--type-body);
+    line-height: var(--leading-caption);
+    color: var(--ink-soft);
+    max-width: 1500px;
+    margin: 0;
+  }
+  .complication { font-size: var(--type-body); line-height: var(--leading-caption);
+                  color: var(--ink-soft); max-width: 1180px; margin: 20px auto 0;
+                  border-left: 2px solid var(--amber-line); padding-left: 18px;
+                  text-align: left; }
+  .body-md {
+    font-size: var(--type-body);
+    line-height: var(--leading-body);
+    color: var(--ink);
+  }
+  .body-sm {
+    font-size: var(--type-small);
+    line-height: var(--leading-caption);
+    color: var(--ink-soft);
+  }
+  .micro {
+    font-family: var(--mono);
+    font-size: var(--type-micro);
+    line-height: var(--leading-microcopy);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════════
+ FOOTER RAIL — wayfinding
+ "NN / 17" + context label. Same position on every non-title plate.
+ ═══════════════════════════════════════════════════════════════════════ */
+
+  .plate-footer {
+    margin-top: auto;
+    border-top: 1px solid var(--rule);
+    padding-top: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: var(--type-micro);
+    line-height: var(--leading-microcopy);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .plate-footer .rail-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+    margin: 0 24px;
+  }
+  /* Small text on the break-panel takes --divider-text, not --divider-soft: at micro size
+ these are NORMAL text by WCAG, and soft-on-panel measures 4.15:1 against a 4.5 floor.
+ Same shape as — the label moves up the ramp, the token stays where it is. */
+  .plate.divider .plate-footer {
+    border-top-color: var(--divider-rule);
+    color: var(--divider-text);
+  }
+  .plate.divider .plate-footer .rail-rule {
+    background: var(--divider-rule);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════════
+ TITLE PLATE (cover) — hero · stamp top · meta strip bottom
+ ═══════════════════════════════════════════════════════════════════════ */
+
+  .plate.title .sheet { padding-top: 120px; }
+  .plate.title .stamp {
+    display: inline-flex;
+    gap: 20px;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: var(--type-micro);
+    line-height: var(--leading-microcopy);
+    letter-spacing: var(--track-eyebrow);
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .plate.title .stamp .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--walnut-line);
+  }
+  .plate.title .center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    justify-content: center;
+  }
+  .plate.title .hero {
+    font-family: var(--display);
+    font-size: var(--type-hero);
+    font-weight: var(--weight-medium);
+    line-height: var(--leading-display);
+    margin: 0;
+    max-width: 1500px;
+    color: var(--ink);
+  }
+  .plate.title .hero em {
+    font-style: italic;
+    font-family: var(--serif);
+    color: var(--ink-soft);
+    font-weight: var(--weight-regular);
+  }
+  .plate.title .sub {
+    font-size: var(--type-subtitle);
+    color: var(--ink-soft);
+    line-height: var(--leading-subheading);
+    max-width: 1400px;
+  }
+  .plate.title .meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 2px solid var(--ink);
+    padding-top: 24px;
+  }
+  .plate.title .meta > div {
+    border-right: 1px solid var(--rule);
+    padding-right: 24px;
+  }
+  .plate.title .meta > div:last-child {
+    border-right: 0;
+    padding-left: 24px;
+    padding-right: 0;
+  }
+  .plate.title .meta .lbl {
+    font-family: var(--mono);
+    font-size: var(--type-micro);
+    line-height: var(--leading-microcopy);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+  .plate.title .meta .val {
+    font-family: var(--mono);
+    font-size: var(--type-small);
+    line-height: var(--leading-caption);
+    color: var(--ink);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════════
+ STAGE-LIST — card row. Used for the kernel's four, and the double-load flow.
+ accent on the card head only; the body stays paper.
+ ═══════════════════════════════════════════════════════════════════════ */
+
+  .stage-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-top: 36px;
+  }
+  .stage-list.flow { grid-template-columns: 1fr auto 1fr auto 1fr; }
+  .stage-card {
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .stage-card .stage-head {
+    background: var(--paper-edge);
+    border-bottom: 1px solid var(--rule);
+    padding: 14px 18px;
+  }
+  .stage-card .stage-num {
+    font-family: var(--mono);
+    font-size: var(--type-micro);
+    line-height: var(--leading-microcopy);
+    color: var(--ink-soft);
+    letter-spacing: var(--track-tight);
+  }
+  .stage-card .stage-name {
+    font-size: var(--type-small);
+    line-height: var(--leading-subheading);
+    font-weight: var(--weight-medium);
+    margin-top: 4px;
+    color: var(--ink);
+  }
+  .stage-card .stage-body { padding: 18px; }
+  .stage-card .stage-desc {
+    font-size: var(--type-micro);
+    line-height: var(--leading-body);
+    color: var(--ink-soft);
+  }
+  .stage-arrow {
+    font-family: var(--mono);
+    font-size: var(--type-small);
+    line-height: var(--leading-caption);
+    color: var(--ink-soft);
+    align-self: center;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════════
+ ENVELOPE-GRID — paired / tripled panels with an edge accent
+ ═══════════════════════════════════════════════════════════════════════ */
+
+  .envelope-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 32px;
+    align-items: stretch;
+    margin-top: 32px;
+  }
+
+  .envelope-grid.three { grid-template-columns: 1fr auto 1fr auto 1fr; }
+  .envelope-grid.three { grid-template-columns: 1fr auto 1fr auto 1fr; }
+  .env-card {
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .env-card .env-label {
+    font-family: var(--mono);
+    font-size: var(--type-micro);
+    line-height: var(--leading-microcopy);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .env-card .env-content {
+    font-size: var(--type-small);
+    line-height: var(--leading-caption);
+    color: var(--ink);
+  }
+  .env-arrow {
+    align-self: center;
+    font-family: var(--mono);
+    font-size: var(--type-subtitle);
+    line-height: var(--leading-subheading);
+    color: var(--ink-soft);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════════
+ DIVIDER PLATE — chapter break
+ ═══════════════════════════════════════════════════════════════════════ */
+
+  .plate.divider .sheet {
+    padding-top: 180px;
+    justify-content: center;
+  }
+  .plate.divider .chapter-num {
+    font-family: var(--mono);
+    font-size: var(--type-small);
+    line-height: var(--leading-microcopy);
+    letter-spacing: var(--track-eyebrow);
+    text-transform: uppercase;
+    color: var(--divider-text);
+  }
+  .plate.divider .divider-headline {
+    font-family: var(--display);
+    font-weight: var(--weight-medium);
+    font-size: var(--type-divider);
+    line-height: var(--leading-display);
+    margin: 36px 0 32px;
+    color: var(--divider-text);
+    max-width: 1500px;
+  }
+  .plate.divider .divider-headline em {
+    font-style: italic;
+    font-family: var(--serif);
+    color: var(--divider-soft);
+    font-weight: var(--weight-regular);
+  }
+  .plate.divider .divider-sub {
+    font-size: var(--type-body);
+    line-height: var(--leading-caption);
+    color: var(--divider-soft);
+    max-width: 1300px;
+  }
+  /* accent-bar — 6 segments in canonical order (walnut · amber · grey · teal · sage · plum).
+ The 6-segment shape is the deck's signature and does NOT grow with the palette:
+ the house palette carries 9 accents; the signature holds at 6. */
+  .plate.divider .accent-bar {
+    display: flex;
+    gap: 0;
+    margin-top: 56px;
+    height: 12px;
+    width: 720px;
+  }
+  .plate.divider .accent-bar span { flex: 1; }
+  .plate.divider .accent-bar .b1 { background: var(--walnut-line); }
+  .plate.divider .accent-bar .b2 { background: var(--amber-line); }
+  .plate.divider .accent-bar .b3 { background: var(--grey-line); }
+  .plate.divider .accent-bar .b4 { background: var(--teal-line); }
+  .plate.divider .accent-bar .b5 { background: var(--sage-line); }
+  .plate.divider .accent-bar .b6 { background: var(--plum-line); }
+
+  /* ═══════════════════════════════════════════════════════════════════════
+ LAW-PAIR — two laws per plate, each with its mechanism
+ ═══════════════════════════════════════════════════════════════════════ */
+
+  .law-list {
+    display: flex;
+    flex-direction: column;
+    gap: 44px;
+    margin-top: 40px;
+  }
+  .law-row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 32px;
+    align-items: baseline;
+    padding-bottom: 32px;
+    border-bottom: 1px dashed var(--rule);
+  }
+  .law-row:last-child { border-bottom: 0; }
+  .law-num {
+    font-family: var(--mono);
+    font-size: var(--type-small);
+    line-height: var(--leading-microcopy);
+    color: var(--walnut-ink);
+    letter-spacing: var(--track-tight);
+  }
+  .law-text {
+    font-size: var(--type-body);
+    line-height: var(--leading-body);
+    color: var(--ink);
+  }
+  .law-text em {
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════════
+ MOMENT PLATE — single thought, centered
+ ═══════════════════════════════════════════════════════════════════════ */
+
+  .plate.moment .sheet {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  .plate.moment .moment-eyebrow { margin-bottom: 56px; }
+  .plate.moment .moment-headline {
+    font-family: var(--display);
+    font-weight: var(--weight-medium);
+    font-size: var(--type-moment);
+    line-height: var(--leading-display);
+    margin: 0;
+    color: var(--ink);
+    max-width: 1500px;
+  }
+  .plate.moment .moment-headline em {
+    font-style: italic;
+    font-family: var(--serif);
+    color: var(--ink-soft);
+    font-weight: var(--weight-regular);
+  }
+  .plate.moment .moment-footnote {
+    margin-top: 56px;
+    font-size: var(--type-body);
+    line-height: var(--leading-caption);
+    color: var(--ink-soft);
+    max-width: 1200px;
+    font-style: italic;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════════
+ THREE-COL ZONE — accent on heads only, ≤4 rows per column
+ ═══════════════════════════════════════════════════════════════════════ */
+
+  .payoff-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 22px;
+  }
+  .payoff-col {
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+  }
+  .payoff-col .col-head {
+    background: var(--paper-edge);
+    border-bottom: 1px solid var(--rule);
+    padding: 13px 20px;
+  }
+  .payoff-col .col-head .col-label {
+    font-family: var(--mono);
+    font-size: var(--type-micro);
+    line-height: var(--leading-microcopy);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .payoff-col .col-head .col-title {
+    font-size: var(--type-small);
+    line-height: var(--leading-subheading);
+    font-weight: var(--weight-medium);
+    margin-top: 4px;
+    color: var(--ink);
+  }
+  .payoff-col .col-body { padding: 16px 20px; }
+  .payoff-col .col-body p {
+    font-size: var(--type-micro);
+    line-height: var(--leading-body);
+    color: var(--ink-soft);
+    margin: 0 0 12px;
+  }
+  .payoff-col .col-body p:last-child { margin-bottom: 0; }
+
+  /* ═══════════════════════════════════════════════════════════════════════
+ CLOSE PLATE — colophon
+ ═══════════════════════════════════════════════════════════════════════ */
+
+  .plate.close .sheet { padding-top: 180px; }
+  .plate.close .close-center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    justify-content: center;
+    max-width: 1500px;
+  }
+  .plate.close .close-headline {
+    font-family: var(--display);
+    font-size: var(--type-title);
+    line-height: var(--leading-display);
+    font-weight: var(--weight-medium);
+    margin: 0;
+    color: var(--ink);
+  }
+  .plate.close .close-headline em {
+    font-style: italic;
+    font-family: var(--serif);
+    color: var(--ink-soft);
+    font-weight: var(--weight-regular);
+  }
+  .plate.close .close-sub {
+    font-size: var(--type-body);
+    line-height: var(--leading-caption);
+    color: var(--ink-soft);
+  }
+  .next-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 24px;
+  }
+  .next-cell {
+    border-top: 1px solid var(--rule);
+    padding-top: 18px;
+  }
+  .next-cell .lab {
+    font-family: var(--mono);
+    font-size: var(--type-micro);
+    line-height: var(--leading-microcopy);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+  }
+  .next-cell .opt {
+    font-size: var(--type-small);
+    line-height: var(--leading-caption);
+    color: var(--ink);
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════════
+ ARTIFACT-SCOPED COMPOSITIONS
+ Accent-per-zone overrides only, so each zone carries ONE accent
+ on heads and edges only. No new tokens, no literals.
+ ═══════════════════════════════════════════════════════════════════════ */
+
+  .tt { font-family: var(--mono); color: var(--ink-soft); }
+
+  /* stage-card head accents */
+  .stage-card.a-walnut .stage-head { background: var(--walnut-fill); border-bottom-color: var(--walnut-line); }
+  .stage-card.a-cobalt .stage-head { background: var(--cobalt-fill); border-bottom-color: var(--cobalt-line); }
+  .stage-card.a-teal   .stage-head { background: var(--teal-fill);   border-bottom-color: var(--teal-line); }
+  .stage-card.a-sage   .stage-head { background: var(--sage-fill);   border-bottom-color: var(--sage-line); }
+
+  /* three-col head accents */
+  .payoff-col.a-walnut .col-head { background: var(--walnut-fill); border-bottom-color: var(--walnut-line); }
+  .payoff-col.a-amber  .col-head { background: var(--amber-fill);  border-bottom-color: var(--amber-line); }
+  .payoff-col.a-slate  .col-head { background: var(--slate-fill);  border-bottom-color: var(--slate-line); }
+  .payoff-col.a-teal   .col-head { background: var(--teal-fill);   border-bottom-color: var(--teal-line); }
+  .payoff-col.a-sage   .col-head { background: var(--sage-fill);   border-bottom-color: var(--sage-line); }
+
+  /* env-card edge accents */
+  .env-card.a-amber { border-top: 3px solid var(--amber-line); }
+  .env-card.a-teal  { border-top: 3px solid var(--teal-line); }
+  .env-card.a-sage  { border-top: 3px solid var(--sage-line); }
+  .env-card.a-iris  { border-top: 3px solid var(--iris-line); border-style: dashed solid solid; }
+
+  /* the one-diagram slot */
+  .diagram { margin-top: 28px; }
+  .diagram svg { width: 100%; height: auto; display: block; }
+  .diagram .d-label {
+    font-family: var(--mono); font-size: var(--type-micro); letter-spacing: var(--track-tight);
+    text-transform: uppercase; fill: var(--ink-soft);
+  }
+  .diagram .d-title { font-family: var(--serif); font-size: var(--type-small); font-style: italic; fill: var(--ink-soft); }
+  .diagram .d-item  { font-family: var(--serif); font-size: var(--type-small); fill: var(--ink); }
+  .diagram .d-note  { font-family: var(--mono);  font-size: var(--type-micro); fill: var(--ink-soft); }
+
+  /* ── FUTURE / NOT-BUILT treatment ──
+ A part that is not built carries a dashed edge, and every figure's key says so. */
+  .stage-card.future,
+  .env-card.future { border-style: dashed; border-color: var(--plum-line); }
+  .stage-card.future .stage-head { background: var(--plum-fill); border-bottom: 1px dashed var(--plum-line); }
+  .future-stamp {
+    display: inline-block;
+    align-self: flex-start;   /* it is a flex child of.sheet — inline-block alone stretches */
+    font-family: var(--mono);
+    font-size: var(--type-micro);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--plum-ink);
+    border: 1px dashed var(--plum-line);
+    padding: 6px 14px;
+    margin-bottom: 10px;
+  }
+
+  /* ── the rail diagram (plate 03) — one figure, two registers ── */
+  .rail-fig { margin-top: 6px; }
+  .rail-fig svg { width: 100%; height: auto; display: block; }
+  /* Sizes are TOKENS, not raw px — and the viewBox is authored ~1:1 against the
+ sheet's content width, so a token px is a rendered px and the 24px floor holds
+ inside the SVG exactly as it does in the prose. */
+  
+  .rail-fig .r-zone  { font-family: var(--mono); font-size: var(--type-micro); letter-spacing: var(--track-label); text-transform: uppercase; fill: var(--ink-soft); }
+  .rail-fig .r-head  { font-family: var(--display); font-size: var(--type-small); fill: var(--ink); }
+  .rail-fig .r-item  { font-family: var(--serif); font-size: var(--type-micro); fill: var(--ink); }
+  .rail-fig .r-note  { font-family: var(--mono);  font-size: var(--type-micro); fill: var(--ink-soft); }
+  .rail-fig .r-box   { fill: var(--paper); stroke: var(--rule); stroke-width: 1; }
+  .rail-fig .r-edge  { stroke: var(--ink-soft); stroke-width: 2; fill: none; }
+  .rail-fig .r-future{ stroke-dasharray: 8 6; }
+  .rail-fig .r-fail  { fill: none; stroke: var(--signal-red); stroke-width: 2; stroke-dasharray: 8 6; }
+  .rail-fig .r-failtext { font-family: var(--mono); font-size: var(--type-micro); fill: var(--signal-red); }
+
+  /* a non-color channel used semantically carries a visible key.
+ Mono + ink-soft per, but NOT uppercase — a key is read, not scanned. */
+  .key {
+    margin-top: 14px;
+    font-family: var(--mono);
+    font-size: var(--type-micro);
+    color: var(--ink-soft);
+    line-height: var(--leading-body);
+    max-width: 1500px;
+    border-top: 1px solid var(--rule-soft);
+    padding-top: 16px;
+  }
+
+  /* a single emphasised note line, used where two plates must be reconciled */
+  .note-strip {
+    margin-top: 20px;
+    border-left: 3px solid var(--walnut-line);
+    background: var(--paper-edge);
+    padding: 14px 24px;
+    font-size: var(--type-small);
+    line-height: var(--leading-caption);
+    color: var(--ink);
+    max-width: 1500px;
+  }
+
+</style>
+
+<style>
+  /* ═══ ARTIFACT-SCOPED — the late-invoice-demo bulletin ═══
+ Only accent-per-zone overrides and the figure classes. No new tokens, no literals.
+ Accents: walnut = the record (Moneybird) · amber = the owner's acts · sage = the script and the build ·
+ teal = checks · cobalt = outside the laptop · slate = the plan · grey = records · plum = beyond. */
+
+  .stage-list.five  { grid-template-columns: repeat(5, 1fr); }
+  .stage-list.three { grid-template-columns: repeat(3, 1fr); }
+  .stage-card.a-amber  .stage-head { background: var(--amber-fill);  border-bottom-color: var(--amber-line); }
+  .stage-card.a-slate  .stage-head { background: var(--slate-fill);  border-bottom-color: var(--slate-line); }
+  .stage-card.a-grey   .stage-head { background: var(--grey-fill);   border-bottom-color: var(--grey-line); }
+  .env-card.a-walnut { border-top: 3px solid var(--walnut-line); }
+  .env-card.a-cobalt { border-top: 3px solid var(--cobalt-line); }
+  .env-card.a-slate  { border-top: 3px solid var(--slate-line); }
+  .env-card.a-plum   { border-top: 3px dashed var(--plum-line); }
+  .payoff-col.a-cobalt .col-head { background: var(--cobalt-fill); border-bottom-color: var(--cobalt-line); }
+  .payoff-col.a-plum .col-head { background: var(--plum-fill); border-bottom: 1px dashed var(--plum-line); }
+  .payoff-col.future { border-style: dashed; border-color: var(--plum-line); }
+
+  /* PLANNED, whole artifact: the stamp names it once per figure-bearing plate.
+ Role accents stay on fills (what a part IS); planned-ness rides the EDGE. */
+  .planned-stamp {
+    display: inline-block;
+    align-self: flex-start;
+    font-family: var(--mono);
+    font-size: var(--type-micro);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    color: var(--plum-ink);
+    border: 1px dashed var(--plum-line);
+    padding: 6px 14px;
+    margin-bottom: 10px;
+  }
+  .stage-card.planned { border-style: dashed; }
+  .stage-card.planned .stage-head { border-bottom-style: dashed; }
+  .stage-card.frontier { border-style: dashed; border-color: var(--amber-line); }
+  .stage-card.frontier .stage-head { border-bottom-style: dashed; }
+
+  /* fit overrides — spacing only, no size changes. The title sheet's 120px top pad and the
+ divider's 180px are chassis defaults sized for shorter subs; these step them down the ladder. */
+  .plate.title .sheet { padding-top: 88px; }
+  .plate.title .center { gap: 28px; }
+  .plate.divider .sheet { padding-top: 96px; }
+  .plate.divider .divider-headline { margin: 24px 0 20px; }
+  .plate.divider .accent-bar { margin-top: 32px; }
+  .plate.moment .moment-eyebrow { margin-bottom: 32px; }
+  .plate.moment .moment-footnote { margin-top: 32px; }
+  .plate-header { margin-bottom: 20px; }
+  .walk-fig { margin-top: 10px; }
+  .key { margin-top: 10px; padding-top: 12px; }
+
+  /* five laws on one plate — spacing steps down the ladder, sizes unchanged */
+  .law-list.five { gap: 20px; margin-top: 20px; }
+  .law-list.five .law-row { padding-bottom: 16px; }
+
+  /* tables — ≤10 rows, ≤4 cols */
+  .exit-table { width: 100%; border-collapse: collapse; margin-top: 28px; }
+  .exit-table th { font-family: var(--mono); font-size: var(--type-micro); letter-spacing: var(--track-label);
+                   text-transform: uppercase; color: var(--ink-soft); text-align: left; padding: 10px 16px;
+                   border-bottom: 1px solid var(--rule); }
+  .exit-table td { font-size: var(--type-small); line-height: var(--leading-caption); color: var(--ink);
+                   padding: 16px; border-bottom: 1px dashed var(--rule-soft); vertical-align: top; }
+  .exit-table td.n { font-family: var(--mono); color: var(--teal-ink); width: 150px; }
+  .exit-table td.m { font-family: var(--mono); color: var(--ink-soft); }
+  .exit-table.tight { margin-top: 16px; }
+  .exit-table.tight th { padding: 8px 16px; }
+  .exit-table.tight td { padding: 9px 16px; }
+
+  /* ── the figures: RENDERED, not drawn. Each is a kind-diagram spec (figures/plate-NN-*.yaml, grammar 1)
+ put through render_graphic.js; the SVG carries class="fig" data-register="composed" and reads every
+ drawn value from canon. The renderer measures text on its own rem ladder (microcopy.75rem · caption
+.875rem · body 1rem, REM=16 — layout.js). The chassis defines --type-body as 34px, which would re-size
+ the renderer's text under cells laid out for 16px; the wrapper pins the renderer's ladder back and
+ the SVG is embedded at 2x (viewBox width ≤ 832 units into a 1664px sheet), so microcopy lands on the
+ 24px floor, caption on 28, body on 32 — 32 is the one stage off the deck's 34, NAMED here, not hidden. */
+  .fig-wrap { --type-body: 1rem; --type-caption: .875rem; --type-microcopy: .75rem; margin-top: 0; }
+  .fig-wrap svg { width: 100%; height: auto; display: block; }
+  /* on the host: the renderer sets node-num in ink-faint, which is not a text token on this ground; the label moves up the ramp here, the renderer's rule stays its own. */
+  .fig-wrap .node-num { fill: var(--ink-soft); }
+  /* on the host: the renderer sets legend text on the dense-chrome stage (10px at REM 16 → 20px at 2x),
+ under the deck's 24px floor. Lifted to the microcopy stage; key labels are kept short so the fixed
+ legend stride still holds them. */
+  .fig-wrap .legend-text { font-size: var(--type-microcopy); }
+  .fig-wrap .node-box.acc-amber.planned { stroke: var(--rule-soft); }
+</style>
+
+</head>
+<body class="register-composed" data-register="composed">
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     PLATE 01 · TITLE — core + parts
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="plate title">
+  <div class="sheet">
+    <div class="stamp">
+      <span class="dot"></span>
+      <span>LATE-INVOICE-DEMO</span>
+      <span>·</span>
+      <span>project bulletin · stage 1 in progress on test data, four stages planned</span>
+    </div>
+
+    <div class="center">
+      <div class="micro">Reference bulletin · a late-invoice demo, built as a ladder of five stages</div>
+      <h1 class="hero">Late invoice, one tap,<br/><em>paid and booked.</em></h1>
+      <div class="sub">
+        A late invoice becomes a Telegram message. One tap sends the customer a Mollie link; when it is
+        paid, the books already say so.
+      </div>
+    </div>
+
+    <div class="next-grid">
+      <div class="next-cell">
+        <div class="lab">The demo</div>
+        <div class="opt">Four steps on sandbox data in two minutes — fetch, approve, pay, book back. The last step, the write-back, is the one the program is built around.</div>
+      </div>
+      <div class="next-cell">
+        <div class="lab">The ladder</div>
+        <div class="opt">Five stages, each a runnable program with its own tests; the composed demo falls out at the top.</div>
+      </div>
+      <div class="next-cell">
+        <div class="lab">The plan</div>
+        <div class="opt">Three phases, eleven steps, a named risk beside every step, one port to the books, one hygiene gate before the first upload.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     PLATE 02 · COMPLICATION
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="plate">
+  <div class="sheet">
+    <div class="plate-header">
+      <div class="eyebrow">Plate 02 · The problem</div>
+      <h2 class="plate-title">A late invoice is a loop of small steps, <em>and each one can go wrong</em>.</h2>
+    </div>
+
+    <p class="lede">
+      Chasing a payment means opening the bookkeeping, finding the invoice, deciding
+      whether this customer deserves a nudge today, writing it, and later checking whether it
+      worked. Each existing answer removes one of those steps and leaves the rest.
+    </p>
+
+    <div class="envelope-grid three">
+      <div class="env-card a-walnut">
+        <div class="env-label">Chase by hand</div>
+        <div class="env-content">
+          Every step is a decision the owner makes in the bookkeeping, on a laptop, after hours.
+          The decision is good; the cost is that nothing happens on the days there is no laptop.
+        </div>
+      </div>
+      <div class="env-arrow">·</div>
+      <div class="env-card a-cobalt">
+        <div class="env-label">Automatic reminders</div>
+        <div class="env-content">
+          Moneybird can send them all. The owner loses the per-customer call — the client who is
+          always late but always pays gets the same letter as the one who has gone quiet.
+        </div>
+      </div>
+      <div class="env-arrow">·</div>
+      <div class="env-card a-amber">
+        <div class="env-label">A payment link alone</div>
+        <div class="env-content">
+          A link gets money in, and then someone still has to book it. Without the write-back the
+          invoice stays open in the books while the bank says otherwise.
+        </div>
+      </div>
+    </div>
+
+    <div class="note-strip">
+      The gap is small and specific: a per-customer decision, made from a phone, that ends with the books
+      already correct. That decision and that write-back are the whole scope of the program.
+    </div>
+
+    <div class="plate-footer">
+      <span>02 / 15</span>
+      <span class="rail-rule"></span>
+      <span>Chapter 01 · The demo</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     PLATE 03 · DETAIL — the split
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="plate">
+  <div class="sheet">
+    <div class="plate-header">
+      <div class="eyebrow">Plate 03 · The idea</div>
+      <h2 class="plate-title">The script holds the state; <em>the owner holds the tap</em>.</h2>
+    </div>
+
+    <p class="lede">
+      One split, load-bearing everywhere. What a script can hold without error — which invoice is
+      late, which proposal was already sent, which link exists, whether a payment was already booked —
+      it holds in one table with one row per invoice. What must stay a human act — sending anything
+      to a customer — is a button the owner presses.
+    </p>
+
+    <div class="envelope-grid">
+      <div class="env-card a-sage">
+        <div class="env-label">The script holds</div>
+        <div class="env-content">
+          A SQLite table <span class="tt">actions</span>, unique on <span class="tt">invoice_id</span>, with a
+          status that only moves forward: pending → approved or rejected → link_created → booking → paid. Run it
+          twice and nothing doubles: no second message, no second link, no second booking; amounts are integer cents, never a float. It reaches the books
+          through one four-verb port; the stages never learn which package stands behind it.
+        </div>
+      </div>
+      <div class="env-arrow">•</div>
+      <div class="env-card a-amber">
+        <div class="env-label">The owner holds</div>
+        <div class="env-content">
+          The keys (three of them, in a local <span class="tt">.env</span> that never enters the repo), the
+          sandbox and its fake invoices, and the tap itself — Goedkeuren or Afwijzen — checked against
+          the owner's own chat id and user id before anything moves.
+        </div>
+      </div>
+    </div>
+
+    <div class="note-strip">
+      The split decides the design. Every guard on the next plates protects one of the two halves: the
+      state the script holds, or the tap the owner keeps.
+    </div>
+
+    <div class="plate-footer">
+      <span>03 / 15</span>
+      <span class="rail-rule"></span>
+      <span>Chapter 01 · The demo</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     PLATE 04 · FIRST FLOWCHART — the demo as one picture
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="plate">
+  <div class="sheet">
+    <div class="plate-header">
+      <div class="eyebrow">Plate 04 · The demo, as one picture</div>
+      <h2 class="plate-title">From a late invoice to a booked payment <em>in four moves and one tap</em>.</h2>
+    </div>
+
+    <div class="fig-wrap">
+      <svg xmlns="http://www.w3.org/2000/svg" class="fig" data-register="composed" viewBox="0 19.599999999999994 822 290" role="img" aria-label="The demo as one picture. Top row, the script on the laptop: fetch, propose, link, book. Second row, under it: the late invoice in Moneybird feeds fetch; propose sends Goedkeuren and Afwijzen to the phone; the owner&#39;s tap feeds link; link creates the Mollie payment link the customer pays; book pulls its status and writes the paid invoice back into Moneybird; the phone hears Betaald.">
+  <style>
+    .node-box.acc-sage { fill: var(--paper); stroke: var(--sage-line); }
+    .node-box.frontier { stroke: var(--amber-line); fill: var(--paper-warm); }
+    .node-num { font-family: 'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace; font-size: var(--type-microcopy, 0.75rem); font-weight: var(--weight-regular, 400); letter-spacing: var(--track-label); fill: var(--ink-faint); }
+    .node-name { font-family: 'Source Serif 4','Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif; font-size: var(--type-body, 1rem); font-weight: var(--weight-regular, 400); fill: var(--ink); }
+    .node-box.planned { stroke: var(--rule-soft); fill: var(--paper-warm); }
+    .zone-head.acc-sage { stroke: var(--sage-line); }
+    .zone-label.acc-sage { font-family: 'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace; font-size: var(--type-caption, 0.875rem); font-weight: var(--weight-bold, 700); letter-spacing: var(--track-eyebrow); fill: var(--sage-ink); }
+    .node-box.acc-walnut { fill: var(--paper); stroke: var(--walnut-line); }
+    .node-sub { font-family: 'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace; font-size: var(--type-microcopy, 0.75rem); font-weight: var(--weight-regular, 400); fill: var(--ink-soft); }
+    .node-box.acc-cobalt { fill: var(--paper); stroke: var(--cobalt-line); }
+    .human.acc-amber { fill: var(--paper-warm); stroke: var(--amber-line); }
+    .human.planned { stroke: var(--rule-soft); fill: var(--paper-warm); }
+    .edge.acc-ink { fill: none; stroke: var(--ink-soft); }
+    .arrow.acc-ink { fill: var(--ink-soft); }
+    .edge.acc-amber { fill: none; stroke: var(--amber-line); }
+    .arrow.acc-amber { fill: var(--amber-line); }
+    .node-box { fill: var(--paper); stroke: var(--rule); }
+    .legend-text { font-family: 'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace; font-size: var(--type-chrome-sub, 0.625rem); font-weight: var(--weight-regular, 400); fill: var(--ink-soft); }
+    .legend-swatch.acc-sage { fill: var(--sage-fill); stroke: var(--sage-line); }
+    .legend-swatch.acc-walnut { fill: var(--walnut-fill); stroke: var(--walnut-line); }
+    .legend-swatch.acc-cobalt { fill: var(--cobalt-fill); stroke: var(--cobalt-line); }
+    .legend-swatch.acc-amber { fill: var(--amber-fill); stroke: var(--amber-line); }
+    .fig-note { font-family: 'Source Serif 4','Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif; font-size: var(--type-caption, 0.875rem); font-weight: var(--weight-regular, 400); fill: var(--ink-soft); }
+  </style>
+  <defs>
+    <marker id="arrow-ink" viewBox="0 0 9 9" refX="9" refY="4.5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path class="arrow acc-ink" d="M0,0 L9,4.5 L0,9 z"/></marker>
+    <marker id="arrow-amber" viewBox="0 0 9 9" refX="9" refY="4.5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path class="arrow acc-amber" d="M0,0 L9,4.5 L0,9 z"/></marker>
+  </defs>
+  <line class="zone-head acc-sage" x1="36" y1="39.599999999999994" x2="762.4" y2="39.599999999999994" stroke-width="2"/>
+  <path class="edge edge-solid acc-ink" d="M203.35999999999999,84 L227.36,84" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+  <path class="edge edge-solid acc-ink" d="M364.64,84 L388.64,84" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+  <path class="edge edge-solid acc-ink" d="M563.52,84 L587.52,84" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+  <path class="edge edge-solid acc-ink" d="M109.92633663366337,136.39999999999998 L109.92633663366337,124.39999999999998 L114.39366336633663,124.39999999999998 L114.39366336633663,112.4" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+  <path class="edge edge-solid acc-ink" d="M294.6784158415842,112.4 L294.6784158415842,124.39999999999998 L293.5615841584158,124.39999999999998 L293.5615841584158,136.39999999999998" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+  <path class="edge edge-solid acc-amber" d="M387.20000000000005,164.79999999999998 L411.20000000000005,164.79999999999998" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+  <path class="edge edge-solid acc-amber" d="M447.78693069306934,144.79999999999998 L447.78693069306934,124.39999999999998 L462.8641584158416,124.39999999999998 L462.8641584158416,112.4" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+  <path class="edge edge-solid acc-ink" d="M502.9615841584158,112.4 L502.9615841584158,124.39999999999998 L525.6784158415841,124.39999999999998 L525.6784158415841,136.39999999999998" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+  <path class="edge edge-dotted acc-ink" d="M595.5817821782178,136.39999999999998 L595.5817821782178,124.39999999999998 L631.9382178217821,124.39999999999998 L631.9382178217821,112.4" stroke-width="1.5" stroke-dasharray="2 9" stroke-linecap="round" marker-end="url(#arrow-ink)"/>
+  <path class="edge edge-solid acc-ink" d="M686.5730693069307,112.4 L686.5730693069307,124.39999999999998 L696.3869306930693,124.39999999999998 L696.3869306930693,136.39999999999998" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+  <rect class="node-box acc-sage frontier" x="36" y="55.599999999999994" width="167.35999999999999" height="56.8" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="node-box acc-sage planned" x="227.35999999999999" y="55.599999999999994" width="137.28" height="56.8" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="node-box acc-sage planned" x="388.64" y="55.599999999999994" width="174.88" height="56.8" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="node-box acc-sage planned" x="587.52" y="55.599999999999994" width="174.88" height="56.8" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="node-box acc-walnut planned" x="36" y="136.39999999999998" width="137.28" height="56.8" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="node-box acc-cobalt planned" x="197.28" y="136.39999999999998" width="189.92" height="56.8" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="human acc-amber planned" x="411.2" y="144.79999999999998" width="54.56" height="40" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="node-box acc-cobalt planned" x="489.76" y="136.39999999999998" width="125.6" height="56.8" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="node-box acc-walnut planned" x="639.36" y="136.39999999999998" width="137.28" height="56.8" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <text class="node-num" x="52" y="81.47999999999999">1 · fetch</text>
+  <text class="node-name" x="52" y="104.4">haal_late_facturen</text>
+  <text class="node-num" x="243.35999999999999" y="81.47999999999999">2 · propose</text>
+  <text class="node-name" x="243.35999999999999" y="104.4">stuur_voorstel</text>
+  <text class="node-num" x="404.64" y="81.47999999999999">3 · link</text>
+  <text class="node-name" x="404.64" y="104.4">verwerk_goedkeuring</text>
+  <text class="node-num" x="603.52" y="81.47999999999999">4 · book</text>
+  <text class="node-name" x="603.52" y="104.4">controleer_betaling</text>
+  <text class="zone-label acc-sage" x="36" y="27.599999999999994">ON THE LAPTOP · the script</text>
+  <text class="node-name" x="52" y="161.2">invoice · late</text>
+  <text class="node-sub" x="52" y="179.07999999999998">Moneybird</text>
+  <text class="node-name" x="213.28" y="161.2">Goedkeuren · Afwijzen</text>
+  <text class="node-sub" x="213.28" y="179.07999999999998">Telegram</text>
+  <text class="node-name" x="427.2" y="173.2">TAP</text>
+  <text class="node-name" x="505.76" y="161.2">payment link</text>
+  <text class="node-sub" x="505.76" y="179.07999999999998">Mollie · paid</text>
+  <text class="node-name" x="655.36" y="161.2">invoice · paid</text>
+  <text class="node-sub" x="655.36" y="179.07999999999998">Moneybird</text>
+  <g class="legend" data-entries="2">
+  <rect class="node-box frontier" x="36" y="229.2" width="13" height="13" rx="3" stroke-width="1" stroke-dasharray="8 6"/>
+  <text class="legend-text" x="68" y="240.2">in progress</text>
+  <rect class="legend-swatch acc-sage" x="36" y="251.2" width="13" height="13" rx="3" stroke-width="1"/>
+  <text class="legend-text" x="68" y="262.2">the script</text>
+  </g>
+  <g class="legend" data-entries="2">
+  <rect class="node-box planned" x="186" y="229.2" width="13" height="13" rx="3" stroke-width="1" stroke-dasharray="8 6"/>
+  <text class="legend-text" x="218" y="240.2">planned</text>
+  <rect class="legend-swatch acc-walnut" x="186" y="251.2" width="13" height="13" rx="3" stroke-width="1"/>
+  <text class="legend-text" x="218" y="262.2">the record</text>
+  </g>
+  <g class="legend" data-entries="2">
+  <rect class="legend-swatch acc-cobalt" x="336" y="229.2" width="13" height="13" rx="3" stroke-width="1"/>
+  <text class="legend-text" x="368" y="240.2">outside</text>
+  <rect class="legend-swatch acc-amber" x="336" y="251.2" width="13" height="13" rx="3" stroke-width="1"/>
+  <text class="legend-text" x="368" y="262.2">the owner</text>
+  </g>
+  <g class="legend" data-entries="2">
+  <path class="edge edge-solid acc-ink" d="M486,235.7 L512,235.7" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+  <text class="legend-text" x="531" y="240.2">flow</text>
+  <path class="edge edge-solid acc-amber" d="M486,257.7 L512,257.7" stroke-width="1.5" marker-end="url(#arrow-amber)"/>
+  <text class="legend-text" x="531" y="262.2">the tap</text>
+  </g>
+  <g class="legend" data-entries="1">
+  <path class="edge edge-dotted acc-ink" d="M636,235.7 L662,235.7" stroke-width="1.5" stroke-dasharray="2 9" stroke-linecap="round" marker-end="url(#arrow-ink)"/>
+  <text class="legend-text" x="681" y="240.2">pulled status</text>
+  </g>
+  <text class="fig-note" x="292.24" y="212.79999999999998" text-anchor="middle">the phone hears Betaald</text>
+</svg>
+    </div>
+
+    <div class="plate-footer">
+      <span>04 / 15</span>
+      <span class="rail-rule"></span>
+      <span>Chapter 01 · The demo</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     PLATE 05 · THE STATE MACHINE
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="plate">
+  <div class="sheet">
+    <div class="plate-header">
+      <div class="eyebrow">Plate 05 · The state machine</div>
+      <h2 class="plate-title">Ten statuses, three guards, <em>and no way back</em>.</h2>
+    </div>
+
+    <div class="fig-wrap">
+      <svg xmlns="http://www.w3.org/2000/svg" class="fig" data-register="composed" viewBox="-6 -65.6 834 352" role="img" aria-label="The state machine — five statuses left to right: pending, approved, link_created, booking, paid. Five terminal statuses below, in four boxes: rejected from pending; paid_elsewhere from approved and from link_created; amount_mismatch and link_expired, sharing one box, from link_created; booking_unconfirmed from booking. Three guards, each above the status it protects: unique invoice_id over pending, the still-open check over link_created, and over booking the paid amount must equal the open amount and the row is claimed once. The first status, pending, is in progress with stage 1; the others are planned.">
+  <style>
+    .node-box.acc-sage { fill: var(--paper); stroke: var(--sage-line); }
+    .node-box.frontier { stroke: var(--amber-line); fill: var(--paper-warm); }
+    .node-num { font-family: 'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace; font-size: var(--type-microcopy, 0.75rem); font-weight: var(--weight-regular, 400); letter-spacing: var(--track-label); fill: var(--ink-faint); }
+    .node-name { font-family: 'Source Serif 4','Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif; font-size: var(--type-body, 1rem); font-weight: var(--weight-regular, 400); fill: var(--ink); }
+    .node-sub { font-family: 'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace; font-size: var(--type-microcopy, 0.75rem); font-weight: var(--weight-regular, 400); fill: var(--ink-soft); }
+    .node-box.acc-amber { fill: var(--paper); stroke: var(--amber-line); }
+    .node-box.planned { stroke: var(--rule-soft); fill: var(--paper-warm); }
+    .node-box.acc-cobalt { fill: var(--paper); stroke: var(--cobalt-line); }
+    .node-box.acc-walnut { fill: var(--paper); stroke: var(--walnut-line); }
+    .gate-box { fill: var(--paper); stroke: var(--teal-line); }
+    .gate-text { font-family: 'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace; font-size: var(--type-microcopy, 0.75rem); font-weight: var(--weight-bold, 700); letter-spacing: var(--track-label); fill: var(--ink); }
+    .node-box { fill: var(--paper); stroke: var(--rule); }
+    .edge.acc-ink { fill: none; stroke: var(--ink-soft); }
+    .arrow.acc-ink { fill: var(--ink-soft); }
+    .edge.acc-teal { fill: none; stroke: var(--teal-line); }
+    .arrow.acc-teal { fill: var(--teal-line); }
+    .legend-text { font-family: 'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace; font-size: var(--type-chrome-sub, 0.625rem); font-weight: var(--weight-regular, 400); fill: var(--ink-soft); }
+    .legend-swatch.acc-sage { fill: var(--sage-fill); stroke: var(--sage-line); }
+    .legend-swatch.acc-amber { fill: var(--amber-fill); stroke: var(--amber-line); }
+    .legend-swatch.acc-cobalt { fill: var(--cobalt-fill); stroke: var(--cobalt-line); }
+    .legend-swatch.acc-walnut { fill: var(--walnut-fill); stroke: var(--walnut-line); }
+    .legend-swatch.acc-teal { fill: var(--teal-fill); stroke: var(--teal-line); }
+  </style>
+  <defs>
+    <marker id="arrow-ink" viewBox="0 0 9 9" refX="9" refY="4.5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path class="arrow acc-ink" d="M0,0 L9,4.5 L0,9 z"/></marker>
+    <marker id="arrow-teal" viewBox="0 0 9 9" refX="9" refY="4.5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path class="arrow acc-teal" d="M0,0 L9,4.5 L0,9 z"/></marker>
+  </defs>
+  <path class="edge edge-solid acc-ink" d="M154.39999999999998,72.8 L178.39999999999998,72.8" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+  <path class="edge edge-solid acc-ink" d="M296.79999999999995,72.8 L320.79999999999995,72.8" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+  <path class="edge edge-solid acc-ink" d="M460.79999999999995,72.8 L484.79999999999995,72.8" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+  <path class="edge edge-solid acc-ink" d="M596,72.8 L620,72.8" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+  <path class="edge edge-solid acc-ink" d="M89.50641509433962,109.6 L89.50641509433962,117.6 L86.47396226415094,117.6 L86.47396226415094,129.2" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+  <path class="edge edge-solid acc-ink" d="M228.99018867924525,109.6 L228.99018867924525,117.6 L224.40452830188678,117.6 L224.40452830188678,129.2" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+  <path class="edge edge-solid acc-ink" d="M320.79999999999995,107.1042071197411 L299.36,107.1042071197411 L299.36,129.2 L275.7120754716981,129.2" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+  <path class="edge edge-solid acc-ink" d="M386.00905660377356,109.6 L386.00905660377356,117.6 L383.92603773584904,117.6 L383.92603773584904,125.6" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+  <path class="edge edge-solid acc-ink" d="M546.9962264150944,109.6 L546.9962264150944,117.6 L550.5094339622642,117.6 L550.5094339622642,129.2" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+  <path class="edge edge-dotted acc-teal" d="M95.19999999999999,20 L95.19999999999999,36" stroke-width="1.5" stroke-dasharray="2 9" stroke-linecap="round" marker-end="url(#arrow-teal)"/>
+  <path class="edge edge-dotted acc-teal" d="M390.79999999999995,20 L390.79999999999995,36" stroke-width="1.5" stroke-dasharray="2 9" stroke-linecap="round" marker-end="url(#arrow-teal)"/>
+  <path class="edge edge-dotted acc-teal" d="M540.4,20 L540.4,36" stroke-width="1.5" stroke-dasharray="2 9" stroke-linecap="round" marker-end="url(#arrow-teal)"/>
+  <rect class="node-box acc-sage frontier" x="36" y="36" width="118.39999999999999" height="73.6" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="node-box acc-amber planned" x="178.39999999999998" y="36" width="118.39999999999999" height="73.6" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="node-box acc-cobalt planned" x="320.79999999999995" y="36" width="140" height="73.6" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="node-box acc-sage planned" x="484.79999999999995" y="36" width="111.2" height="73.6" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="node-box acc-walnut planned" x="620" y="36" width="75.19999999999999" height="73.6" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="gate-box" x="43.19999999999999" y="-29.599999999999994" width="104" height="49.599999999999994" rx="6" stroke-width="1.5"/>
+  <rect class="gate-box" x="342.4" y="-29.599999999999994" width="96.8" height="49.599999999999994" rx="6" stroke-width="1.5"/>
+  <rect class="gate-box" x="474.79999999999995" y="-29.599999999999994" width="131.2" height="49.599999999999994" rx="6" stroke-width="1.5"/>
+  <rect class="node-box planned" x="36" y="129.2" width="92.16" height="56.8" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="node-box planned" x="144.16" y="129.2" width="147.2" height="56.8" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="node-box planned" x="307.36" y="125.6" width="144.8" height="64" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="node-box planned" x="468.16" y="129.2" width="174.88" height="56.8" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <text class="node-num" x="52" y="61.879999999999995">1</text>
+  <text class="node-name" x="52" y="81.19999999999999">pending</text>
+  <text class="node-sub" x="52" y="95.47999999999999">row at fetch</text>
+  <text class="node-num" x="194.39999999999998" y="61.879999999999995">2</text>
+  <text class="node-name" x="194.39999999999998" y="81.19999999999999">approved</text>
+  <text class="node-sub" x="194.39999999999998" y="95.47999999999999">owner tapped</text>
+  <text class="node-num" x="336.79999999999995" y="61.879999999999995">3</text>
+  <text class="node-name" x="336.79999999999995" y="81.19999999999999">link_created</text>
+  <text class="node-sub" x="336.79999999999995" y="95.47999999999999">Mollie id + url</text>
+  <text class="node-num" x="500.79999999999995" y="61.879999999999995">4</text>
+  <text class="node-name" x="500.79999999999995" y="81.19999999999999">booking</text>
+  <text class="node-sub" x="500.79999999999995" y="95.47999999999999">row claimed</text>
+  <text class="node-num" x="636" y="61.879999999999995">5</text>
+  <text class="node-name" x="636" y="81.19999999999999">paid</text>
+  <text class="node-sub" x="636" y="95.47999999999999">booked</text>
+  <text class="gate-text" x="95.19999999999999" y="-7.319999999999997" text-anchor="middle">unique</text>
+  <text class="node-sub" x="95.19999999999999" y="9.48" text-anchor="middle">invoice_id</text>
+  <text class="gate-text" x="390.79999999999995" y="-7.319999999999997" text-anchor="middle">open?</text>
+  <text class="node-sub" x="390.79999999999995" y="9.48" text-anchor="middle">else stop</text>
+  <text class="gate-text" x="540.4" y="-7.319999999999997" text-anchor="middle">equal cents</text>
+  <text class="node-sub" x="540.4" y="9.48" text-anchor="middle">claimed once</text>
+  <text class="node-name" x="52" y="154">rejected</text>
+  <text class="node-sub" x="52" y="171.88">Afwijzen</text>
+  <text class="node-name" x="160.16" y="154">paid_elsewhere</text>
+  <text class="node-sub" x="160.16" y="171.88">paid another way</text>
+  <text class="node-name" x="323.36" y="154">amount_mismatch</text>
+  <text class="node-name" x="323.36" y="178">link_expired</text>
+  <text class="node-name" x="484.16" y="154">booking_unconfirmed</text>
+  <text class="node-sub" x="484.16" y="171.88">stopped mid-booking</text>
+  <g class="legend" data-entries="2">
+  <rect class="node-box frontier" x="36" y="205.6" width="13" height="13" rx="3" stroke-width="1" stroke-dasharray="8 6"/>
+  <text class="legend-text" x="68" y="216.6">in progress</text>
+  <rect class="legend-swatch acc-sage" x="36" y="227.6" width="13" height="13" rx="3" stroke-width="1"/>
+  <text class="legend-text" x="68" y="238.6">the script</text>
+  </g>
+  <g class="legend" data-entries="2">
+  <rect class="node-box planned" x="186" y="205.6" width="13" height="13" rx="3" stroke-width="1" stroke-dasharray="8 6"/>
+  <text class="legend-text" x="218" y="216.6">planned</text>
+  <rect class="legend-swatch acc-amber" x="186" y="227.6" width="13" height="13" rx="3" stroke-width="1"/>
+  <text class="legend-text" x="218" y="238.6">the owner</text>
+  </g>
+  <g class="legend" data-entries="2">
+  <rect class="legend-swatch acc-cobalt" x="336" y="205.6" width="13" height="13" rx="3" stroke-width="1"/>
+  <text class="legend-text" x="368" y="216.6">outside</text>
+  <rect class="legend-swatch acc-walnut" x="336" y="227.6" width="13" height="13" rx="3" stroke-width="1"/>
+  <text class="legend-text" x="368" y="238.6">the record</text>
+  </g>
+  <g class="legend" data-entries="2">
+  <rect class="legend-swatch acc-teal" x="486" y="205.6" width="13" height="13" rx="3" stroke-width="1"/>
+  <text class="legend-text" x="518" y="216.6">guard + test</text>
+  <path class="edge edge-solid acc-ink" d="M486,234.1 L512,234.1" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+  <text class="legend-text" x="531" y="238.6">forward</text>
+  </g>
+  <g class="legend" data-entries="1">
+  <path class="edge edge-dotted acc-teal" d="M636,212.1 L662,212.1" stroke-width="1.5" stroke-dasharray="2 9" stroke-linecap="round" marker-end="url(#arrow-teal)"/>
+  <text class="legend-text" x="681" y="216.6">guarded</text>
+  </g>
+</svg>
+    </div>
+
+    <div class="plate-footer">
+      <span>05 / 15</span>
+      <span class="rail-rule"></span>
+      <span>Chapter 01 · The demo</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     PLATE 06 · WHAT A RUN LOOKS LIKE
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="plate">
+  <div class="sheet">
+    <div class="plate-header">
+      <div class="eyebrow">Plate 06 · What a run looks like</div>
+      <h2 class="plate-title">Two minutes, four screens, <em>one tap</em>.</h2>
+    </div>
+
+    <p class="lede">
+      The demo is watched, not explained. Each screen is a familiar one — the bookkeeping, a phone, a
+      payment page — and the program carries the invoice from one to the next.
+    </p>
+
+    <div class="stage-list">
+      <div class="stage-card a-walnut planned">
+        <div class="stage-head">
+          <div class="stage-num">01 · Moneybird</div>
+          <div class="stage-name">Three invoices are late</div>
+        </div>
+        <div class="stage-body"><div class="stage-desc">A sandbox administration with invented customers; the program lists what is late.</div></div>
+      </div>
+      <div class="stage-card a-cobalt planned">
+        <div class="stage-head">
+          <div class="stage-num">02 · the phone</div>
+          <div class="stage-name">A message with two buttons</div>
+        </div>
+        <div class="stage-body"><div class="stage-desc">Invoice number, amount, days late. Nothing leaves without the tap.</div></div>
+      </div>
+      <div class="stage-card a-amber planned">
+        <div class="stage-head">
+          <div class="stage-num">03 · the tap</div>
+          <div class="stage-name">Approval, then a link</div>
+        </div>
+        <div class="stage-body"><div class="stage-desc">Goedkeuren is tapped; the link opens Mollie's test page, where the test payment is made.</div></div>
+      </div>
+      <div class="stage-card a-walnut planned">
+        <div class="stage-head">
+          <div class="stage-num">04 · Moneybird again</div>
+          <div class="stage-name">The invoice is paid</div>
+        </div>
+        <div class="stage-body"><div class="stage-desc">And the phone says Betaald. The payment was checked and booked by the program, once.</div></div>
+      </div>
+    </div>
+
+    <div class="note-strip">
+      Test data throughout: a Moneybird sandbox, a Mollie test key, invented customers. No real money moves,
+      and nothing is sent to a customer without the tap.
+    </div>
+
+    <div class="plate-footer">
+      <span>06 / 15</span>
+      <span class="rail-rule"></span>
+      <span>Chapter 01 · The demo</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     PLATE 07 · MOMENT — the thesis
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="plate moment">
+  <div class="sheet">
+    <div class="eyebrow moment-eyebrow">Plate 07 · Thesis</div>
+    <h2 class="moment-headline">
+      Nothing goes out without the tap; <em>nothing is booked twice.</em>
+    </h2>
+    <div class="moment-footnote">
+      The first half is the product. The second half is the engineering underneath — every guard a test that failed first.
+    </div>
+    <div class="plate-footer">
+      <span>07 / 15</span>
+      <span class="rail-rule"></span>
+      <span>Chapter 01 · The demo</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     PLATE 08 · THE FIVE STAGES
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="plate">
+  <div class="sheet">
+    <div class="plate-header">
+      <div class="eyebrow">Plate 08 · The five stages</div>
+      <h2 class="plate-title">Each stage is done when it runs on its own <em>and its test went red first</em>.</h2>
+    </div>
+
+    <div class="stage-list five">
+      <div class="stage-card a-sage frontier">
+        <div class="stage-head">
+          <div class="stage-num">Stage 1 · in progress</div>
+          <div class="stage-name">Fetch late invoices</div>
+        </div>
+        <div class="stage-body"><div class="stage-desc">The port, the Fake and Moneybird adapters, the money formatter, the actions table. Done when a second run adds no rows, a float is refused, and both adapters pass one contract test.</div></div>
+      </div>
+      <div class="stage-card a-cobalt planned">
+        <div class="stage-head">
+          <div class="stage-num">Stage 2 · test first</div>
+          <div class="stage-name">Telegram approval</div>
+        </div>
+        <div class="stage-body"><div class="stage-desc">One message per pending row, two buttons, chat-id and user-id check; the bot owns the event loop. Done when a tap changes the status, a foreign chat is ignored, and a stale tap changes nothing.</div></div>
+      </div>
+      <div class="stage-card a-cobalt planned">
+        <div class="stage-head">
+          <div class="stage-num">Stage 3 · test first</div>
+          <div class="stage-name">Mollie test link</div>
+        </div>
+        <div class="stage-body"><div class="stage-desc">Re-check open, create the link, send it back; three tries with a growing wait, then cancel. Done when a paid invoice yields no link, a second tap no second link, and a timeout after the POST no second link.</div></div>
+      </div>
+      <div class="stage-card a-walnut planned">
+        <div class="stage-head">
+          <div class="stage-num">Stage 4 · test first</div>
+          <div class="stage-name">Check and write back</div>
+        </div>
+        <div class="stage-body"><div class="stage-desc">Poll the link until it is paid; re-read the invoice, match the open amount, then book through the port. Done when running twice books once and an invoice paid elsewhere is reported, not booked.</div></div>
+      </div>
+      <div class="stage-card a-teal planned">
+        <div class="stage-head">
+          <div class="stage-num">Stage 5 · reviewed</div>
+          <div class="stage-name">The composed demo</div>
+        </div>
+        <div class="stage-body"><div class="stage-desc">One entrypoint, a log line per step, the done-checklist walked. Done after three clean runs in a row and a clean secret scan of the whole history.</div></div>
+      </div>
+    </div>
+
+    <div class="note-strip">
+      The whole test suite is written before stage 1 and committed red: the zero point. Each stage turns its own slice
+      green and never deletes a red test to get there. A check that never failed has only been inspected, not verified.
+    </div>
+
+    <div class="plate-footer">
+      <span>08 / 15</span>
+      <span class="rail-rule"></span>
+      <span>Chapter 02 · The ladder</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     PLATE 09 · THREE PHASES, TWO HANDS
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="plate">
+  <div class="sheet">
+    <div class="plate-header">
+      <div class="eyebrow">Plate 09 · Three phases, two hands</div>
+      <h2 class="plate-title">Setup, read side, write side; <em>the keys stay with the owner</em>.</h2>
+    </div>
+
+    <div class="fig-wrap">
+      <svg xmlns="http://www.w3.org/2000/svg" class="fig" data-register="composed" viewBox="-21.5 19.599999999999994 805 338" role="img" aria-label="Three phases left to right. P0 setup: the code folder and the API notes are build work; accounts and keys and the sandbox data are the owner&#39;s. P1 read side: stages 1 and 2, with stage 3 below. P2 write side: stage 4 and stage 5. Beside the owner&#39;s hands the hygiene floor, build work that gates the upload. Below P0 and P1 the build band: one stage at a time, tests first.">
+  <style>
+    .node-box.acc-sage { fill: var(--paper); stroke: var(--sage-line); }
+    .node-box.built { stroke: var(--sage-line); }
+    .node-name { font-family: 'Source Serif 4','Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif; font-size: var(--type-body, 1rem); font-weight: var(--weight-regular, 400); fill: var(--ink); }
+    .node-sub { font-family: 'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace; font-size: var(--type-microcopy, 0.75rem); font-weight: var(--weight-regular, 400); fill: var(--ink-soft); }
+    .zone-head.acc-sage { stroke: var(--sage-line); }
+    .zone-label.acc-sage { font-family: 'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace; font-size: var(--type-caption, 0.875rem); font-weight: var(--weight-bold, 700); letter-spacing: var(--track-eyebrow); fill: var(--sage-ink); }
+    .human.acc-amber { fill: var(--paper-warm); stroke: var(--amber-line); }
+    .human.planned { stroke: var(--rule-soft); fill: var(--paper-warm); }
+    .node-box.frontier { stroke: var(--amber-line); fill: var(--paper-warm); }
+    .node-num { font-family: 'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace; font-size: var(--type-microcopy, 0.75rem); font-weight: var(--weight-regular, 400); letter-spacing: var(--track-label); fill: var(--ink-faint); }
+    .node-box.planned { stroke: var(--rule-soft); fill: var(--paper-warm); }
+    .arm-box.acc-teal { fill: var(--teal-fill); stroke: var(--teal-line); }
+    .arm-title.acc-teal { font-family: 'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace; font-size: var(--type-caption, 0.875rem); font-weight: var(--weight-bold, 700); letter-spacing: var(--track-label); fill: var(--teal-ink); }
+    .arm-sub { font-family: 'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace; font-size: var(--type-microcopy, 0.75rem); font-weight: var(--weight-regular, 400); fill: var(--ink-soft); }
+    .edge.acc-ink { fill: none; stroke: var(--ink-soft); }
+    .arrow.acc-ink { fill: var(--ink-soft); }
+    .edge.acc-teal { fill: none; stroke: var(--teal-line); }
+    .arrow.acc-teal { fill: var(--teal-line); }
+    .node-box { fill: var(--paper); stroke: var(--rule); }
+    .legend-text { font-family: 'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace; font-size: var(--type-chrome-sub, 0.625rem); font-weight: var(--weight-regular, 400); fill: var(--ink-soft); }
+    .legend-swatch.acc-sage { fill: var(--sage-fill); stroke: var(--sage-line); }
+    .legend-swatch.acc-amber { fill: var(--amber-fill); stroke: var(--amber-line); }
+    .legend-swatch.acc-teal { fill: var(--teal-fill); stroke: var(--teal-line); }
+  </style>
+  <defs>
+    <marker id="arrow-ink" viewBox="0 0 9 9" refX="9" refY="4.5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path class="arrow acc-ink" d="M0,0 L9,4.5 L0,9 z"/></marker>
+    <marker id="arrow-teal" viewBox="0 0 9 9" refX="9" refY="4.5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path class="arrow acc-teal" d="M0,0 L9,4.5 L0,9 z"/></marker>
+  </defs>
+  <line class="zone-head acc-sage" x1="36" y1="39.599999999999994" x2="346.4" y2="39.599999999999994" stroke-width="2"/>
+  <line class="zone-head acc-sage" x1="362.4" y1="39.599999999999994" x2="602.56" y2="39.599999999999994" stroke-width="2"/>
+  <line class="zone-head acc-sage" x1="618.56" y1="39.599999999999994" x2="725.76" y2="39.599999999999994" stroke-width="2"/>
+  <path class="edge edge-solid acc-ink" d="M346.4,84 L362.4,84" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+  <path class="edge edge-solid acc-ink" d="M602.56,107.04361029101644 L616.56,107.04361029101644 L616.56,110.11404470687472 L618.56,110.11404470687472" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+  <path class="edge edge-dotted acc-teal" d="M320.9333333333333,209.2 L320.9333333333333,197.2 L462.24,197.2 L462.24,175.1512446351931" stroke-width="1.5" stroke-dasharray="2 9" stroke-linecap="round" marker-end="url(#arrow-teal)"/>
+  <rect class="node-box acc-sage built" x="36" y="55.599999999999994" width="140" height="56.8" rx="6" stroke-width="1.5"/>
+  <rect class="node-box acc-sage built" x="192" y="55.599999999999994" width="154.39999999999998" height="56.8" rx="6" stroke-width="1.5"/>
+  <rect class="human acc-amber planned" x="36" y="136.79999999999998" width="144.8" height="40" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="human acc-amber planned" x="196.8" y="136.79999999999998" width="122.24" height="40" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="node-box acc-sage frontier" x="335.04" y="128.39999999999998" width="111.2" height="56.8" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="node-box acc-sage frontier" x="362.4" y="55.599999999999994" width="129.76" height="56.8" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="node-box acc-sage planned" x="508.15999999999997" y="55.599999999999994" width="94.4" height="56.8" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="node-box acc-sage planned" x="462.24" y="128.39999999999998" width="152.32" height="56.8" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="node-box acc-sage planned" x="618.56" y="55.599999999999994" width="107.19999999999999" height="56.8" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="node-box acc-sage planned" x="618.56" y="128.39999999999998" width="94.4" height="56.8" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="arm-box acc-teal" x="36" y="209.2" width="352.4" height="52.39999999999999" rx="14" stroke-width="2"/>
+  <text class="node-name" x="52" y="80.4">code folder</text>
+  <text class="node-sub" x="52" y="98.27999999999999">gitignore first</text>
+  <text class="node-name" x="208" y="80.4">API-NOTES.md</text>
+  <text class="node-sub" x="208" y="98.27999999999999">read, not assumed</text>
+  <text class="zone-label acc-sage" x="36" y="27.599999999999994">P0 · SETUP</text>
+  <text class="node-name" x="52" y="165.2">accounts + keys</text>
+  <text class="node-name" x="212.8" y="165.2">sandbox data</text>
+  <text class="node-name" x="351.04" y="153.2">hygiene</text>
+  <text class="node-sub" x="351.04" y="171.07999999999998">upload gate</text>
+  <text class="node-num" x="378.4" y="81.47999999999999">stage 1</text>
+  <text class="node-name" x="378.4" y="104.4">fetch + table</text>
+  <text class="node-num" x="524.16" y="81.47999999999999">stage 2</text>
+  <text class="node-name" x="524.16" y="104.4">Telegram</text>
+  <text class="zone-label acc-sage" x="362.4" y="27.599999999999994">P1 · READ SIDE</text>
+  <text class="node-num" x="478.24" y="154.27999999999997">stage 3</text>
+  <text class="node-name" x="478.24" y="177.2">Mollie test link</text>
+  <text class="node-num" x="634.56" y="81.47999999999999">stage 4</text>
+  <text class="node-name" x="634.56" y="104.4">write back</text>
+  <text class="node-num" x="634.56" y="154.27999999999997">stage 5</text>
+  <text class="node-name" x="634.56" y="177.2">the demo</text>
+  <text class="zone-label acc-sage" x="618.56" y="27.599999999999994">P2 · WRITE SIDE</text>
+  <text class="arm-title acc-teal" x="212.2" y="232.45999999999995" text-anchor="middle">ONE BUILD · ONE STAGE AT A TIME</text>
+  <text class="arm-sub" x="212.2" y="249.67999999999995" text-anchor="middle">tests red → code → review → tests green</text>
+  <g class="legend" data-entries="2">
+  <rect class="node-box built" x="36" y="277.59999999999997" width="13" height="13" rx="3" stroke-width="1"/>
+  <text class="legend-text" x="68" y="288.59999999999997">built</text>
+  <rect class="legend-swatch acc-sage" x="36" y="299.59999999999997" width="13" height="13" rx="3" stroke-width="1"/>
+  <text class="legend-text" x="68" y="310.59999999999997">the build</text>
+  </g>
+  <g class="legend" data-entries="2">
+  <rect class="node-box planned" x="186" y="277.59999999999997" width="13" height="13" rx="3" stroke-width="1" stroke-dasharray="8 6"/>
+  <text class="legend-text" x="218" y="288.59999999999997">planned</text>
+  <rect class="legend-swatch acc-amber" x="186" y="299.59999999999997" width="13" height="13" rx="3" stroke-width="1"/>
+  <text class="legend-text" x="218" y="310.59999999999997">the owner</text>
+  </g>
+  <g class="legend" data-entries="2">
+  <rect class="node-box frontier" x="336" y="277.59999999999997" width="13" height="13" rx="3" stroke-width="1" stroke-dasharray="8 6"/>
+  <text class="legend-text" x="368" y="288.59999999999997">in progress</text>
+  <rect class="legend-swatch acc-teal" x="336" y="299.59999999999997" width="13" height="13" rx="3" stroke-width="1"/>
+  <text class="legend-text" x="368" y="310.59999999999997">the flow</text>
+  </g>
+  <g class="legend" data-entries="2">
+  <path class="edge edge-solid acc-ink" d="M486,284.09999999999997 L512,284.09999999999997" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+  <text class="legend-text" x="531" y="288.59999999999997">phase order</text>
+  <path class="edge edge-dotted acc-teal" d="M486,306.09999999999997 L512,306.09999999999997" stroke-width="1.5" stroke-dasharray="2 9" stroke-linecap="round" marker-end="url(#arrow-teal)"/>
+  <text class="legend-text" x="531" y="310.59999999999997">every stage</text>
+  </g>
+</svg>
+    </div>
+
+    <div class="plate-footer">
+      <span>09 / 15</span>
+      <span class="rail-rule"></span>
+      <span>Chapter 02 · The ladder</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     PLATE 10 · THE REPO
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="plate">
+  <div class="sheet">
+    <div class="plate-header">
+      <div class="eyebrow">Plate 10 · The public repo</div>
+      <h2 class="plate-title">Born with its gitignore, licensed MIT, <em>one package, a module per stage</em>.</h2>
+    </div>
+
+    <p class="lede">
+      Written locally, uploaded by the owner to a public repository — only once the hygiene floor
+      passes. Nothing reaches the repository before the secret scan and the tree check are clean.
+    </p>
+
+    <div class="envelope-grid">
+      <div class="env-card a-cobalt">
+        <div class="env-label">Layout</div>
+        <div class="env-content">
+          <span class="tt">README.md · LICENSE · .gitignore · .env.example · pyproject.toml · API-NOTES.md</span><br/>
+          <span class="tt">core/late_invoice_demo/</span> — one module per stage + cli.py<br/>
+          <span class="tt">common/</span> — the shared parts; <span class="tt">adapters/</span> — moneybird · fake + sample data<br/>
+          <span class="tt">working/ · archives/ · tools/</span> — plan + bulletin · every log and report · checks
+        </div>
+      </div>
+      <div class="env-arrow">•</div>
+      <div class="env-card a-teal">
+        <div class="env-label">Secrets discipline</div>
+        <div class="env-content">
+          <span class="tt">.env</span> and every <span class="tt">.env.*</span> ignored, <span class="tt">.env.example</span> allowed back in with
+          empty values. Test keys only: a Mollie <span class="tt">test_</span> key moves no money; a bot or Moneybird token
+          still reads the sandbox. A leaked key is rotated; history keeps it.
+        </div>
+      </div>
+    </div>
+
+    <div class="note-strip">
+      MIT. The record of how it was built — the plan, the rules, every log and report — sits in the repository beside the code.
+    </div>
+
+    <div class="plate-footer">
+      <span>10 / 15</span>
+      <span class="rail-rule"></span>
+      <span>Chapter 02 · The ladder</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     PLATE 11 · THE ENGINEERING RULES — added at the review
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="plate">
+  <div class="sheet">
+    <div class="plate-header">
+      <div class="eyebrow">Plate 11 · The main rules</div>
+      <h2 class="plate-title">Three main rules; <em>every guard in the plan descends from one</em>.</h2>
+    </div>
+
+    <p class="lede">
+      The rules the plan started with and the guards inside the steps are not the law. They are
+      instances of three rules named at the review. A guard that fits none of the three is a signal
+      to stop and ask why it exists.
+    </p>
+
+    <div class="envelope-grid three">
+      <div class="env-card a-walnut">
+        <div class="env-label">1 · Safety and security</div>
+        <div class="env-content">
+          The demo touches money and a customer list. Nothing moves unless it is safe to move; in doubt, it
+          does not move. <em>Secrets never in the repo · a payment booked once · fail closed · money as integer
+          cents · the double-payment guard · token scope · callback checks · the hygiene floor before upload.</em>
+        </div>
+      </div>
+      <div class="env-arrow">·</div>
+      <div class="env-card a-teal">
+        <div class="env-label">2 · Transparency and traceability</div>
+        <div class="env-content">
+          What happened, and why, must be readable from the record alone — code, logs, repo, plan. <em>One log
+          line per step with who, what, when and the row · a forward-only state machine · API-NOTES.md with read
+          dates · the plan projected into the repo · the zero-point test baseline · one log per build round.</em>
+        </div>
+      </div>
+      <div class="env-arrow">·</div>
+      <div class="env-card a-sage">
+        <div class="env-label">3 · Efficiency and design</div>
+        <div class="env-content">
+          Small parts that run alone, one way to do each thing, nothing the demo does not need. <em>Each stage
+          runs on its own · one port, adapters behind it · one money formatter · one retry policy · one module
+          per stage, one package, one command · the scope rule · fake data only.</em>
+        </div>
+      </div>
+    </div>
+
+    <div class="plate-footer">
+      <span>11 / 15</span>
+      <span class="rail-rule"></span>
+      <span>Chapter 03 · Rules and risks</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     PLATE 12 · THE NAMED RISKS
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="plate">
+  <div class="sheet">
+    <div class="plate-header">
+      <div class="eyebrow">Plate 12 · Named risks</div>
+      <h2 class="plate-title">Six of the seventeen named risks, <em>and the condition that lands each one</em>.</h2>
+    </div>
+
+    <table class="exit-table tight">
+      <thead>
+        <tr><th>Step</th><th>Commits to</th><th>Collides with</th><th>Lands when</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="n">P0 · 1</td><td>python-telegram-bot, asyncio</td><td class="m">stage 2 · stage 5</td><td>settled at stage 2: the bot owns the loop, the stages are plain functions it calls</td></tr>
+        <tr><td class="n">P0 · 3</td><td>invoice state <span class="tt">late</span> as the filter key</td><td class="m">stage 1</td><td>the sandbox does not move a sent invoice to late by itself; the fetch returns nothing</td></tr>
+        <tr><td class="n">P0 · 4</td><td>seven answers read from the docs, not assumed</td><td class="m">stage 3 · stage 4</td><td>an answer is wrong or changes before the stage is built; the notes carry a read date</td></tr>
+        <tr><td class="n">P0 · 5</td><td>a secret scanner before the first upload</td><td class="m">every commit</td><td>the code folder has no git of its own; the scanner also runs by hand before each upload</td></tr>
+        <tr><td class="n">P1 · 3</td><td>no second link after a timeout</td><td class="m">stage 3</td><td>the POST went out and the answer was lost; the next run asks Mollie before it creates</td></tr>
+        <tr><td class="n">P2 · 1</td><td>Moneybird as the first adapter</td><td class="m">another package</td><td>a second adapter is written and every stage stays as it is</td></tr>
+      </tbody>
+    </table>
+
+    <div class="plate-footer">
+      <span>12 / 15</span>
+      <span class="rail-rule"></span>
+      <span>Chapter 03 · Rules and risks</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     PLATE 13 · SECOND FLOWCHART — where it all connects
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="plate">
+  <div class="sheet">
+    <div class="plate-header">
+      <div class="eyebrow">Plate 13 · Where it all connects</div>
+      <h2 class="plate-title">The plan builds the demo; <em>real data is a later plan</em>.</h2>
+    </div>
+
+    <div class="fig-wrap">
+      <svg xmlns="http://www.w3.org/2000/svg" class="fig" data-register="composed" viewBox="-245.20000000000005 0 822 335" role="img" aria-label="A loop. Top row: the reviewed plan, the build that takes one stage at a time, the public repo the owner uploads to. Bottom row, right to left: the demo, then real data, beyond this plan, which returns to the plan as a new version. Between the rows: what only the owner can do.">
+  <style>
+    .node-box.acc-slate { fill: var(--paper); stroke: var(--slate-line); }
+    .node-box.built { stroke: var(--sage-line); }
+    .node-num { font-family: 'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace; font-size: var(--type-microcopy, 0.75rem); font-weight: var(--weight-regular, 400); letter-spacing: var(--track-label); fill: var(--ink-faint); }
+    .node-name { font-family: 'Source Serif 4','Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif; font-size: var(--type-body, 1rem); font-weight: var(--weight-regular, 400); fill: var(--ink); }
+    .node-sub { font-family: 'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace; font-size: var(--type-microcopy, 0.75rem); font-weight: var(--weight-regular, 400); fill: var(--ink-soft); }
+    .node-box.acc-sage { fill: var(--paper); stroke: var(--sage-line); }
+    .node-box.frontier { stroke: var(--amber-line); fill: var(--paper-warm); }
+    .node-box.acc-cobalt { fill: var(--paper); stroke: var(--cobalt-line); }
+    .node-box.planned { stroke: var(--rule-soft); fill: var(--paper-warm); }
+    .human.acc-amber { fill: var(--paper-warm); stroke: var(--amber-line); }
+    .human.planned { stroke: var(--rule-soft); fill: var(--paper-warm); }
+    .node-box.acc-amber { fill: var(--paper); stroke: var(--amber-line); }
+    .node-box.acc-plum { fill: var(--paper); stroke: var(--plum-line); }
+    .edge.acc-ink { fill: none; stroke: var(--ink-soft); }
+    .arrow.acc-ink { fill: var(--ink-soft); }
+    .edge.acc-plum { fill: none; stroke: var(--plum-line); }
+    .arrow.acc-plum { fill: var(--plum-line); }
+    .edge-label-bg { fill: var(--paper); stroke: none; }
+    .edge-label { font-family: 'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace; font-size: var(--type-microcopy, 0.75rem); font-weight: var(--weight-regular, 400); letter-spacing: var(--track-tight); fill: var(--ink-soft); }
+    .node-box { fill: var(--paper); stroke: var(--rule); }
+    .legend-text { font-family: 'JetBrains Mono','IBM Plex Mono',ui-monospace,monospace; font-size: var(--type-chrome-sub, 0.625rem); font-weight: var(--weight-regular, 400); fill: var(--ink-soft); }
+    .legend-swatch.acc-slate { fill: var(--slate-fill); stroke: var(--slate-line); }
+    .legend-swatch.acc-sage { fill: var(--sage-fill); stroke: var(--sage-line); }
+    .legend-swatch.acc-cobalt { fill: var(--cobalt-fill); stroke: var(--cobalt-line); }
+    .legend-swatch.acc-amber { fill: var(--amber-fill); stroke: var(--amber-line); }
+    .legend-swatch.acc-plum { fill: var(--plum-fill); stroke: var(--plum-line); }
+  </style>
+  <defs>
+    <marker id="arrow-ink" viewBox="0 0 9 9" refX="9" refY="4.5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path class="arrow acc-ink" d="M0,0 L9,4.5 L0,9 z"/></marker>
+    <marker id="arrow-plum" viewBox="0 0 9 9" refX="9" refY="4.5" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path class="arrow acc-plum" d="M0,0 L9,4.5 L0,9 z"/></marker>
+  </defs>
+  <path class="edge edge-solid acc-ink" d="M154.39999999999998,72.8 L170.39999999999998,72.8" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+  <path class="edge edge-solid acc-ink" d="M339.19999999999993,72.8 L355.19999999999993,72.8" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+  <path class="edge edge-solid acc-ink" d="M402.2752186588921,109.6 L402.2752186588921,173.6 L315.16151603498537,173.6 L315.16151603498537,181.6" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+  <path class="edge edge-dashed acc-plum" d="M196.79999999999995,210 L180.79999999999995,210" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt" marker-end="url(#arrow-plum)"/>
+  <path class="edge edge-dashed acc-plum" d="M-33.200000000000045,210 L-69.20000000000005,210 L-69.20000000000005,72.8 L35.99999999999999,72.8" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt" marker-end="url(#arrow-plum)"/>
+  <rect class="edge-label-bg" x="-61.200000000000045" y="127.96000000000001" width="111.6" height="17.639999999999997"/>
+  <rect class="node-box acc-slate built" x="36" y="36" width="118.39999999999999" height="73.6" rx="6" stroke-width="1.5"/>
+  <rect class="node-box acc-sage frontier" x="170.39999999999998" y="36" width="168.79999999999998" height="73.6" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="node-box acc-cobalt planned" x="355.19999999999993" y="36" width="183.2" height="73.6" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="human acc-amber planned" x="144.79999999999995" y="125.6" width="220" height="40" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="node-box acc-amber planned" x="196.79999999999995" y="181.6" width="168" height="56.8" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <rect class="node-box acc-plum planned" x="-33.200000000000045" y="181.6" width="214" height="56.8" rx="6" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt"/>
+  <text class="node-num" x="52" y="61.879999999999995">1</text>
+  <text class="node-name" x="52" y="81.19999999999999">the plan</text>
+  <text class="node-sub" x="52" y="95.47999999999999">eleven steps</text>
+  <text class="node-num" x="186.39999999999998" y="61.879999999999995">2</text>
+  <text class="node-name" x="186.39999999999998" y="81.19999999999999">the build</text>
+  <text class="node-sub" x="186.39999999999998" y="95.47999999999999">one stage at a time</text>
+  <text class="node-num" x="371.19999999999993" y="61.879999999999995">3</text>
+  <text class="node-name" x="371.19999999999993" y="81.19999999999999">the public repo</text>
+  <text class="node-sub" x="371.19999999999993" y="95.47999999999999">MIT · built in public</text>
+  <text class="node-name" x="160.79999999999995" y="154">keys · test data · upload</text>
+  <text class="node-num" x="212.79999999999995" y="207.48">4 · two minutes</text>
+  <text class="node-name" x="212.79999999999995" y="230.4">the demo, shown</text>
+  <text class="node-num" x="-17.200000000000045" y="207.48">5 · beyond this plan</text>
+  <text class="node-name" x="-17.200000000000045" y="230.4">real data</text>
+  <text class="edge-label" x="-5.400000000000048" y="141.4" text-anchor="middle">a new version</text>
+  <g class="legend" data-entries="2">
+  <rect class="node-box built" x="-209.20000000000005" y="254.39999999999998" width="13" height="13" rx="3" stroke-width="1"/>
+  <text class="legend-text" x="-177.20000000000005" y="265.4">built</text>
+  <rect class="legend-swatch acc-slate" x="-209.20000000000005" y="276.4" width="13" height="13" rx="3" stroke-width="1"/>
+  <text class="legend-text" x="-177.20000000000005" y="287.4">the plan</text>
+  </g>
+  <g class="legend" data-entries="2">
+  <rect class="node-box frontier" x="-59.200000000000045" y="254.39999999999998" width="13" height="13" rx="3" stroke-width="1" stroke-dasharray="8 6"/>
+  <text class="legend-text" x="-27.200000000000045" y="265.4">in progress</text>
+  <rect class="legend-swatch acc-sage" x="-59.200000000000045" y="276.4" width="13" height="13" rx="3" stroke-width="1"/>
+  <text class="legend-text" x="-27.200000000000045" y="287.4">the build</text>
+  </g>
+  <g class="legend" data-entries="2">
+  <rect class="node-box planned" x="90.79999999999995" y="254.39999999999998" width="13" height="13" rx="3" stroke-width="1" stroke-dasharray="8 6"/>
+  <text class="legend-text" x="122.79999999999995" y="265.4">planned</text>
+  <rect class="legend-swatch acc-cobalt" x="90.79999999999995" y="276.4" width="13" height="13" rx="3" stroke-width="1"/>
+  <text class="legend-text" x="122.79999999999995" y="287.4">outside</text>
+  </g>
+  <g class="legend" data-entries="2">
+  <rect class="legend-swatch acc-amber" x="240.79999999999995" y="254.39999999999998" width="13" height="13" rx="3" stroke-width="1"/>
+  <text class="legend-text" x="272.79999999999995" y="265.4">the owner</text>
+  <rect class="legend-swatch acc-plum" x="240.79999999999995" y="276.4" width="13" height="13" rx="3" stroke-width="1"/>
+  <text class="legend-text" x="272.79999999999995" y="287.4">beyond this plan</text>
+  </g>
+  <g class="legend" data-entries="2">
+  <path class="edge edge-solid acc-ink" d="M390.79999999999995,260.9 L416.79999999999995,260.9" stroke-width="1.5" marker-end="url(#arrow-ink)"/>
+  <text class="legend-text" x="435.79999999999995" y="265.4">this plan's path</text>
+  <path class="edge edge-dashed acc-plum" d="M390.79999999999995,282.9 L416.79999999999995,282.9" stroke-width="1.5" stroke-dasharray="8 6" stroke-linecap="butt" marker-end="url(#arrow-plum)"/>
+  <text class="legend-text" x="435.79999999999995" y="287.4">not in this plan</text>
+  </g>
+</svg>
+    </div>
+
+    <div class="plate-footer">
+      <span>13 / 15</span>
+      <span class="rail-rule"></span>
+      <span>Chapter 03 · Rules and risks</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     PLATE 14 · PAYOFF
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="plate">
+  <div class="sheet">
+    <div class="plate-header">
+      <div class="eyebrow">Plate 14 · What it shows</div>
+      <h2 class="plate-title">What the build shows, <em>stage by stage</em>.</h2>
+    </div>
+
+    <p class="lede">
+      The repository is the demonstration: each stage is small enough to read in one sitting, and the
+      record of how it was built sits beside the code.
+    </p>
+
+    <div class="payoff-grid">
+      <div class="payoff-col a-sage">
+        <div class="col-head">
+          <div class="col-label">Engineering</div>
+          <div class="col-title">What each stage exercises</div>
+        </div>
+        <div class="col-body">
+          <p>Three REST APIs, read from the docs before use.</p>
+          <p>A state machine with idempotency, proven by tests that failed first.</p>
+          <p>Secrets hygiene from the first commit.</p>
+          <p>An async bot beside one-shot scripts — and who owns the loop.</p>
+          <p>One port, two adapters behind it, one contract test for both.</p>
+        </div>
+      </div>
+      <div class="payoff-col a-cobalt">
+        <div class="col-head">
+          <div class="col-label">Record</div>
+          <div class="col-title">Built in the open</div>
+        </div>
+        <div class="col-body">
+          <p>Five runnable programs, each done when it runs on its own.</p>
+          <p>Public, MIT, built in stages — the record of how it was built is in the repo.</p>
+          <p>The whole test suite written first and recorded red, before any stage body.</p>
+        </div>
+      </div>
+      <div class="payoff-col a-plum future">
+        <div class="col-head">
+          <div class="col-label">Out of scope · beyond this plan</div>
+          <div class="col-title">Real data</div>
+        </div>
+        <div class="col-body">
+          <p>A real administration and a real payment account raise questions the demo does not answer.</p>
+          <p>Webhooks, hosting in the EU, a verwerkersovereenkomst, a lawyer's read on the incasso law.</p>
+          <p>Named in the plan, left open on purpose.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="plate-footer">
+      <span>14 / 15</span>
+      <span class="rail-rule"></span>
+      <span>Chapter 03 · Rules and risks</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════════
+     PLATE 15 · CLOSE — colophon
+     ═══════════════════════════════════════════════════════════════════ -->
+<section class="plate close">
+  <div class="sheet">
+    <div class="eyebrow">FIN · 15 / 15</div>
+
+    <div class="close-center">
+      <div class="micro">Colophon</div>
+      <h1 class="close-headline">Decide per customer from a phone, <em>and end with the books already right.</em></h1>
+      <div class="close-sub">
+        Because the script never sends without the tap it can be trusted with the customer list, and
+        because every status moves forward once it can be run as often as the demo needs.
+      </div>
+
+      <div class="next-grid">
+        <div class="next-cell">
+          <div class="lab">Project</div>
+          <div class="opt">late-invoice-demo · three phases, eleven steps · phases 0 and 1 in progress</div>
+        </div>
+        <div class="next-cell">
+          <div class="lab">Made with</div>
+          <div class="opt">one palette and one type scale for every plate · four figures rendered from specs · one thought per plate · headings that carry the point</div>
+        </div>
+        <div class="next-cell">
+          <div class="lab">Format</div>
+          <div class="opt">1920 × 1080 · 15 plates · one file, no dependencies · every figure keys built, in progress and planned</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="plate-footer">
+      <span>late-invoice-demo</span>
+      <span class="rail-rule"></span>
+      <span>Chapter 03 · Rules and risks</span>
+    </div>
+  </div>
+</section>
+
+
+</body>
+</html>

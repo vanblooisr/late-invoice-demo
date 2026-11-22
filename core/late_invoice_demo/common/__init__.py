@@ -1,0 +1,1 @@
+"""Shared pieces: config (settings from .env), db (the actions table), entry (exit codes, stub exception), log (redaction), mollie (the Mollie payment-link client), money (cents formatter and parser), ports (the bookkeeping port and its records), retry (the one retry policy)."""

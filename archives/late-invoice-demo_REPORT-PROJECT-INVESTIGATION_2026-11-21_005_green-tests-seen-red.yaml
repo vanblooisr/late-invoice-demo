@@ -1,0 +1,175 @@
+# REPORT: late-invoice-demo — the 30 green tests of the zero point, each seen red once
+# Session 005, 2026-11-21. Purpose: the zero point lists 30 tests that passed before any stage body
+# existed. A test that never failed has only been inspected. This report records one deliberate break
+# per declared contract, which test noticed it, and a second round of breaks that no test noticed.
+# Findings, not conclusions: which survivors become new tests is the operator's call.
+
+frame:
+  project: late-invoice-demo
+  nnn: 005
+  date: "2026-11-21"
+  mode: centrifugal (CONTRACT_annie_v2), bookkeeping session
+  question: "Do the 30 green tests of the zero point fail when the contract they pin is broken, and what do they not pin?"
+  ruling: "D-{005}.16 — OT-011 item 7, option C: keep the 30 green, prove each once by breaking its contract"
+  boundary: |
+    Run on: a copy of repo/ in the session scratch folder; the repo itself was never written.
+    Interpreter: Python 3.14.6, pytest from the session-004 environment (the only one with the pinned
+    dependencies installed), with the copy's core/ on the import path.
+    Baseline on the copy before any break: 234 collected · 134 failed · 70 errored · 30 passed — the same
+    totals as archives/zero-point_test-baseline.md.
+    Covered: the 30 passing tests only. NOT covered: the 204 red tests. A red test cannot be shown to
+    notice a break while the body it tests does not exist; that check becomes possible stage by stage,
+    as each slice turns green.
+    The breaks are hand-chosen, one or more per contract. They are not an exhaustive mutation run; a
+    contract can have breaks nobody thought of.
+
+method:
+  steps:
+    - "Copy repo/ to scratch. Run the suite. Record the 30 passing test ids."
+    - "For each break: change one line in the copy, run the 30, record which fail, restore the line."
+    - "After the last break: run the 30 again on the restored copy (30 passed, both rounds)."
+  round_1: "31 breaks, each aimed at the contract one of the 30 tests names."
+  round_2: "7 breaks aimed at what the same tests leave unsaid — a neighbouring wrong value, a wrong signature, a wrong default."
+  scripts: "break_contracts.py and break_contracts_round2.py in the session scratch folder; not in the repo."
+
+findings:
+  - id: F-{005}.01
+    what: "All 30 green tests have now failed at least once. Each of the 31 round-1 breaks was noticed by the test that names its contract; none survived."
+    how: "Round 1 run: 31 of 31 CAUGHT, 'never seen red' list empty."
+    why: "Closes the gap the 'every test red' rule exists for, for these 30: they are verified to be able to fail, not only inspected."
+    evidence_strength: confirmed
+  - id: F-{005}.02
+    what: "All 7 round-2 breaks survived: the 30 tests stayed green with the contract broken."
+    how: "Round 2 run: 7 of 7 SURVIVED."
+    why: "Each survivor is a place where a wrong implementation would pass today's green tests. Whether a still-red test covers it later is not measured (see gaps)."
+    evidence_strength: confirmed
+  - id: F-{005}.03
+    what: "Two survivors touch the safety rules the README states: a Settings repr that prints the Mollie key (the test checks one field, the Moneybird token), and a Mollie client that accepts any key not starting with live_ (the test checks one live_ key)."
+    how: "Round 2, P1 and P5."
+    why: "Rule 1 (no secret printed) and the test-keys-only rule are each pinned by a single example, not by the rule."
+    evidence_strength: confirmed
+  - id: F-{005}.04
+    what: "One survivor contradicts a README line: with fetch's default adapter changed from fake to moneybird, every green test still passes. The README says 'lid fetch' uses the fake adapter and needs no keys."
+    how: "Round 2, P7."
+    why: "The default is what a first run does; no green test names it."
+    evidence_strength: confirmed
+  - id: F-{005}.05
+    what: "The port check sees names, not signatures: the Fake adapter with get_contact() taking no contact id still counts as a BookkeepingPort."
+    how: "Round 2, P2. The test is isinstance against a runtime_checkable Protocol, which compares attribute names only."
+    why: "The port's docstring says the Protocol lists get_contact 'so the signature is fixed'; the green test does not fix it. The red contract tests call the verbs and may catch it once the bodies exist — not measured."
+    evidence_strength: confirmed
+
+round_1:
+  note: "id · contract broken · test that noticed. Every row CAUGHT."
+  rows:
+    - {id: M01, broke: "callback limit 64 -> 32", noticed_by: test_callback_limit_and_choice_set}
+    - {id: M02, broke: "choice 'reject' renamed", noticed_by: test_callback_limit_and_choice_set}
+    - {id: M03, broke: "reject maps to approved", noticed_by: test_callback_limit_and_choice_set}
+    - {id: M04, broke: "no arguments returns 0", noticed_by: test_no_arguments_prints_help_and_returns_usage}
+    - {id: M05, broke: "no arguments prints nothing", noticed_by: test_no_arguments_prints_help_and_returns_usage}
+    - {id: M06, broke: "--version prints another string", noticed_by: test_version}
+    - {id: M07, broke: "not-built exit code 3 -> 1", noticed_by: "test_unimplemented_stage_reports_message_and_exit_code (all five stages) · test_module_entry_has_same_message_body_as_cli"}
+    - {id: M08, broke: "stderr line loses its prefix", noticed_by: "test_unimplemented_stage_reports_message_and_exit_code · test_module_entry_has_same_message_body_as_cli"}
+    - {id: M09, broke: "stderr line loses the message", noticed_by: test_unimplemented_stage_reports_message_and_exit_code}
+    - {id: M10, broke: "bad arguments return 0", noticed_by: test_unknown_subcommand_is_usage_error}
+    - {id: M11, broke: "fetch loses --adapter", noticed_by: "test_help_lists_adapter_flag[fetch]"}
+    - {id: M12, broke: "link loses --adapter", noticed_by: "test_help_lists_adapter_flag[link]"}
+    - {id: M13, broke: "check loses --adapter", noticed_by: "test_help_lists_adapter_flag[check]"}
+    - {id: M14, broke: "demo loses --adapter", noticed_by: "test_help_lists_adapter_flag[demo]"}
+    - {id: M15, broke: "approve gains --adapter", noticed_by: test_approve_help_has_no_adapter_flag}
+    - {id: M16, broke: "Settings repr shows the Moneybird token", noticed_by: test_settings_repr_and_str_hide_values}
+    - {id: M17, broke: "a seventh status", noticed_by: "test_statuses_are_exactly_six · test_statuses_equal_the_named_constants_in_order"}
+    - {id: M18, broke: "statuses reordered", noticed_by: test_statuses_equal_the_named_constants_in_order}
+    - {id: M19, broke: "a status missing from the transition table", noticed_by: "test_transitions_have_six_keys_one_per_status · test_terminal_statuses_map_to_empty_frozensets"}
+    - {id: M20, broke: "a backward edge approved -> pending", noticed_by: "test_transitions_are_forward_only · test_allowed_edges_match_the_transition_table"}
+    - {id: M21, broke: "an edge out of a terminal status", noticed_by: "test_terminal_statuses_map_to_empty_frozensets · test_allowed_edges_match_the_transition_table"}
+    - {id: M22, broke: "terminal set loses paid_elsewhere", noticed_by: test_terminal_statuses_map_to_empty_frozensets}
+    - {id: M23, broke: "a forward edge that skips approval (pending -> link_created)", noticed_by: test_allowed_edges_match_the_transition_table}
+    - {id: M24, broke: "redaction marker changed", noticed_by: test_redacted_marker}
+    - {id: M25, broke: "MollieClient repr shows the key", noticed_by: test_repr_hides_key}
+    - {id: M26, broke: "live key accepted", noticed_by: test_live_key_is_refused}
+    - {id: M27, broke: "MoneyError no longer a ValueError", noticed_by: test_money_error_is_value_error}
+    - {id: M28, broke: "amount pattern accepts one decimal", noticed_by: test_amount_pattern_constant}
+    - {id: M29, broke: "Fake adapter loses a port verb", noticed_by: "test_is_a_bookkeeping_port[fake]"}
+    - {id: M30, broke: "Moneybird adapter loses a port verb", noticed_by: "test_is_a_bookkeeping_port[moneybird]"}
+    - {id: M31, broke: "retry attempts 3 -> 5", noticed_by: test_retry_attempts_constant}
+
+round_2:
+  note: "id · contract broken · the green test nearest to it · why it stayed green. Every row SURVIVED."
+  rows:
+    - {id: P1, broke: "Settings repr shows the Mollie key", nearest: test_settings_repr_and_str_hide_values, stayed_green_because: "the test sets and checks one field, moneybird_token"}
+    - {id: P2, broke: "Fake adapter's get_contact takes no contact id", nearest: "test_is_a_bookkeeping_port[fake]", stayed_green_because: "isinstance against a runtime_checkable Protocol compares names, not signatures"}
+    - {id: P3, broke: "amount pattern accepts three decimals", nearest: test_amount_pattern_constant, stayed_green_because: "the test's only rejected example is one decimal"}
+    - {id: P4, broke: "amount pattern accepts a minus sign", nearest: test_amount_pattern_constant, stayed_green_because: "no negative example in the test"}
+    - {id: P5, broke: "Mollie client refuses only live_ keys, accepts any other prefix", nearest: test_live_key_is_refused, stayed_green_because: "the test's only refused example starts with live_"}
+    - {id: P6, broke: "fetch --adapter accepts any value (choices removed)", nearest: "test_help_lists_adapter_flag[fetch]", stayed_green_because: "the test checks that the flag is in the help text, not what it accepts"}
+    - {id: P7, broke: "fetch defaults to the moneybird adapter", nearest: "test_help_lists_adapter_flag[fetch]", stayed_green_because: "no green test names the default"}
+
+round_3:
+  note: |
+    Run after the operator agreed the upgrade candidates. The candidates were written as six tests, closing the seven surviving breaks,
+    (31 cases across five existing test files) and the suite re-run: 265 collected · 134 failed ·
+    70 errored · 61 passed. Then 26 breaks: the six round-2 survivors that still apply (P1, P3-P7; P2 is
+    covered by the fake get_contact break below) plus one break per new case that the survivors do not reach.
+  result: "26 of 26 noticed by a new test. All 31 new cases failed at least once. After the round the 61 green tests passed again on the restored copy."
+  false_result_caught: |
+    The first run of this round reported every break as 'noticed by 61 tests' and 0 tests restored.
+    That was the runner, not the tests: the new test ids contain spaces and empty brackets, pytest could
+    not select them from the command line, and the runner read 'no result' as 'failed'. The round was
+    re-run with the whole suite on every break and results matched by id. Rounds 1 and 2 selected 30 ids
+    without such characters and ended with 30 of 30 restored, so they are not affected.
+  new_tests:
+    - {file: test_config.py, test: test_settings_repr_and_str_hide_every_value, cases: 1, closes: P1}
+    - {file: test_port_contract.py, test: test_verb_parameters_match_the_port, cases: 8, closes: P2}
+    - {file: test_money.py, test: test_amount_pattern_rejects, cases: 9, closes: "P3, P4"}
+    - {file: test_mollie_client.py, test: test_any_key_without_the_test_prefix_is_refused, cases: 5, closes: P5}
+    - {file: test_cli.py, test: test_unknown_adapter_is_usage_error, cases: 4, closes: P6}
+    - {file: test_cli.py, test: test_adapter_defaults_to_fake, cases: 4, closes: P7}
+  scripts: "add_upgrade_tests.py and break_contracts_round3.py in the session scratch folder; not in the repo."
+
+round_4:
+  note: |
+    Run after a 17-cell code review of the session's diff (review envelope CODE-REVIEWED 005). The review
+    found that the upgrade tests pinned the break each was written for and left the next-nearest break
+    open. Three tests were tightened and the suite re-run: 269 collected · 134 failed · 70 errored · 65 passed.
+  tightened:
+    - {test: test_settings_repr_and_str_hide_every_value, change: "every field of Settings is set from the dataclass's own field list, and repr and str are compared with the exact names-only form", closes: "review CR-002, CR-005"}
+    - {test: test_any_key_without_the_test_prefix_is_refused, change: "four boundary keys added: the bare word, the word without the underscore, the prefix later in the key, the prefix after a space (9 cases)", closes: "review CR-003"}
+    - {test: test_verb_parameters_match_the_port, change: "compares each parameter's name, order, kind and whether it has a default; annotations are not compared", closes: "review CR-004"}
+  breaks:
+    - {id: R1, broke: "Settings repr shows db_path", noticed_by: test_settings_repr_and_str_hide_every_value}
+    - {id: R2, broke: "Settings repr shows the last four characters of each value", noticed_by: "test_settings_repr_and_str_hide_every_value · test_settings_repr_and_str_hide_values"}
+    - {id: R3, broke: "Mollie guard checks for the word without the underscore", noticed_by: test_any_key_without_the_test_prefix_is_refused}
+    - {id: R4, broke: "Mollie guard checks that the prefix occurs anywhere", noticed_by: test_any_key_without_the_test_prefix_is_refused}
+    - {id: R5, broke: "Mollie guard strips the key before checking", noticed_by: test_any_key_without_the_test_prefix_is_refused}
+    - {id: R6, broke: "fake adapter: get_invoice parameter made keyword-only", noticed_by: test_verb_parameters_match_the_port}
+    - {id: R7, broke: "moneybird adapter: get_contact gains a default", noticed_by: test_verb_parameters_match_the_port}
+    - {id: R8, broke: "fake adapter: register_payment's last parameter gains a default", noticed_by: test_verb_parameters_match_the_port}
+  result: "8 of 8 noticed. After the round the 65 green tests passed again on the restored copy."
+  not_done: "Review findings left as they are: CR-006 (no non-ASCII digit case in the amount test), CR-007 (the verb list is typed by hand), CR-008 (a comment in the cli test claims more than the test checks), CR-009 (the lock's interpreter note). CR-001 (no rule left for the income phrases) awaits an operator ruling."
+  scripts: "tighten_tests.py and break_contracts_round4.py in the session scratch folder; not in the repo."
+
+upgrade_candidates:
+  note: "One candidate per survivor: the test that would have noticed it. All seven are now written (round_3)."
+  rows:
+    - {for: P1, candidate: "set every secret field of Settings to a marker and assert none appears in repr or str"}
+    - {for: P2, candidate: "compare each adapter's verb signatures with the Protocol's (inspect.signature), not only the names"}
+    - {for: "P3, P4", candidate: "add rejected examples to the amount pattern test: three decimals, a minus sign, an empty string"}
+    - {for: P5, candidate: "parametrize the refused keys: live_, an unknown prefix, an empty string"}
+    - {for: P6, candidate: "assert an unknown --adapter value is a usage error on each stage that has the flag"}
+    - {for: P7, candidate: "assert the parsed default of --adapter is the fake adapter on each stage that has the flag"}
+
+gaps:
+  - "The 204 red tests are untested as tests. Whether a wrong implementation would pass them was reviewed by reading in session 004 (the 26-cell review); it has not been run, and cannot be until the bodies exist."
+  - "Whether a still-red test already covers a round-2 survivor is not measured. Names that suggest overlap: test_non_test_mollie_key_refused_from_file / _from_process_env (config, near P5), test_three_decimal_amount_fails_closed (Mollie client, near P3). Inferred from the names only; the bodies were not read for this."
+  - "The breaks were chosen by the same model that wrote this report. A second chooser would pick others."
+  - "The run used the session-004 environment's interpreter with this worktree's code on the path; no fresh install from requirements.lock was made."
+
+open_threads:
+  - id: OT-011
+    note: "Item 7 is ruled option C and carried out here for the 30 green tests and the 31 new cases. Ruled (D-{005}.18): the same break-and-watch step runs on each slice as it turns green; the build ends with every test green. The zero-point file in the repo's archives still records the 234-test run and is not edited; the suite is now 269 (round_4)."
+
+verification:
+  restored: "After each round the 30 tests passed again on the restored copy (30 of 30, both rounds)."
+  repo_untouched: "git status after the runs shows no modified file under repo/core/; the only entries are the placeholder files the operator deleted this session."
+  not_verified: "The report was not read by a second instance."
